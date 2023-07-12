@@ -67,3 +67,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@font-face {
+  font-family: "Segment";
+  src: url("./segment.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}

@@ -4,16 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev-ui": "vite build --watch -c vite.config.ui.ts",
+    "dev-bg": "vite build --watch -c vite.config.bg.ts",
+    "dev": "pnpm run dev-ui & pnpm run dev-bg",
+    "build-ui": "tsc && vite build -c vite.config.ui.ts",
+    "build-bg": "tsc && vite build -c vite.config.bg.ts",
+    "build": "pnpm run build-ui && pnpm run build-bg",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@figma/plugin-typings": "^1.70.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.4.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
@@ -23,6 +29,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.0"
+    "vite": "^4.4.0",
+    "vite-plugin-singlefile": "^0.13.5"
   }
 }

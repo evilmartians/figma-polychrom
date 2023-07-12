@@ -18,8 +18,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
   },
-  "include": ["src"],
+  "include": ["src", "bg.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
