@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
@@ -12,6 +13,14 @@ export default defineConfig({
       output: {
         entryFileNames: `[name].js`,
       },
+    },
+  },
+  test: {
+    name: 'bg',
+    exclude: ['node_modules', 'src/ui/**/*.spec.tsx'],
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: resolve(__dirname, 'coverage', 'bg'),
     },
   },
 });

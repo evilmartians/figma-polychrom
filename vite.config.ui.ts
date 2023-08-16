@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
@@ -9,5 +10,13 @@ export default defineConfig({
   build: {
     emptyOutDir: false,
     outDir: resolve(__dirname, 'dist'),
+  },
+  test: {
+    name: 'ui',
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: resolve(__dirname, 'coverage', 'ui'),
+    },
   },
 });
