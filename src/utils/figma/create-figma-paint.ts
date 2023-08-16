@@ -1,6 +1,6 @@
 import { converter, formatHex } from 'culori';
 
-import { type FigmaPaint } from '../../types/common.ts';
+import { type FigmaPaint } from '../../types/figma.ts';
 
 const convertToOklch = converter('oklch');
 

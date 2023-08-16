@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { type SelectedNodesAndTheirBackgrounds } from '../../types/common';
+import { type SelectionFgNodesAndBgNodes } from '../../types/selection.ts';
 import { getLegibilityCategory } from '../../utils/apca/get-apca-judgment';
 import { generateUIColors } from '../../utils/colors/generate-ui-colors';
 import { ColorIndicators } from './ColorIndicators';
@@ -11,7 +11,7 @@ import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition';
 
 interface Props {
   size: 'large' | 'small';
-  userSelection: SelectedNodesAndTheirBackgrounds;
+  userSelection: SelectionFgNodesAndBgNodes;
 }
 
 export const Selection: React.FC<Props> = ({

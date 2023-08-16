@@ -1,6 +1,6 @@
 import { formatHex, oklch } from 'culori';
 
-import { type FigmaNode } from '../../types/common';
+import { type FigmaNode } from '../../types/figma.ts';
 import { getNodeFills } from './get-node-fills';
 
 export const createFigmaNode = (node: SceneNode): FigmaNode => {

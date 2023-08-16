@@ -1,8 +1,5 @@
-import {
-  type MessagePayload,
-  MessageTypes,
-  type SelectionChangeMessage,
-} from '../types/common';
+import { type MessagePayload, MessageTypes } from '../types/messages.ts';
+import { type SelectionChangeMessage } from '../types/selection.ts';
 import { calculateApcaScore } from './apca/calculate-apca-score';
 import { createFigmaNode } from './figma/create-figma-node';
 import { findClosestIntersectingNode } from './figma/find-closest-intersecting-node';

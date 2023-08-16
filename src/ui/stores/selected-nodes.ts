@@ -1,10 +1,7 @@
 import { atom, onMount } from 'nanostores';
 
-import {
-  type IncomingMessage,
-  MessageTypes,
-  type SelectionChangeMessage,
-} from '../../types/common';
+import { type IncomingMessage, MessageTypes } from '../../types/messages.ts';
+import { type SelectionChangeMessage } from '../../types/selection.ts';
 
 export const $userSelection = atom<SelectionChangeMessage>({
   selectedNodes: [],

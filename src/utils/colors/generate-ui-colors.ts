@@ -1,6 +1,6 @@
 import { formatHex, formatHex8 } from 'culori';
 
-import { type FigmaPaint } from '../../types/common';
+import { type FigmaPaint } from '../../types/figma.ts';
 
 interface UIColors {
   textPrimaryHex: string;

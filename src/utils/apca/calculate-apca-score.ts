@@ -1,6 +1,6 @@
 import { calcAPCA } from 'apca-w3';
 
-import { type FigmaPaint } from '../../types/common';
+import { type FigmaPaint } from '../../types/figma.ts';
 
 const calculateRGB = (color: { b: number; g: number; r: number }): number[] =>
   Object.values(color).map((value) => Math.round(value * 255));

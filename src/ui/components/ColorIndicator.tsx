@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type FigmaPaint } from '../../types/common';
+import { type FigmaPaint } from '../../types/figma.ts';
 
 interface Props {
   fill: FigmaPaint;

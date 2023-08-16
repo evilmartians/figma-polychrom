@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react';
 
-import { type FigmaPaint } from '../../types/common';
+import { type FigmaPaint } from '../../types/figma.ts';
 import { ColorIndicator } from './ColorIndicator';
 
 interface Props {
