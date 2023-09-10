@@ -1,10 +1,15 @@
 import { type Oklch, useMode } from 'culori';
 import { formatCss, formatHex, formatRgb, modeRgb } from 'culori/fn';
 
-import { convertDecimalRGBto255Scale } from '../../utils/colors/formatters.ts';
-import { type ColorSpaceDisplayModes } from '../stores/color-space-display-mode.ts';
+import { type ColorSpaceDisplayModes } from '../../ui/stores/color-space-display-mode.ts';
 
 const convertToRgb = useMode(modeRgb);
+
+export const convertDecimalRGBto255Scale = (color: {
+  b: number;
+  g: number;
+  r: number;
+}): number[] => Object.values(color).map((value) => Math.round(value * 255));
 
 const formatForOklchDisplay = (oklch: Oklch): string => {
   const lValue = Math.round(oklch.l * 100);
