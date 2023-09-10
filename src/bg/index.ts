@@ -1,6 +1,6 @@
 import { type MessagePayload, MessageTypes } from '../types/messages.ts';
-import { sendSavedColorSpaceDisplayMode } from './send-saved-color-space-display-mode.ts';
-import { sendSelectionDataToUI } from './send-selection-data-to-ui.ts';
+import { sendSavedColorSpaceDisplayMode } from './services/messages/send-saved-color-space-display-mode.ts';
+import { sendSelectionDataToUI } from './services/messages/send-selection-data-to-ui.ts';
 
 figma.skipInvisibleInstanceChildren = true;
 
