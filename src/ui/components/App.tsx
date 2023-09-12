@@ -9,7 +9,7 @@ import {
   changeColorSpaceDisplayMode,
   colorSpaceDisplayModesList,
 } from '../stores/color-space-display-mode.ts';
-import { $userSelection } from '../stores/selected-nodes';
+import { $isMultiSelection, $userSelection } from '../stores/selected-nodes';
 import { HelpIcon } from './HelpIcon.tsx';
 import { LurkersIcon } from './LurkersIcon.tsx';
 import { Selection } from './Selection';
@@ -18,9 +18,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 
 export const App: React.FC = () => {
   const userSelection = useStore($userSelection);
+  const isMultiSelection = useStore($isMultiSelection);
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
-
-  const isMultipleSelection = userSelection.selectedNodePairs.length > 1;
 
   useEffect(() => {
     parent.postMessage(
@@ -46,18 +45,18 @@ export const App: React.FC = () => {
           Select a&nbsp;layer with a&nbsp;solid fill
         </p>
       ) : (
-        <ul className={clsx('w-full', isMultipleSelection ? 'mb-4' : '')}>
+        <ul className={clsx('w-full', isMultiSelection ? 'mb-4' : '')}>
           {userSelection.selectedNodePairs.map((pair, index) => (
             <li
               className={clsx(
                 'flex w-full items-center justify-center',
-                isMultipleSelection && index !== 0 ? '-mt-6' : ''
+                isMultiSelection && index !== 0 ? '-mt-6' : ''
               )}
               key={pair.selectedNode.id}
             >
               <Selection
                 isLast={index === userSelection.selectedNodePairs.length - 1}
-                size={isMultipleSelection ? 'small' : 'large'}
+                size={isMultiSelection ? 'small' : 'large'}
                 userSelection={pair}
               />
             </li>

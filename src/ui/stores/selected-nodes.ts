@@ -3,12 +3,17 @@ import {
   MessageTypes,
   type SelectionChangeMessage,
 } from '~types/messages.ts';
-import { atom, onMount } from 'nanostores';
+import { atom, computed, onMount } from 'nanostores';
 
 export const $userSelection = atom<SelectionChangeMessage>({
   selectedNodePairs: [],
   selectedNodes: [],
 });
+
+export const $isMultiSelection = computed(
+  $userSelection,
+  (selection) => selection.selectedNodes.length > 1
+);
 
 onMount($userSelection, () => {
   const addMessageListener = (
