@@ -1,4 +1,5 @@
 import { type SelectedNodes } from '~types/selection.ts';
+import { notEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import { type ReactElement } from 'react';
@@ -22,7 +23,7 @@ export const Selection = ({
   size,
   userSelection: { apca, bgNode, selectedNode },
 }: Props): ReactElement => {
-  if (apca == null) {
+  if (!notEmpty(apca)) {
     return <CantCalculateMessage />;
   }
 
@@ -30,7 +31,7 @@ export const Selection = ({
   const selectedNodeFill = selectedNode?.fills[0];
   const uiColors = generateUIColors(selectedNodeFill, bgNodeFill);
 
-  if (uiColors == null) {
+  if (!notEmpty(uiColors)) {
     return <CantCalculateMessage />;
   }
 

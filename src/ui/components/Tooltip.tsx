@@ -13,6 +13,7 @@ import {
   useMergeRefs,
   useRole,
 } from '@floating-ui/react';
+import { notEmpty } from '~utils/not-empty.ts';
 import {
   cloneElement,
   createContext,
@@ -83,11 +84,11 @@ export const useTooltip = ({
       close: 0,
       open: 150,
     },
-    enabled: controlledOpen == null,
+    enabled: !notEmpty(controlledOpen),
     move: false,
   });
   const focus = useFocus(context, {
-    enabled: controlledOpen == null,
+    enabled: !notEmpty(controlledOpen),
   });
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: 'tooltip' });
@@ -112,7 +113,7 @@ const TooltipContext = createContext<ContextType>(null);
 export const useTooltipContext = (): ContextType => {
   const context = useContext(TooltipContext);
 
-  if (context == null) {
+  if (!notEmpty(context)) {
     throw new Error('Tooltip components must be wrapped in <Tooltip />');
   }
 

@@ -24,7 +24,7 @@ interface Theme {
 }
 
 const fixHue = (oklchColor: Oklch | undefined): Oklch | undefined => {
-  if (oklchColor == null) return undefined;
+  if (!notEmpty(oklchColor)) return undefined;
 
   oklchColor.h = notEmpty(oklchColor.h) ? oklchColor.h : 0;
   return oklchColor;
@@ -209,7 +209,7 @@ export const generateUIColors = (
   const oklchForeground = fixHue(foreground.oklch);
   const oklchBackground = fixHue(background.oklch);
 
-  if (oklchForeground == null || oklchBackground == null) return null;
+  if (!notEmpty(oklchForeground) || !notEmpty(oklchBackground)) return null;
 
   const colorForeground = { hex: foreground.hex, oklch: oklchForeground };
   const colorBackground = { hex: background.hex, oklch: oklchBackground };
