@@ -24,7 +24,3 @@ export interface SelectionChangeMessage {
 export interface ColorSpaceDisplayModeChangeMessage {
   colorSpaceDisplayMode: ColorSpaceDisplayModes;
 }
-
-export interface UiReadyMessage {
-  type: MessageTypes.UiReady;
-}
