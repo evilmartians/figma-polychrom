@@ -1,4 +1,4 @@
-import { type ColorSpaceDisplayModes } from '../ui/stores/color-space-display-mode.ts';
+import { type ColorSpaceDisplayModes } from '../constants.ts';
 import { type SelectedNodes } from './selection.ts';
 
 export enum MessageTypes {

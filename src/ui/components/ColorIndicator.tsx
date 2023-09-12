@@ -3,12 +3,12 @@ import { type ReactElement } from 'react';
 import useClipboard from 'react-use-clipboard';
 
 import { type FigmaPaint } from '../../types/figma.ts';
-import { notEmpty } from '../../utils/not-empty.ts';
-import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 import {
   getFormatForCSSFunction,
   getFormatForDisplayFunction,
-} from './ColorFormatHelpers.ts';
+} from '../../utils/colors/formatters.ts';
+import { notEmpty } from '../../utils/not-empty.ts';
+import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 
 interface IndicatorProps {

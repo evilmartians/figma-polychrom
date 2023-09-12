@@ -1,34 +1,43 @@
+import { ColorSpaceDisplayModes } from '../../../constants.ts';
 import {
   type ColorSpaceDisplayModeChangeMessage,
   type MessagePayload,
   MessageTypes,
 } from '../../../types/messages.ts';
-import { ColorSpaceDisplayModes } from '../../../ui/stores/color-space-display-mode.ts';
+import { notEmpty } from '../../../utils/not-empty.ts';
 import { ClientStorageKeys } from '../../constants.ts';
 
 export const sendSavedColorSpaceDisplayMode = (): void => {
+  retrieveSavedColorSpaceDisplayMode((mode) => {
+    if (notEmpty(mode)) {
+      postColorSpaceDisplayModeMessage(mode);
+    } else {
+      mode = ColorSpaceDisplayModes.OKLCH;
+      setNewColorSpaceDisplayMode(mode);
+    }
+  });
+};
+
+const retrieveSavedColorSpaceDisplayMode = (
+  callback: (mode: ColorSpaceDisplayModes | null) => void
+): void => {
   void figma.clientStorage
     .getAsync(ClientStorageKeys.savedColorSpaceDisplayMode)
-    .then((savedColorSpaceDisplayMode) => {
-      if (savedColorSpaceDisplayMode == null) {
-        void figma.clientStorage.setAsync(
-          'colorSpaceDisplayMode',
-          ColorSpaceDisplayModes.OKLCH
-        );
+    .then(callback);
+};
 
-        figma.ui.postMessage({
-          payload: {
-            colorSpaceDisplayMode: ColorSpaceDisplayModes.OKLCH,
-          },
-          type: MessageTypes.ColorSpaceDisplayModeChange,
-        } satisfies MessagePayload<ColorSpaceDisplayModeChangeMessage>);
-      } else {
-        figma.ui.postMessage({
-          payload: {
-            colorSpaceDisplayMode: savedColorSpaceDisplayMode,
-          },
-          type: MessageTypes.ColorSpaceDisplayModeChange,
-        } satisfies MessagePayload<ColorSpaceDisplayModeChangeMessage>);
-      }
-    });
+const setNewColorSpaceDisplayMode = (mode: ColorSpaceDisplayModes): void => {
+  void figma.clientStorage.setAsync(
+    ClientStorageKeys.savedColorSpaceDisplayMode,
+    mode
+  );
+};
+
+const postColorSpaceDisplayModeMessage = (
+  mode: ColorSpaceDisplayModes
+): void => {
+  figma.ui.postMessage({
+    payload: { colorSpaceDisplayMode: mode },
+    type: MessageTypes.ColorSpaceDisplayModeChange,
+  } satisfies MessagePayload<ColorSpaceDisplayModeChangeMessage>);
 };

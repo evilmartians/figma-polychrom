@@ -1,7 +1,7 @@
 import { type Oklch, useMode } from 'culori';
 import { formatCss, formatHex, formatRgb, modeRgb } from 'culori/fn';
 
-import { type ColorSpaceDisplayModes } from '../../ui/stores/color-space-display-mode.ts';
+import { type ColorSpaceDisplayModes } from '../../constants.ts';
 
 const convertToRgb = useMode(modeRgb);
 

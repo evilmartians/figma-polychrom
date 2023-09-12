@@ -1,18 +1,12 @@
 import { atom, onMount, onSet } from 'nanostores';
 
+import { ColorSpaceDisplayModes } from '../../constants.ts';
 import {
   type ColorSpaceDisplayModeChangeMessage,
   type Message,
   type MessagePayload,
   MessageTypes,
 } from '../../types/messages.ts';
-
-export enum ColorSpaceDisplayModes {
-  OKLCH = 'OKLCH',
-  RGB = 'RGB',
-  // eslint-disable-next-line perfectionist/sort-enums
-  HEX = 'HEX',
-}
 
 export const colorSpaceDisplayModesList = Object.values(ColorSpaceDisplayModes);
 
