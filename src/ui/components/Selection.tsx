@@ -1,8 +1,8 @@
+import { type SelectedNodes } from '~types/selection.ts';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import { type ReactElement } from 'react';
 
-import { type SelectedNodes } from '../../types/selection.ts';
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
 import { SelectionContent } from './SelectionContent.tsx';

@@ -1,10 +1,11 @@
-import { type FigmaNode, type FigmaPaint } from '../../../types/figma.ts';
+import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import {
   type MessagePayload,
   MessageTypes,
   type SelectionChangeMessage,
-} from '../../../types/messages.ts';
-import { notEmpty } from '../../../utils/not-empty.ts';
+} from '~types/messages.ts';
+import { notEmpty } from '~utils/not-empty.ts';
+
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 import { createFigmaNode } from '../figma/create-figma-node.ts';
 import { findClosestIntersectingNode } from '../figma/find-closest-intersecting-node.ts';

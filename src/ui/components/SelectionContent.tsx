@@ -1,7 +1,7 @@
+import { type FigmaPaint } from '~types/figma.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
-import { type FigmaPaint } from '../../types/figma.ts';
 import { getLegibilityCategory } from '../services/apca/get-apca-judgment.ts';
 import { type WidgetProps } from '../services/theme/generate-ui-colors.ts';
 import { ColorIndicator } from './ColorIndicator.tsx';

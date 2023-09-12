@@ -19,7 +19,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
+    "baseUrl": ".",
+    "paths": {
+      "~bg/*": ["src/bg/*"],
+      "~test-utils/*": ["src/test-utils/*"],
+      "~types/*": ["src/types/*"],
+      "~utils/*": ["src/utils/*"],
+      "~ui/*": ["src/ui/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

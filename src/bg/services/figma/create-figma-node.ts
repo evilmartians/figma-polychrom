@@ -1,7 +1,6 @@
+import { type FigmaNode } from '~types/figma.ts';
+import { getNodeFills } from '~utils/figma/get-node-fills.ts';
 import { converter, formatHex } from 'culori';
-
-import { type FigmaNode } from '../../../types/figma.ts';
-import { getNodeFills } from '../../../utils/figma/get-node-fills.ts';
 
 const oklch = converter('oklch');
 

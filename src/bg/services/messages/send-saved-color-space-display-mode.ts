@@ -1,10 +1,11 @@
-import { ColorSpaceDisplayModes } from '../../../constants.ts';
 import {
   type ColorSpaceDisplayModeChangeMessage,
   type MessagePayload,
   MessageTypes,
-} from '../../../types/messages.ts';
-import { notEmpty } from '../../../utils/not-empty.ts';
+} from '~types/messages.ts';
+import { notEmpty } from '~utils/not-empty.ts';
+
+import { ColorSpaceDisplayModes } from '../../../constants.ts';
 import { ClientStorageKeys } from '../../constants.ts';
 
 export const sendSavedColorSpaceDisplayMode = (): void => {

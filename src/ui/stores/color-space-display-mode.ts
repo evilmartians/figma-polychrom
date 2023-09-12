@@ -1,12 +1,12 @@
-import { atom, onMount, onSet } from 'nanostores';
-
-import { ColorSpaceDisplayModes } from '../../constants.ts';
 import {
   type ColorSpaceDisplayModeChangeMessage,
   type Message,
   type MessagePayload,
   MessageTypes,
-} from '../../types/messages.ts';
+} from '~types/messages.ts';
+import { atom, onMount, onSet } from 'nanostores';
+
+import { ColorSpaceDisplayModes } from '../../constants.ts';
 
 export const colorSpaceDisplayModesList = Object.values(ColorSpaceDisplayModes);
 

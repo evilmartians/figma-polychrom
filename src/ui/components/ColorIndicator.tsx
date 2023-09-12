@@ -1,13 +1,13 @@
 import { useStore } from '@nanostores/react';
-import { type ReactElement } from 'react';
-import useClipboard from 'react-use-clipboard';
-
-import { type FigmaPaint } from '../../types/figma.ts';
+import { type FigmaPaint } from '~types/figma.ts';
 import {
   getFormatForCSSFunction,
   getFormatForDisplayFunction,
-} from '../../utils/colors/formatters.ts';
-import { notEmpty } from '../../utils/not-empty.ts';
+} from '~utils/colors/formatters.ts';
+import { notEmpty } from '~utils/not-empty.ts';
+import { type ReactElement } from 'react';
+import useClipboard from 'react-use-clipboard';
+
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 

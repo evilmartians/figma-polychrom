@@ -1,6 +1,6 @@
+import { createFigmaPaint } from '~test-utils/create-figma-paint.ts';
 import { describe, expect, test } from 'vitest';
 
-import { createFigmaPaint } from '../../../test-utils/create-figma-paint.ts';
 import { calculateApcaScore } from './calculate-apca-score.ts';
 
 describe('calculateApcaScore', () => {

@@ -3,6 +3,14 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~bg': resolve(__dirname, 'src', 'bg'),
+      '~test-utils': resolve(__dirname, 'src', 'test-utils'),
+      '~types': resolve(__dirname, 'src', 'types'),
+      '~utils': resolve(__dirname, 'src', 'utils'),
+    },
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: false,

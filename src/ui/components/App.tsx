@@ -1,8 +1,8 @@
 import { useStore } from '@nanostores/react';
+import { MessageTypes } from '~types/messages.ts';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
 
-import { MessageTypes } from '../../types/messages.ts';
 import ufoImage from '../assets/ufo@2x.webp';
 import {
   $colorSpaceDisplayMode,

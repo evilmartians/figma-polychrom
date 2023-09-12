@@ -6,6 +6,14 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~ui': resolve(__dirname, 'src', 'ui'),
+      '~test-utils': resolve(__dirname, 'src', 'test-utils'),
+      '~types': resolve(__dirname, 'src', 'types'),
+      '~utils': resolve(__dirname, 'src', 'utils'),
+    },
+  },
   plugins: [react(), svgr(), viteSingleFile()],
   root: './src/ui',
   build: {
