@@ -1,4 +1,4 @@
-import { type Oklch } from 'culori';
+import { type Oklch } from 'culori/fn';
 
 export interface UIColor {
   hex: string;

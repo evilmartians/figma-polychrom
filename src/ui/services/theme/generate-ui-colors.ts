@@ -2,7 +2,7 @@ import { type UIColor } from '~types/common.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import { calcAPCA } from 'apca-w3';
 import { apcach, type ApcachColor, apcachToCss, crTo, crToFg } from 'apcach';
-import { formatCss, type Oklch } from 'culori';
+import { formatCss, type Oklch } from 'culori/fn';
 
 const minLc = 60;
 const toleranceLc = 2;

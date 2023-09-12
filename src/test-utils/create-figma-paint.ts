@@ -1,4 +1,5 @@
-import { converter, formatHex } from 'culori';
+import { converter } from 'culori';
+import { formatHex } from 'culori/fn';
 
 import { type FigmaPaint } from '../types/figma.ts';
 

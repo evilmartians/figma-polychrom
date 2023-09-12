@@ -1,8 +1,9 @@
 import { type FigmaNode } from '~types/figma.ts';
 import { getNodeFills } from '~utils/figma/get-node-fills.ts';
-import { converter, formatHex } from 'culori';
+import { converter } from 'culori';
+import { formatHex } from 'culori/fn';
 
-const oklch = converter('oklch');
+const convertToOklch = converter('oklch');
 
 export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
   const fills = getNodeFills(node);
@@ -14,7 +15,7 @@ export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
     fills: solidFills.map((fill) => ({
       ...fill,
       hex: formatHex({ ...fill.color, mode: 'rgb' }),
-      oklch: oklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
+      oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
       visible: fill.visible,
     })),
     id: node.id,

@@ -1,5 +1,11 @@
-import { type Oklch, useMode } from 'culori';
-import { formatCss, formatHex, formatRgb, modeRgb } from 'culori/fn';
+import {
+  formatCss,
+  formatHex,
+  formatRgb,
+  modeRgb,
+  type Oklch,
+  useMode,
+} from 'culori/fn';
 
 import { type ColorSpaceDisplayModes } from '../../constants.ts';
 
