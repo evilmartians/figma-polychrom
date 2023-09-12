@@ -14,6 +14,12 @@ export const $isMultiSelection = computed(
   $userSelection,
   (selection) => selection.selectedNodes.length > 1
 );
+export const $isEmptySelection = computed(
+  $userSelection,
+  (selection) =>
+    selection.selectedNodes.length === 0 ||
+    selection.selectedNodePairs.length === 0
+);
 
 onMount($userSelection, () => {
   const addMessageListener = (
