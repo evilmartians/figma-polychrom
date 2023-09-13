@@ -82,7 +82,6 @@ const buildMultipleSelectionPayload = (
   selection: SceneNode[]
 ): SelectionChangeMessage => {
   const selectedNodePairs = selection
-    .reverse()
     .map((node) => {
       const bgNode = findClosestIntersectingNode(node);
 
