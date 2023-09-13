@@ -12,7 +12,7 @@ export const $userSelection = atom<SelectionChangeMessage>({
 
 export const $isMultiSelection = computed(
   $userSelection,
-  (selection) => selection.selectedNodes.length > 1
+  (selection) => selection.selectedNodePairs.length > 1
 );
 export const $isEmptySelection = computed(
   $userSelection,
