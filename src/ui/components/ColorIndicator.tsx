@@ -1,39 +1,15 @@
 import { useStore } from '@nanostores/react';
 import { type FigmaPaint } from '~types/figma.ts';
+import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import {
   getFormatForCSSFunction,
   getFormatForDisplayFunction,
 } from '~utils/colors/formatters.ts';
-import { notEmpty } from '~utils/not-empty.ts';
 import { type ReactElement } from 'react';
 import useClipboard from 'react-use-clipboard';
 
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
-
-interface IndicatorProps {
-  borderColor?: string;
-  indicatorColor: string;
-}
-
-const Indicator = ({
-  borderColor,
-  indicatorColor,
-}: IndicatorProps): ReactElement => {
-  return (
-    <div
-      style={{
-        backgroundColor: indicatorColor,
-        ...(notEmpty(borderColor) && {
-          borderColor,
-          borderStyle: 'solid',
-          borderWidth: '0.5px',
-        }),
-      }}
-      className={`mr-2 h-4 w-4 rounded`}
-    />
-  );
-};
 
 interface ColorIndicatorProps {
   borderColor?: string;
@@ -80,7 +56,7 @@ export const ColorIndicator = ({
           type="button"
         >
           <div className="flex items-center rounded-md p-0.5 hover:bg-indicatorsHover active:bg-indicatorsActive">
-            <Indicator
+            <ColorPreview
               borderColor={borderColor}
               indicatorColor={indicatorColor}
             />

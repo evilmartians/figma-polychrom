@@ -8,6 +8,8 @@ interface Props {
   size: 'large' | 'small';
 }
 
+const exampleText = 'Aa';
+
 export const ContrastSample = ({
   backgroundColor,
   borderColor,
@@ -27,7 +29,7 @@ export const ContrastSample = ({
         color,
       }}
     >
-      Aa
+      {exampleText}
     </p>
   );
 };
