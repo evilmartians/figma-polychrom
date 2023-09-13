@@ -2,9 +2,9 @@ import { type ColorSpaceDisplayModes } from '../constants.ts';
 import { type SelectedNodes } from './selection.ts';
 
 export enum MessageTypes {
-  ColorSpaceDisplayModeChange = 'ColorSpaceDisplayModeChange',
-  SelectionChange = 'SelectionChange',
-  UiReady = 'UiReady',
+  ColorSpaceDisplayModeChange = 'Polychrom_ColorSpaceDisplayModeChange',
+  SelectionChange = 'Polychrom_SelectionChange',
+  UiReady = 'Polychrom_UiReady',
 }
 
 export interface MessagePayload<T> {
