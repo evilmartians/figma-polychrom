@@ -5,7 +5,7 @@ import { isDifferentNodeWithBoundingBox } from '../is-different-node-with-boundi
 describe('isDifferentNodeWithBoundingBox', () => {
   test('should return true if node has a different ID and an absoluteBoundingBox', () => {
     const node = {
-      absoluteBoundingBox: { height: 100, width: 100, x: 10, y: 10 }, // example Rect structure
+      absoluteBoundingBox: { height: 100, width: 100, x: 10, y: 10 },
       id: '1',
     } as unknown as SceneNode;
     const selectedNodeId = '2';
@@ -15,7 +15,7 @@ describe('isDifferentNodeWithBoundingBox', () => {
 
   test('should return false if node has the same ID but has an absoluteBoundingBox', () => {
     const node = {
-      absoluteBoundingBox: { height: 100, width: 100, x: 10, y: 10 }, // example Rect structure
+      absoluteBoundingBox: { height: 100, width: 100, x: 10, y: 10 },
       id: '1',
     } as unknown as SceneNode;
     const selectedNodeId = '1';
