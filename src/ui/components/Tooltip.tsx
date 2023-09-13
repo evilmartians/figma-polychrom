@@ -181,7 +181,7 @@ export const TooltipContent = forwardRef<
           ...context?.floatingStyles,
           ...style,
         }}
-        className="rounded-full bg-black p-2 px-3 py-1.5 font-martian text-xxs font-medium text-white shadow-md dark:bg-white dark:text-black"
+        className="rounded-full bg-black p-2 px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md dark:bg-white dark:text-black"
         ref={ref}
         {...context?.getFloatingProps(props)}
       />

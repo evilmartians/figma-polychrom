@@ -52,7 +52,7 @@ module.exports = {
         DEFAULT: '0px 4px 24px var(--text-shadow-color)',
       },
       fontFamily: {
-        martian: ['martian', 'monospace'],
+        martianMono: ['Martian Mono', 'monospace'],
       },
       fontSize: {
         xxs: '0.625rem',

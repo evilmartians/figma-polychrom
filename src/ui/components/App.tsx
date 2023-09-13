@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex h-full w-full select-none flex-col items-center p-1 pb-0 font-martian">
+    <div className="flex h-full w-full select-none flex-col items-center p-1 pb-0 font-martianMono">
       {isEmptySelection ? <EmptySelectionMessage /> : <SelectionsList />}
 
       <div className="mt-auto flex w-full items-end justify-between px-1">
