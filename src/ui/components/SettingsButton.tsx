@@ -38,7 +38,7 @@ export const SettingsButton = (): ReactElement => {
                 className={clsx(
                   !isActive ? 'opacity-70 dark:opacity-50' : 'font-bold'
                 )}
-                key="mode"
+                key={mode}
               >
                 {mode}
               </span>
