@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { getNodeFills } from './get-node-fills.ts';
+import { getNodeFills } from '../get-node-fills.ts';
 
 describe('getNodeFills', () => {
   test('returns fills array when node has fills that are not a symbol', () => {

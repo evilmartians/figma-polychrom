@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { hasBoundingBox } from './has-bounding-box.ts';
+import { hasBoundingBox } from '../has-bounding-box.ts';
 
 describe('hasBoundingBox', () => {
   test('should return true if node has absoluteBoundingBox and its value is not empty', () => {
