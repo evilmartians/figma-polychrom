@@ -16,7 +16,7 @@ export const LurkersIcon = (): ReactElement => {
           fill="currentColor"
         />
         <path
-          className="lurker-eye"
+          className="origin-center animate-lurkers-blink"
           d="M16 28c1.655 0 3-1.345 3-3s-1.345-3-3-3-3 1.345-3 3 1.345 3 3 3Zm0-5c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2Zm12 5c1.655 0 3-1.345 3-3s-1.345-3-3-3-3 1.345-3 3 1.345 3 3 3Zm0-5c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2Z"
           fill="currentColor"
         />
@@ -25,7 +25,7 @@ export const LurkersIcon = (): ReactElement => {
           fill="currentColor"
         />
         <path
-          className="lurker-eye lurker-eye_human"
+          className="origin-center animate-lurkers-blink animation-delay-500"
           d="M72 28c1.655 0 3-1.345 3-3s-1.345-3-3-3-3 1.345-3 3 1.345 3 3 3Zm0-5c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2Zm-12 5c1.655 0 3-1.345 3-3s-1.345-3-3-3-3 1.345-3 3 1.345 3 3 3Zm0-5c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2Z"
           fill="currentColor"
         />

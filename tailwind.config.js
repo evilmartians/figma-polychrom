@@ -15,9 +15,39 @@ module.exports = {
         { values: theme('textShadow') }
       );
     }),
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          'animation-delay': (value) => {
+            return {
+              'animation-delay': value,
+            };
+          },
+        },
+        {
+          values: theme('transitionDelay'),
+        }
+      );
+    }),
   ],
   theme: {
     extend: {
+      keyframes: {
+        'lurkers-blink': {
+          '0%, 48%': {
+            transform: 'scale(1)',
+          },
+          '50%': {
+            transform: 'scale(0)',
+          },
+          '52%, 100%': {
+            transform: 'scale(1)',
+          },
+        },
+      },
+      animation: {
+        'lurkers-blink': 'lurkers-blink 8s infinite',
+      },
       textShadow: {
         DEFAULT: '0px 4px 24px var(--text-shadow-color)',
       },

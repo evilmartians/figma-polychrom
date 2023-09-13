@@ -44,31 +44,6 @@
   }
 }
 
-@layer components {
-  @keyframes blink {
-    0%,
-    48% {
-      transform: scaleY(1);
-    }
-    50% {
-      transform: scaleY(0);
-    }
-    52%,
-    100% {
-      transform: scaleY(1);
-    }
-  }
-
-  .lurker-eye {
-    transform-origin: center;
-    animation: blink 8s infinite;
-  }
-
-  .lurker-eye_human {
-    animation-delay: 0.5s;
-  }
-}
-
 @layer utilities {
   .interactive:not(:disabled) {
     @apply outline-offset-[1px] outline-2;
