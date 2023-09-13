@@ -51,6 +51,9 @@ module.exports = {
     ],
   },
   settings: {
+    tailwindcss: {
+      whitelist: ['segmented-'],
+    },
     'import/resolver': {
       alias: [
         ['~bg', './src/bg'],
