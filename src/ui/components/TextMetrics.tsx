@@ -1,3 +1,4 @@
+import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { fontLookupAPCA } from 'apca-w3';
 import { type ReactElement } from 'react';
 
@@ -13,15 +14,15 @@ interface Props {
 export const TextMetrics = ({ apca, color }: Props): ReactElement => {
   const [, , , , regular, , , bold] = fontLookupAPCA(apca);
 
-  if (Math.abs(apca) < 15) {
+  if (Math.abs(apca) < conclusions.Invisible) {
     return <StopIcon color={color} />;
   }
 
-  if (Math.abs(apca) < 30) {
+  if (Math.abs(apca) < conclusions['Non-Text']) {
     return <WarningIcon color={color} />;
   }
 
-  if (Math.abs(apca) < 45) {
+  if (Math.abs(apca) < conclusions['Large Text']) {
     return <PictureIcon color={color} />;
   }
 

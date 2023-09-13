@@ -1,8 +1,8 @@
 import { type FigmaPaint } from '~types/figma.ts';
+import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
-import { getLegibilityCategory } from '../services/apca/get-apca-judgment.ts';
 import { type WidgetProps } from '../services/theme/generate-ui-colors.ts';
 import { ColorIndicator } from './ColorIndicator.tsx';
 import { ContrastSample } from './ContrastSample.tsx';
@@ -42,7 +42,7 @@ export const SelectionContent = ({
           }}
           className="text-xxs"
         >
-          {getLegibilityCategory(Math.abs(apca))}
+          {getConclusionByScore(Math.abs(apca))}
         </p>
 
         <TextMetrics apca={apca} color={uiColors.theme.foreground.hex} />
