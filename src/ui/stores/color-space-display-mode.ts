@@ -26,7 +26,9 @@ export const changeColorSpaceDisplayMode = (): void => {
       ? 0
       : previousIndex + 1;
 
-  $colorSpaceDisplayMode.set(colorSpaceDisplayModesList[nextIndex]);
+  const nextValue = colorSpaceDisplayModesList[nextIndex];
+
+  if (nextValue) $colorSpaceDisplayMode.set(nextValue);
 };
 
 onSet($colorSpaceDisplayMode, (mode) => {

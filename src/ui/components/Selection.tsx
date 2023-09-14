@@ -1,4 +1,5 @@
 import { type SelectedNodes } from '~types/selection.ts';
+import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
@@ -9,7 +10,9 @@ import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx
 import { SelectionContent } from './SelectionContent.tsx';
 
 const CantCalculateMessage = (): ReactElement => (
-  <p className="my-4">Can&apos;t calc</p>
+  <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-gray-500 dark:text-gray-300">
+    Can&apos;t calc
+  </p>
 );
 
 interface Props {
@@ -27,8 +30,13 @@ export const Selection = ({
     return <CantCalculateMessage />;
   }
 
-  const bgNodeFill = bgNode?.fills[0];
-  const selectedNodeFill = selectedNode?.fills[0];
+  const bgNodeFill = getActualNodeFill(bgNode.fills);
+  const selectedNodeFill = getActualNodeFill(selectedNode.fills);
+
+  if (!notEmpty(bgNodeFill) || !notEmpty(selectedNodeFill)) {
+    return <CantCalculateMessage />;
+  }
+
   const uiColors = generateUIColors(selectedNodeFill, bgNodeFill);
 
   if (!notEmpty(uiColors)) {

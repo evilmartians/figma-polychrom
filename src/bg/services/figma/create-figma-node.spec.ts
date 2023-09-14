@@ -26,7 +26,10 @@ describe('createFigmaNode', () => {
     const result = createFigmaNode(node);
 
     expect(result.fills).toHaveLength(1);
-    expect(result.fills[0].type).toBe('SOLID');
+
+    const [fill] = result.fills;
+
+    expect(fill?.type).toBe('SOLID');
   });
 
   test('should convert solid fill colors to hex and oklch format', () => {
@@ -36,9 +39,10 @@ describe('createFigmaNode', () => {
     } as unknown as SceneNode;
 
     const result = createFigmaNode(node);
+    const [fill] = result.fills;
 
-    expect(result.fills[0].hex).toBe('#000000');
-    expect(result.fills[0].oklch).toEqual({
+    expect(fill?.hex).toBe('#000000');
+    expect(fill?.oklch).toEqual({
       c: 0,
       l: 0,
       mode: 'oklch',

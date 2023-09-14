@@ -1,14 +1,16 @@
-import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
+import { type FigmaNode } from '~types/figma.ts';
 import {
   type MessagePayload,
   MessageTypes,
   type SelectionChangeMessage,
 } from '~types/messages.ts';
+import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
+import { hasLength, type HasLength } from '~utils/has-length.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 import { createFigmaNode } from '../figma/create-figma-node.ts';
-import { findClosestIntersectingNode } from '../figma/find-closest-intersecting-node.ts';
+import { findClosestProperNode } from '../figma/find-closest-proper-node.ts';
 
 interface NodePair {
   apca: number;
@@ -28,9 +30,9 @@ export const sendSelectionDataToUI = (): void => {
   const messagePayload =
     currentSelection.length === 0
       ? buildEmptyPayload()
-      : currentSelection.length === 2
-      ? buildPairSelectionPayload(Array.from(currentSelection))
-      : buildMultipleSelectionPayload(Array.from(currentSelection));
+      : hasLength(currentSelection, 2)
+      ? buildPairSelectionPayload(currentSelection)
+      : buildGeneralSelectionPayload(currentSelection);
 
   figma.ui.postMessage({
     payload: messagePayload,
@@ -44,9 +46,11 @@ const buildEmptyPayload = (): SelectionChangeMessage => ({
 });
 
 const buildPairSelectionPayload = (
-  selection: SceneNode[]
+  selection: readonly SceneNode[] & HasLength<readonly SceneNode[], 2>
 ): SelectionChangeMessage => {
-  const nodePairPayload = buildNodePairPayload(selection[1], selection[0]);
+  const [fg, bg] = selection;
+
+  const nodePairPayload = buildNodePair(fg, bg);
 
   return nodePairPayload != null
     ? {
@@ -56,36 +60,33 @@ const buildPairSelectionPayload = (
     : buildEmptyPayload();
 };
 
-const buildNodePairPayload = (
+const buildNodePair = (
   fgNode: SceneNode,
   bgNode: PageNode | SceneNode
 ): NodePair | null => {
   const fgFigmaNode = createFigmaNode(fgNode);
   const bgFigmaNode = createFigmaNode(bgNode);
 
-  if (
-    !isFillVisible(fgFigmaNode.fills[0]) ||
-    !isFillVisible(bgFigmaNode.fills[0])
-  )
-    return null;
+  const fgFill = getActualNodeFill(fgFigmaNode.fills);
+  const bgFill = getActualNodeFill(bgFigmaNode.fills);
+
+  if (fgFill == null || bgFill == null) return null;
 
   return {
-    apca: calculateApcaScore(fgFigmaNode.fills[0], bgFigmaNode.fills[0]),
+    apca: calculateApcaScore(fgFill, bgFill),
     bgNode: bgFigmaNode,
     selectedNode: fgFigmaNode,
   };
 };
 
-const isFillVisible = (fill: FigmaPaint): boolean => Boolean(fill?.visible);
-
-const buildMultipleSelectionPayload = (
-  selection: SceneNode[]
+const buildGeneralSelectionPayload = (
+  selection: readonly SceneNode[]
 ): SelectionChangeMessage => {
   const selectedNodePairs = selection
     .map((node) => {
-      const bgNode = findClosestIntersectingNode(node);
+      const bgNode = findClosestProperNode(node);
 
-      if (notEmpty(bgNode)) return buildNodePairPayload(node, bgNode);
+      if (notEmpty(bgNode)) return buildNodePair(node, bgNode);
 
       return null;
     })

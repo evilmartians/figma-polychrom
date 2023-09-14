@@ -12,12 +12,13 @@ export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
   );
 
   return {
-    fills: solidFills.map((fill) => ({
-      ...fill,
-      hex: formatHex({ ...fill.color, mode: 'rgb' }),
-      oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
-      visible: fill.visible,
-    })),
+    fills: solidFills.map((fill) => {
+      return {
+        ...fill,
+        hex: formatHex({ ...fill.color, mode: 'rgb' }),
+        oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
+      };
+    }),
     id: node.id,
   };
 };
