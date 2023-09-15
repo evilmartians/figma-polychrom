@@ -45,7 +45,9 @@ export const SelectionContent = ({
           {getConclusionByScore(Math.abs(apca))}
         </p>
 
-        <TextMetrics apca={apca} color={uiColors.theme.foreground.hex} />
+        <div className="flex h-[18px] items-center">
+          <TextMetrics apca={apca} color={uiColors.theme.foreground.hex} />
+        </div>
       </div>
 
       <div
