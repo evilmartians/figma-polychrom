@@ -89,6 +89,7 @@ export const SelectionContent = ({
           >
             <ProgressBar
               apca={apca}
+              bgColor={uiColors.theme.background.hex}
               height={size === 'small' ? 6 : 8}
               primaryColor={uiColors.theme.foreground.hex}
               secondaryColor={uiColors.theme.secondary.hex}
