@@ -1,13 +1,14 @@
-import { formatCss, formatHex, formatRgb, type Oklch } from 'culori/fn';
+import { formatHex, formatRgb, type Oklch } from 'culori/fn';
 import { describe, expect, test } from 'vitest';
 
 import { ColorSpaceDisplayModes } from '../../constants.ts';
 import {
   convertDecimalRGBto255Scale,
+  formatForOklchCSS,
   formatForOklchDisplay,
   formatForRgbDisplay,
-  getFormatForCSSFunction,
-  getFormatForDisplayFunction,
+  getFormatterForCSS,
+  getFormatterForDisplaying,
 } from './formatters.ts';
 
 describe('color formatters', () => {
@@ -21,34 +22,34 @@ describe('color formatters', () => {
 
   describe('getFormatForDisplayFunction', () => {
     test('returns correct formatter for HEX mode', () => {
-      const result = getFormatForDisplayFunction(ColorSpaceDisplayModes.HEX);
+      const result = getFormatterForDisplaying(ColorSpaceDisplayModes.HEX);
       expect(result).toEqual(formatHex);
     });
 
     test('returns correct formatter for OKLCH mode', () => {
-      const result = getFormatForDisplayFunction(ColorSpaceDisplayModes.OKLCH);
+      const result = getFormatterForDisplaying(ColorSpaceDisplayModes.OKLCH);
       expect(result).toEqual(formatForOklchDisplay);
     });
 
     test('returns correct formatter for RGB mode', () => {
-      const result = getFormatForDisplayFunction(ColorSpaceDisplayModes.RGB);
+      const result = getFormatterForDisplaying(ColorSpaceDisplayModes.RGB);
       expect(result).toEqual(formatForRgbDisplay);
     });
   });
 
   describe('getFormatForCSSFunction', () => {
     test('returns correct formatter for HEX mode', () => {
-      const result = getFormatForCSSFunction(ColorSpaceDisplayModes.HEX);
+      const result = getFormatterForCSS(ColorSpaceDisplayModes.HEX);
       expect(result).toEqual(formatHex);
     });
 
     test('returns correct formatter for OKLCH mode', () => {
-      const result = getFormatForCSSFunction(ColorSpaceDisplayModes.OKLCH);
-      expect(result).toEqual(formatCss);
+      const result = getFormatterForCSS(ColorSpaceDisplayModes.OKLCH);
+      expect(result).toEqual(formatForOklchCSS);
     });
 
     test('returns correct formatter for RGB mode', () => {
-      const result = getFormatForCSSFunction(ColorSpaceDisplayModes.RGB);
+      const result = getFormatterForCSS(ColorSpaceDisplayModes.RGB);
       expect(result).toEqual(formatRgb);
     });
   });

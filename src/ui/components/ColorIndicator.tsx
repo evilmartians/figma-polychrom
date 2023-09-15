@@ -2,8 +2,8 @@ import { useStore } from '@nanostores/react';
 import { type FigmaPaint } from '~types/figma.ts';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import {
-  getFormatForCSSFunction,
-  getFormatForDisplayFunction,
+  getFormatterForCSS,
+  getFormatterForDisplaying,
 } from '~utils/colors/formatters.ts';
 import { type ReactElement } from 'react';
 import useClipboard from 'react-use-clipboard';
@@ -28,12 +28,12 @@ export const ColorIndicator = ({
 }: ColorIndicatorProps): ReactElement => {
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
 
-  const formatColorForDisplay = getFormatForDisplayFunction(
+  const formatColorForDisplay = getFormatterForDisplaying(
     colorSpaceDisplayMode
   );
   const displayValue = formatColorForDisplay(fill.oklch);
 
-  const formatColorForCSS = getFormatForCSSFunction(colorSpaceDisplayMode);
+  const formatColorForCSS = getFormatterForCSS(colorSpaceDisplayMode);
   const cssValue = formatColorForCSS(fill.oklch);
 
   const [isCopied, setCopied] = useClipboard(cssValue, {
