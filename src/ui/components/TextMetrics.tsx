@@ -38,7 +38,7 @@ export const TextMetrics = ({ apca, color }: Props): ReactElement => {
           style={{
             borderColor: color,
           }}
-          className="mr-2 rounded border-0.5 border-black p-1 text-xxxs font-medium leading-[8px]"
+          className="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
         >
           Rg
         </p>
@@ -49,7 +49,7 @@ export const TextMetrics = ({ apca, color }: Props): ReactElement => {
           style={{
             borderColor: color,
           }}
-          className="mr-2 rounded border-0.5 border-black p-1 text-xxxs font-medium leading-[8px]"
+          className="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
         >
           Bd
         </p>

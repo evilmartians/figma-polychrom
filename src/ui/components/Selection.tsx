@@ -10,7 +10,7 @@ import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx
 import { SelectionContent } from './SelectionContent.tsx';
 
 const CantCalculateMessage = (): ReactElement => (
-  <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-gray-500 dark:text-gray-300">
+  <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-secondary-75">
     Can&apos;t calc
   </p>
 );

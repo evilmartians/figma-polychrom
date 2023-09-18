@@ -31,6 +31,24 @@ module.exports = {
     }),
   ],
   theme: {
+    colors: {
+      black: 'var(--black)',
+      white: 'var(--white)',
+      transparent: 'transparent',
+      indicatorsHover: 'var(--indicators-hover)',
+      indicatorsActive: 'var(--indicators-active)',
+      elevation: {
+        1: 'var(--elevation-1)',
+      },
+      universal: {
+        25: 'var(--universal-25)',
+      },
+      secondary: {
+        35: 'var(--secondary-35)',
+        75: 'var(--secondary-75)',
+      },
+      focus: 'var(--figma-color-border-selected)',
+    },
     extend: {
       keyframes: {
         'lurkers-blink': {
@@ -72,21 +90,6 @@ module.exports = {
       },
       borderWidth: {
         0.5: '0.5px',
-      },
-      colors: {
-        indicatorsHover: 'var(--indicators-hover)',
-        indicatorsActive: 'var(--indicators-active)',
-        elevation: {
-          1: 'var(--elevation-1)',
-        },
-        universal: {
-          25: 'var(--universal-25)',
-        },
-        secondary: {
-          35: 'var(--secondary-35)',
-          75: 'var(--secondary-75)',
-        },
-        focus: 'var(--figma-color-border-selected)',
       },
     },
   },
