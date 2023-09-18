@@ -72,8 +72,16 @@ const buildNodePair = (
 
   if (fgFill == null || bgFill == null) return null;
 
+  const apca = calculateApcaScore(
+    fgFill,
+    bgFill,
+    figma.root.documentColorProfile
+  );
+
+  if (apca == null) return null;
+
   return {
-    apca: calculateApcaScore(fgFill, bgFill),
+    apca,
     bgNode: bgFigmaNode,
     selectedNode: fgFigmaNode,
   };

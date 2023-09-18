@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@figma/plugin-typings':
-    specifier: ^1.70.0
-    version: 1.70.0
+    specifier: ^1.77.0
+    version: 1.77.0
   '@floating-ui/react':
     specifier: ^0.25.2
     version: 0.25.2(react-dom@18.2.0)(react@18.2.0)
@@ -1239,10 +1239,10 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
-  /@figma/plugin-typings@1.70.0:
+  /@figma/plugin-typings@1.77.0:
     resolution:
       {
-        integrity: sha512-dN/ehVt40WDSjuf6+vICw1Btq8yKNvKSo5xl1qk8jfRaOdaN88QOYgODEVUGp9gSzlyUEhUKng0YMKg/doBpEg==,
+        integrity: sha512-mSm+/jpmSJpG8jXEctzkiCVdn6IPoMjxuy8oDWmmSLpYtRIKfTjN01shtyrMAHDLY4klVa9F36f+QC0bsavoow==,
       }
     dev: false
 

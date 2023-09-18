@@ -8,7 +8,21 @@ export const convertDecimalRGBto255Scale = (color: {
   b: number;
   g: number;
   r: number;
-}): number[] => Object.values(color).map((value) => Math.round(value * 255));
+}): [r: number, g: number, b: number] => [
+  Math.round(color.r * 255),
+  Math.round(color.g * 255),
+  Math.round(color.b * 255),
+];
+
+export const convert255ScaleRGBtoDecimal = (color: {
+  b: number;
+  g: number;
+  r: number;
+}): [r: number, g: number, b: number] => [
+  color.r / 255,
+  color.g / 255,
+  color.b / 255,
+];
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {
   return `${toPercent(oklch.l)} ${clean(oklch.c)} ${clean(oklch.h ?? 0, 1)}`;
