@@ -11,11 +11,7 @@ export const convertDecimalRGBto255Scale = (color: {
 }): number[] => Object.values(color).map((value) => Math.round(value * 255));
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {
-  const lValue = Math.round(oklch.l * 100);
-  const cValue = oklch.c === 0 ? 0 : oklch.c.toFixed(2);
-  const hValue = oklch.h === 0 ? 0 : (oklch.h ?? 0).toFixed(1);
-
-  return `${lValue}% ${cValue} ${hValue}`;
+  return `${toPercent(oklch.l)} ${clean(oklch.c)} ${clean(oklch.h ?? 0, 1)}`;
 };
 
 export const formatForRgbDisplay = (oklch: Oklch): string => {
@@ -39,7 +35,7 @@ export const clean = (value: number, precision = 2): number =>
   Math.round(parseFloat((value * 10 ** precision).toFixed(precision))) /
   10 ** precision;
 
-export const toPercent = (value: number): string => `${clean(100 * value)}%`;
+export const toPercent = (value: number): string => `${clean(100 * value, 0)}%`;
 
 export const formatForOklchCSS = (color: Oklch): string => {
   const { alpha, c, h, l } = color;
@@ -47,7 +43,7 @@ export const formatForOklchCSS = (color: Oklch): string => {
   if (typeof alpha !== 'undefined' && alpha < 1) {
     postfix = ` / ${toPercent(alpha)}`;
   }
-  return `oklch(${toPercent(l)} ${clean(c)} ${clean(h ?? 0)}${postfix})`;
+  return `oklch(${toPercent(l)} ${clean(c, 3)} ${clean(h ?? 0, 1)}${postfix})`;
 };
 
 export const getFormatterForCSS = (

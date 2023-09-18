@@ -57,7 +57,7 @@ describe('color formatters', () => {
   describe('formatForOklchDisplay', () => {
     test('formats oklch values correctly', () => {
       const color: Oklch = { c: 0.4, h: 0.3, l: 0.5, mode: 'oklch' };
-      expect(formatForOklchDisplay(color)).toBe('50% 0.40 0.3');
+      expect(formatForOklchDisplay(color)).toBe('50% 0.4 0.3');
     });
 
     test('handles zero values in c and h', () => {
@@ -67,7 +67,7 @@ describe('color formatters', () => {
 
     test('handles undefined h values', () => {
       const color: Oklch = { c: 0.5, l: 0.7, mode: 'oklch' };
-      expect(formatForOklchDisplay(color)).toBe('70% 0.50 0.0');
+      expect(formatForOklchDisplay(color)).toBe('70% 0.5 0');
     });
   });
 });

@@ -20,7 +20,7 @@ export const ColorPreview = ({
           borderWidth: '0.5px',
         }),
       }}
-      className={`mr-2 h-4 w-4 rounded`}
+      className={`mr-2 h-4 w-4 shrink-0 grow rounded`}
     />
   );
 };
