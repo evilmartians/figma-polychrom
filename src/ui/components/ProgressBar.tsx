@@ -11,8 +11,10 @@ interface Props {
   secondaryColor: string;
 }
 
+const SCALE = 2;
 const APCA_NEGATIVE_MAX_SCALE = 108;
 const APCA_POSITIVE_MAX_SCALE = 106;
+const SERIF_OFFSET = 2;
 
 export const ProgressBar = ({
   apca,
@@ -22,8 +24,8 @@ export const ProgressBar = ({
   secondaryColor,
 }: Props): ReactElement => {
   const maxScale = apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE;
-  const barWidth = maxScale * 2;
-  const filledSegmentWidth = Math.abs(apca) * 2;
+  const barWidth = maxScale * SCALE;
+  const filledSegmentWidth = Math.abs(apca) * SCALE;
   const [, ...conclusionScores] = Object.values(conclusions).reverse();
 
   return (
@@ -70,7 +72,7 @@ export const ProgressBar = ({
 
               if (!notEmpty(value)) return null;
 
-              const position = value * 2;
+              const position = value * SCALE - SERIF_OFFSET;
 
               return (
                 <span
