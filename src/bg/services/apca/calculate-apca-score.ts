@@ -22,22 +22,19 @@ export const calculateApcaScore = (
       true
     );
 
-    return Math.round(
-      Number(
-        APCAcontrast(
-          displayP3toY(
-            hasAlpha
-              ? convert255ScaleRGBtoDecimal({
-                  b: blendedForeground[2],
-                  g: blendedForeground[1],
-                  r: blendedForeground[0],
-                })
-              : [fg.color.r, fg.color.g, fg.color.b]
-          ),
-          displayP3toY([bg.color.r, bg.color.g, bg.color.b])
-        )
-      )
+    const foregroundY = displayP3toY(
+      hasAlpha
+        ? convert255ScaleRGBtoDecimal({
+            b: blendedForeground[2],
+            g: blendedForeground[1],
+            r: blendedForeground[0],
+          })
+        : [fg.color.r, fg.color.g, fg.color.b]
     );
+    const backgroundY = displayP3toY([bg.color.r, bg.color.g, bg.color.b]);
+    const contrast = APCAcontrast(foregroundY, backgroundY);
+
+    return Math.round(Number(contrast));
   } else {
     const foreground = hasAlpha
       ? alphaBlend([...fgDecimalRgb, fg.opacity ?? 1], bgDecimalRgb, true)
