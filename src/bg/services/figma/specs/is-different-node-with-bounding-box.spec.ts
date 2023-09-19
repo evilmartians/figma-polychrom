@@ -1,6 +1,5 @@
+import { isDifferentNodeWithBoundingBox } from '~bg/services/figma/is-different-node-with-bounding-box.ts';
 import { describe, expect, test } from 'vitest';
-
-import { isDifferentNodeWithBoundingBox } from '../is-different-node-with-bounding-box.ts';
 
 describe('isDifferentNodeWithBoundingBox', () => {
   test('should return true if node has a different ID and an absoluteBoundingBox', () => {

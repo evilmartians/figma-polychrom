@@ -1,6 +1,5 @@
+import { nodeHasFills } from '~bg/services/figma/node-has-fills.ts';
 import { describe, expect, test } from 'vitest';
-
-import { nodeHasFills } from '../node-has-fills.ts';
 
 describe('nodeHasFills', () => {
   test('should return false if node has no fills', () => {

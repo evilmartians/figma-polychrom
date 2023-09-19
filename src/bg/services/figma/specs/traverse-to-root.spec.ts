@@ -1,6 +1,5 @@
+import { traverseToRoot } from '~bg/services/figma/traverse-to-root.ts';
 import { describe, expect, test } from 'vitest';
-
-import { traverseToRoot } from '../traverse-to-root.ts';
 
 describe('traverseToRoot', () => {
   test('should return an array with only the node if it has no parent', () => {

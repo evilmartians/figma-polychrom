@@ -1,4 +1,4 @@
-import { notEmpty } from '../not-empty.ts';
+import { notEmpty } from '~utils/not-empty.ts';
 
 export const hasBoundingBox = (
   node: SceneNode

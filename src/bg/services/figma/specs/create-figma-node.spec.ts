@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { createFigmaNode } from './create-figma-node.ts';
+import { createFigmaNode } from '../create-figma-node.ts';
 
 describe('createFigmaNode', () => {
   test('should handle nodes with no fills', () => {

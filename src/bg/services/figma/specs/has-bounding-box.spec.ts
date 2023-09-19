@@ -1,6 +1,5 @@
+import { hasBoundingBox } from '~bg/services/figma/has-bounding-box.ts';
 import { describe, expect, test } from 'vitest';
-
-import { hasBoundingBox } from '../has-bounding-box.ts';
 
 describe('hasBoundingBox', () => {
   test('should return true if node has absoluteBoundingBox and its value is not empty', () => {

@@ -1,6 +1,5 @@
+import { getSiblingsBefore } from '~bg/services/figma/get-siblings-before.ts';
 import { describe, expect, test } from 'vitest';
-
-import { getSiblingsBefore } from '../get-siblings-before.ts';
 
 describe('getSiblingsBefore', () => {
   test('returns all nodes before the target node', () => {

@@ -1,6 +1,6 @@
-import { getSiblingsBefore } from '~utils/figma/get-siblings-before.ts';
-import { nodeHasFills } from '~utils/figma/node-has-fills.ts';
-import { traverseToRoot } from '~utils/figma/traverse-to-root.ts';
+import { getSiblingsBefore } from '~bg/services/figma/get-siblings-before.ts';
+import { nodeHasFills } from '~bg/services/figma/node-has-fills.ts';
+import { traverseToRoot } from '~bg/services/figma/traverse-to-root.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
 import { isNodeIntersecting } from './is-node-intersecting.ts';

@@ -1,4 +1,4 @@
-import { hasBoundingBox } from './has-bounding-box';
+import { hasBoundingBox } from './has-bounding-box.ts';
 
 export const isDifferentNodeWithBoundingBox = (
   node: SceneNode,

@@ -1,6 +1,5 @@
+import { isContainedIn } from '~bg/services/figma/is-contained-in.ts';
 import { describe, expect, test } from 'vitest';
-
-import { isContainedIn } from '../is-contained-in.ts';
 
 describe('isContainedIn', () => {
   test('should return true for identical rectangles', () => {

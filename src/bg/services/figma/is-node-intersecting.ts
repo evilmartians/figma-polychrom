@@ -1,6 +1,6 @@
-import { hasBoundingBox } from '~utils/figma/has-bounding-box.ts';
-import { isContainedIn } from '~utils/figma/is-contained-in.ts';
-import { isDifferentNodeWithBoundingBox } from '~utils/figma/is-different-node-with-bounding-box.ts';
+import { hasBoundingBox } from '~bg/services/figma/has-bounding-box.ts';
+import { isContainedIn } from '~bg/services/figma/is-contained-in.ts';
+import { isDifferentNodeWithBoundingBox } from '~bg/services/figma/is-different-node-with-bounding-box.ts';
 
 export const isNodeIntersecting = (
   node: SceneNode,

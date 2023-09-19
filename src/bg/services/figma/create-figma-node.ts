@@ -1,5 +1,5 @@
+import { getNodeFills } from '~bg/services/figma/get-node-fills.ts';
 import { type FigmaNode } from '~types/figma.ts';
-import { getNodeFills } from '~utils/figma/get-node-fills.ts';
 import { converter } from 'culori';
 import { formatHex } from 'culori/fn';
 
