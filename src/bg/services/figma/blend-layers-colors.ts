@@ -1,7 +1,5 @@
-import {
-  isLayerHasTransparency,
-  isLayerInvisible,
-} from '~bg/services/figma/is-layer-has-transparency.ts';
+import { isLayerHasTransparency } from '~bg/services/figma/is-layer-has-transparency.ts';
+import { isLayerInvisible } from '~bg/services/figma/is-layer-invisible.ts';
 import { type FigmaNode } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import { blend } from 'culori';

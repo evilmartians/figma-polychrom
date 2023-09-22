@@ -2,7 +2,7 @@ import { hasBoundingBox } from '~bg/services/figma/has-bounding-box.ts';
 import { isContainedIn } from '~bg/services/figma/is-contained-in.ts';
 import { isDifferentNodeWithBoundingBox } from '~bg/services/figma/is-different-node-with-bounding-box.ts';
 
-export const isNodeIntersecting = (
+export const areNodesIntersecting = (
   node: SceneNode,
   selectedNode: SceneNode
 ): boolean => {

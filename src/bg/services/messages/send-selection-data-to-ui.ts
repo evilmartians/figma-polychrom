@@ -1,5 +1,6 @@
 import { blendLayersColors } from '~bg/services/figma/blend-layers-colors.ts';
 import { isLayerHasTransparency } from '~bg/services/figma/is-layer-has-transparency.ts';
+import { sortNodesByLayers } from '~bg/services/figma/sort-nodes-by-layers.ts';
 import { type FigmaPaint } from '~types/figma.ts';
 import {
   type MessagePayload,
@@ -14,10 +15,7 @@ import { formatHex } from 'culori/fn';
 
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 import { createFigmaNode } from '../figma/create-figma-node.ts';
-import {
-  sortNodesByLayers,
-  traverseAndCheckIntersections,
-} from '../figma/find-closest-proper-node.ts';
+import { traverseAndCheckIntersections } from '../figma/traverse-and-check-intersections.ts';
 
 interface ColorPair {
   apca: number;
