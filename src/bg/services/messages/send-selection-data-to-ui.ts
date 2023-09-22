@@ -1,4 +1,6 @@
-import { type FigmaNode } from '~types/figma.ts';
+import { blendLayersColors } from '~bg/services/figma/blend-layers-colors.ts';
+import { isLayerHasTransparency } from '~bg/services/figma/is-layer-has-transparency.ts';
+import { type FigmaPaint } from '~types/figma.ts';
 import {
   type MessagePayload,
   MessageTypes,
@@ -7,16 +9,24 @@ import {
 import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 import { hasLength, type HasLength } from '~utils/has-length.ts';
 import { notEmpty } from '~utils/not-empty.ts';
+import { converter } from 'culori';
+import { formatHex } from 'culori/fn';
 
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 import { createFigmaNode } from '../figma/create-figma-node.ts';
-import { findClosestProperNode } from '../figma/find-closest-proper-node.ts';
+import {
+  sortNodesByLayers,
+  traverseAndCheckIntersections,
+} from '../figma/find-closest-proper-node.ts';
 
-interface NodePair {
+interface ColorPair {
   apca: number;
-  bgNode: FigmaNode;
-  selectedNode: FigmaNode;
+  bg: FigmaPaint;
+  fg: FigmaPaint;
+  id: string;
 }
+
+const convertToOklch = converter('oklch');
 
 export const sendSelectionDataToUI = (): void => {
   let currentSelection: readonly SceneNode[] = [];
@@ -50,9 +60,19 @@ const buildPairSelectionPayload = (
 ): SelectionChangeMessage => {
   const [fg, bg] = selection;
 
-  const nodePairPayload = buildNodePair(fg, bg);
+  const fgFigmaNode = createFigmaNode(fg);
+  const bgFigmaNode = createFigmaNode(bg);
 
-  return nodePairPayload != null
+  const fgFill = getActualNodeFill(fgFigmaNode.fills);
+  const bgFill = getActualNodeFill(bgFigmaNode.fills);
+
+  if (!notEmpty(fgFill) || !notEmpty(bgFill)) {
+    return buildEmptyPayload();
+  }
+
+  const nodePairPayload = buildColorsPair(fg.id, fgFill, bgFill);
+
+  return notEmpty(nodePairPayload)
     ? {
         selectedNodePairs: [nodePairPayload],
         selectedNodes: selection,
@@ -60,43 +80,85 @@ const buildPairSelectionPayload = (
     : buildEmptyPayload();
 };
 
-const buildNodePair = (
-  fgNode: SceneNode,
-  bgNode: PageNode | SceneNode
-): NodePair | null => {
-  const fgFigmaNode = createFigmaNode(fgNode);
-  const bgFigmaNode = createFigmaNode(bgNode);
-
-  const fgFill = getActualNodeFill(fgFigmaNode.fills);
-  const bgFill = getActualNodeFill(bgFigmaNode.fills);
-
-  if (fgFill == null || bgFill == null) return null;
-
+const buildColorsPair = (
+  id: string,
+  fgFill: FigmaPaint,
+  bgFill: FigmaPaint
+): ColorPair | null => {
   const apca = calculateApcaScore(
     fgFill,
     bgFill,
     figma.root.documentColorProfile
   );
 
-  if (apca == null) return null;
-
   return {
     apca,
-    bgNode: bgFigmaNode,
-    selectedNode: fgFigmaNode,
+    bg: bgFill,
+    fg: fgFill,
+    id,
   };
 };
 
 const buildGeneralSelectionPayload = (
   selection: readonly SceneNode[]
 ): SelectionChangeMessage => {
+  const pageNode = createFigmaNode(figma.currentPage);
+
   const selectedNodePairs = selection
     .map((node) => {
-      const bgNode = findClosestProperNode(node);
+      const intersectingNodes = traverseAndCheckIntersections(
+        Array.from(figma.currentPage.children),
+        node
+      );
+      const intersectingFigmaNodes = intersectingNodes.map(createFigmaNode);
+      const sortedIntersectingNodes = sortNodesByLayers(intersectingFigmaNodes);
+      const intersectingNodesWithPageNode = [
+        ...sortedIntersectingNodes,
+        pageNode,
+      ];
 
-      if (notEmpty(bgNode)) return buildNodePair(node, bgNode);
+      if (intersectingNodesWithPageNode.length === 0) return null;
 
-      return null;
+      const [firstIntersectingNode] = intersectingNodesWithPageNode;
+
+      if (!notEmpty(firstIntersectingNode)) return null;
+
+      const isFirstParentTransparent = isLayerHasTransparency(
+        firstIntersectingNode
+      );
+
+      if (isFirstParentTransparent) {
+        const blendedBgColor = blendLayersColors(intersectingNodesWithPageNode);
+        const fgFigmaNode = createFigmaNode(node);
+        const actualNodeColor = getActualNodeFill(fgFigmaNode.fills);
+
+        if (!notEmpty(actualNodeColor)) return null;
+
+        if (notEmpty(blendedBgColor)) {
+          const newSolidPaint = figma.util.solidPaint(blendedBgColor);
+          const newFigmaPaint: FigmaPaint = {
+            ...newSolidPaint,
+            hex: formatHex({ ...newSolidPaint.color, mode: 'rgb' }),
+            oklch: convertToOklch(
+              { ...newSolidPaint.color, mode: 'rgb' },
+              'oklch'
+            ),
+          };
+
+          return buildColorsPair(node.id, actualNodeColor, newFigmaPaint);
+        }
+
+        return null;
+      } else {
+        const fgFigmaNode = createFigmaNode(node);
+
+        const fgFill = getActualNodeFill(fgFigmaNode.fills);
+        const bgFill = getActualNodeFill(firstIntersectingNode.fills);
+
+        if (!notEmpty(fgFill) || !notEmpty(bgFill)) return null;
+
+        return buildColorsPair(node.id, fgFill, bgFill);
+      }
     })
     .filter(notEmpty);
 

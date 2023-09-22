@@ -1,39 +1,34 @@
-import { getSiblingsBefore } from '~bg/services/figma/get-siblings-before.ts';
-import { nodeHasFills } from '~bg/services/figma/node-has-fills.ts';
-import { traverseToRoot } from '~bg/services/figma/traverse-to-root.ts';
-import { notEmpty } from '~utils/not-empty.ts';
+import { type FigmaNode } from '~types/figma.ts';
 
 import { isNodeIntersecting } from './is-node-intersecting.ts';
 
-const getLastIntersectingNode = (nodes: SceneNode[]): SceneNode | undefined => {
-  return nodes.length > 0 ? nodes.pop() : undefined;
-};
+export const sortNodesByLayers = (nodes: FigmaNode[]): FigmaNode[] =>
+  nodes.sort((a, b) => {
+    const levelDifference = b.nestingLevel - a.nestingLevel;
+    const zIndexDifference = Math.abs(b.zIndex ?? 0) - Math.abs(a.zIndex ?? 0);
 
-export const findClosestProperNode = (
-  selectedNode: SceneNode
-): PageNode | SceneNode | undefined => {
-  const siblings = getSiblingsBefore(
-    selectedNode,
-    selectedNode.parent?.children ?? []
-  );
-  const potentialIntersectingNodes = siblings.filter(
-    (node) => isNodeIntersecting(node, selectedNode) && nodeHasFills(node)
-  );
+    return levelDifference !== 0 ? levelDifference : zIndexDifference;
+  });
 
-  const intersectingSibling = getLastIntersectingNode(
-    potentialIntersectingNodes
-  );
+// will return all nodes that are intersecting with selected node starting from depth a.k.a. neighboring nodes to the root a.k.a. PageNode
+export const traverseAndCheckIntersections = (
+  nodes: SceneNode[],
+  selectedNode: SceneNode,
+  accumulator: SceneNode[] = []
+): SceneNode[] => {
+  nodes.forEach((node) => {
+    if (isNodeIntersecting(node, selectedNode)) {
+      accumulator.push(node);
 
-  if (notEmpty(intersectingSibling)) return intersectingSibling;
+      if ('children' in node && node.children.length > 0) {
+        traverseAndCheckIntersections(
+          Array.from(node.children),
+          selectedNode,
+          accumulator
+        );
+      }
+    }
+  });
 
-  const parents = traverseToRoot(selectedNode);
-  const potentialIntersectingParents = parents.filter(
-    (node) => isNodeIntersecting(node, selectedNode) && nodeHasFills(node)
-  );
-
-  if (potentialIntersectingParents.length > 0) {
-    return getLastIntersectingNode(potentialIntersectingParents);
-  } else {
-    return figma.currentPage;
-  }
+  return accumulator;
 };

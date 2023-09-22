@@ -1,7 +1,8 @@
-import { type FigmaNode } from './figma.ts';
+import { type FigmaPaint } from './figma.ts';
 
 export interface SelectedNodes {
   apca: null | number;
-  bgNode: FigmaNode;
-  selectedNode: FigmaNode;
+  bg: FigmaPaint;
+  fg: FigmaPaint;
+  id: string;
 }

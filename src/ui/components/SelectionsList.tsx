@@ -19,7 +19,7 @@ export const SelectionsList = (): ReactElement => {
             'flex w-full items-center justify-center',
             isMultiSelection && index !== 0 ? '-mt-6' : ''
           )}
-          key={pair.selectedNode.id}
+          key={pair.id}
         >
           <Selection
             isLast={index === userSelection.selectedNodePairs.length - 1}

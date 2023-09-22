@@ -1,5 +1,4 @@
 import { type SelectedNodes } from '~types/selection.ts';
-import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
@@ -24,20 +23,17 @@ interface Props {
 export const Selection = ({
   isLast,
   size,
-  userSelection: { apca, bgNode, selectedNode },
+  userSelection: { apca, bg, fg },
 }: Props): ReactElement => {
   if (!notEmpty(apca)) {
     return <CantCalculateMessage />;
   }
 
-  const bgNodeFill = getActualNodeFill(bgNode.fills);
-  const selectedNodeFill = getActualNodeFill(selectedNode.fills);
-
-  if (!notEmpty(bgNodeFill) || !notEmpty(selectedNodeFill)) {
+  if (!notEmpty(bg) || !notEmpty(fg)) {
     return <CantCalculateMessage />;
   }
 
-  const uiColors = generateUIColors(selectedNodeFill, bgNodeFill);
+  const uiColors = generateUIColors(fg, bg);
 
   if (!notEmpty(uiColors)) {
     return <CantCalculateMessage />;
@@ -63,10 +59,10 @@ export const Selection = ({
 
       <SelectionContent
         apca={apca}
-        bgNodeFill={bgNodeFill}
+        bgNodeFill={bg}
         id={id}
         isLast={isLast}
-        selectedNodeFill={selectedNodeFill}
+        selectedNodeFill={fg}
         size={size}
         uiColors={uiColors}
       />

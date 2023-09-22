@@ -4,13 +4,25 @@ import { createFigmaNode } from '../create-figma-node.ts';
 
 describe('createFigmaNode', () => {
   test('should handle nodes with no fills', () => {
-    const node = { fills: [], id: '123' } as unknown as SceneNode;
+    const node = {
+      fills: [],
+      id: '123',
+      name: 'some-name',
+      opacity: 1,
+      visible: true,
+    } as unknown as SceneNode;
 
     const result = createFigmaNode(node);
 
     expect(result).toEqual({
       fills: [],
       id: '123',
+      name: 'some-name',
+      nestingLevel: 0,
+      opacity: 1,
+      parents: [],
+      visible: true,
+      zIndex: undefined,
     });
   });
 

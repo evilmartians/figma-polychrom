@@ -5,6 +5,21 @@ import { formatHex } from 'culori/fn';
 
 const convertToOklch = converter('oklch');
 
+const collectParents = (
+  node: PageNode | SceneNode,
+  parents: SceneNode[] = []
+): SceneNode[] => {
+  if (node.parent != null) {
+    if (node.parent.type === 'PAGE' || node.parent.type === 'DOCUMENT')
+      return parents;
+
+    parents.push(node.parent);
+
+    collectParents(node.parent, parents);
+  }
+  return parents;
+};
+
 export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
   const fills = getNodeFills(node);
   const solidFills = fills.filter(
@@ -20,5 +35,13 @@ export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
       };
     }),
     id: node.id,
+    name: node.name,
+    nestingLevel: collectParents(node).length,
+    opacity: 'opacity' in node ? node.opacity : 1,
+    parents: collectParents(node),
+    visible: 'visible' in node ? node.visible : true,
+    zIndex: node.parent?.children.findIndex((child) => {
+      return child.id === node.id;
+    }),
   };
 };
