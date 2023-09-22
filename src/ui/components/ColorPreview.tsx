@@ -4,16 +4,19 @@ import { type ReactElement } from 'react';
 interface Props {
   borderColor?: string;
   indicatorColor: string;
+  indicatorOpacity?: number;
 }
 
 export const ColorPreview = ({
   borderColor,
   indicatorColor,
+  indicatorOpacity,
 }: Props): ReactElement => {
   return (
     <div
       style={{
         backgroundColor: indicatorColor,
+        opacity: indicatorOpacity,
         ...(notEmpty(borderColor) && {
           borderColor,
           borderStyle: 'solid',

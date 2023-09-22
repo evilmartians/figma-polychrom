@@ -61,6 +61,7 @@ export const SelectionContent = ({
             backgroundColor={bgNodeFill.hex}
             borderColor={uiColors.theme.border?.hex}
             color={selectedNodeFill.hex}
+            opacity={selectedNodeFill.opacity}
             size={size}
           />
         </div>

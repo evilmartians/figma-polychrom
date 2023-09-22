@@ -59,6 +59,7 @@ export const ColorIndicator = ({
             <ColorPreview
               borderColor={borderColor}
               indicatorColor={indicatorColor}
+              indicatorOpacity={fill.opacity}
             />
             <span style={{ color }}>{displayValue}</span>
           </div>

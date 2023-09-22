@@ -5,6 +5,7 @@ interface Props {
   backgroundColor: string;
   borderColor?: string;
   color: string;
+  opacity?: number;
   size: 'large' | 'small';
 }
 
@@ -14,6 +15,7 @@ export const ContrastSample = ({
   backgroundColor,
   borderColor,
   color,
+  opacity,
   size,
 }: Props): ReactElement => {
   return (
@@ -29,7 +31,13 @@ export const ContrastSample = ({
         color,
       }}
     >
-      {exampleText}
+      <span
+        style={{
+          opacity,
+        }}
+      >
+        {exampleText}
+      </span>
     </p>
   );
 };
