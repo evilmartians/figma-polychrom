@@ -34,7 +34,8 @@ export const ColorIndicator = ({
   const displayValue = formatColorForDisplay(fill.oklch);
 
   const formatColorForCSS = getFormatterForCSS(colorSpaceDisplayMode);
-  const cssValue = formatColorForCSS(fill.oklch);
+  console.log(fill.oklch, fill.opacity);
+  const cssValue = formatColorForCSS(fill.oklch, fill.opacity);
 
   const [isCopied, setCopied] = useClipboard(cssValue, {
     successDuration: 2000,

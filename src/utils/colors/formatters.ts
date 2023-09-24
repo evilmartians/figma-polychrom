@@ -1,4 +1,5 @@
-import { formatHex, formatRgb, modeRgb, type Oklch, useMode } from 'culori/fn';
+import { notEmpty } from '~utils/not-empty.ts';
+import { formatHex, formatHex8, modeRgb, type Oklch, useMode } from 'culori/fn';
 
 import { type ColorSpaceDisplayModes } from '../../constants.ts';
 
@@ -25,7 +26,10 @@ export const convert255ScaleRGBtoDecimal = (color: {
 ];
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {
-  return `${toPercent(oklch.l)} ${clean(oklch.c)} ${clean(oklch.h ?? 0, 1)}`;
+  return `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(
+    oklch.h ?? 0,
+    1
+  )}`;
 };
 
 export const formatForRgbDisplay = (oklch: Oklch): string => {
@@ -45,28 +49,62 @@ export const getFormatterForDisplaying = (
   return formatters[colorSpaceDisplayMode];
 };
 
-export const clean = (value: number, precision = 2): number =>
+export const clearValue = (value: number, precision = 2): number =>
   Math.round(parseFloat((value * 10 ** precision).toFixed(precision))) /
   10 ** precision;
 
-export const toPercent = (value: number): string => `${clean(100 * value, 0)}%`;
+export const toPercent = (value: number): string =>
+  `${clearValue(100 * value, 0)}%`;
 
-export const formatForOklchCSS = (color: Oklch): string => {
-  const { alpha, c, h, l } = color;
+export const formatForOklchCSS = (color: Oklch, opacity?: number): string => {
+  const { c, h, l } = color;
   let postfix = '';
-  if (typeof alpha !== 'undefined' && alpha < 1) {
-    postfix = ` / ${toPercent(alpha)}`;
+
+  if (notEmpty(opacity) && opacity < 1) {
+    postfix = ` / ${toPercent(opacity)}`;
   }
-  return `oklch(${toPercent(l)} ${clean(c, 3)} ${clean(h ?? 0, 1)}${postfix})`;
+
+  return `oklch(${toPercent(l)} ${clearValue(c, 3)} ${clearValue(
+    h ?? 0,
+    1
+  )}${postfix})`;
+};
+
+export const formatForRGBCSS = (color: Oklch, opacity?: number): string => {
+  const { b, g, r } = convertToRgb(color);
+  const [r255, g255, b255] = convertDecimalRGBto255Scale({ b, g, r });
+  let postfix = '';
+
+  if (notEmpty(opacity) && opacity < 1) {
+    postfix = ` / ${toPercent(opacity)}`;
+  }
+
+  return `rgb(${r255} ${g255} ${b255}${postfix})`;
+};
+
+export const formatForHexCSS = (color: Oklch, opacity?: number): string => {
+  if (notEmpty(opacity) && opacity < 1) {
+    return formatHex8({
+      alpha: opacity,
+      ...color,
+      mode: 'oklch',
+    });
+  }
+
+  return formatHex({
+    alpha: opacity,
+    ...color,
+    mode: 'oklch',
+  });
 };
 
 export const getFormatterForCSS = (
   colorSpaceDisplayMode: ColorSpaceDisplayModes
-): ((oklch: Oklch) => string) => {
+): ((oklch: Oklch, opacity?: number) => string) => {
   const formatters = {
-    HEX: formatHex,
+    HEX: formatForHexCSS,
     OKLCH: formatForOklchCSS,
-    RGB: formatRgb,
+    RGB: formatForRGBCSS,
   };
 
   return formatters[colorSpaceDisplayMode];

@@ -1,11 +1,13 @@
-import { formatHex, formatRgb, type Oklch } from 'culori/fn';
+import { formatHex, type Oklch } from 'culori/fn';
 import { describe, expect, test } from 'vitest';
 
 import { ColorSpaceDisplayModes } from '../../constants.ts';
 import {
   convertDecimalRGBto255Scale,
+  formatForHexCSS,
   formatForOklchCSS,
   formatForOklchDisplay,
+  formatForRGBCSS,
   formatForRgbDisplay,
   getFormatterForCSS,
   getFormatterForDisplaying,
@@ -40,7 +42,7 @@ describe('color formatters', () => {
   describe('getFormatForCSSFunction', () => {
     test('returns correct formatter for HEX mode', () => {
       const result = getFormatterForCSS(ColorSpaceDisplayModes.HEX);
-      expect(result).toEqual(formatHex);
+      expect(result).toEqual(formatForHexCSS);
     });
 
     test('returns correct formatter for OKLCH mode', () => {
@@ -50,7 +52,7 @@ describe('color formatters', () => {
 
     test('returns correct formatter for RGB mode', () => {
       const result = getFormatterForCSS(ColorSpaceDisplayModes.RGB);
-      expect(result).toEqual(formatRgb);
+      expect(result).toEqual(formatForRGBCSS);
     });
   });
 
