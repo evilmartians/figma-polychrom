@@ -26,7 +26,12 @@ declare module 'apcach' {
     alpha?: number
   ): ApcachColor;
 
-  function crTo(bgColor: string, cr: number): ContrastConfig;
+  function crTo(
+    bgColor: string,
+    cr: number,
+    contrastModel?: 'apca' | 'wcag',
+    searchDirection?: 'auto' | 'darker' | 'lighter'
+  ): ContrastConfig;
 
   function crToFg(fgColor: string, cr: number): ContrastConfig;
 
@@ -35,5 +40,7 @@ declare module 'apcach' {
     format: 'figma-p3' | 'hex' | 'oklch' | 'p3' | 'rgb'
   ): string;
 
-  export { apcach, apcachToCss, crTo, crToFg };
+  function maxChroma(l: number): number;
+
+  export { apcach, apcachToCss, crTo, crToFg, maxChroma };
 }

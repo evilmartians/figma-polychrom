@@ -1,7 +1,14 @@
 import { type UIColor } from '~types/common.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import { calcAPCA } from 'apca-w3';
-import { apcach, type ApcachColor, apcachToCss, crTo, crToFg } from 'apcach';
+import {
+  apcach,
+  type ApcachColor,
+  apcachToCss,
+  crTo,
+  crToFg,
+  maxChroma,
+} from 'apcach';
 import { formatCss, type Oklch } from 'culori/fn';
 
 const minLc = 60;
@@ -49,7 +56,7 @@ const transformForegroundColor = (
 
   const apcachLightForeground = apcach(
     crTo(hexBackground, minLc),
-    oklchForeground.c,
+    maxChroma(oklchForeground.c),
     oklchForeground.h ?? 0
   );
 
@@ -66,12 +73,12 @@ const transformBackgroundColor = (
   colorForeground: UIColor,
   colorBackground: UIColor
 ): UIColor => {
-  const { hex: hexForeground } = colorForeground;
+  const { hex: hexForeground, oklch } = colorForeground;
   const { oklch: oklchBackground } = colorBackground;
 
   const apcachDarkBackground = apcach(
     crToFg(hexForeground, minLc),
-    oklchBackground.c,
+    maxChroma(oklch.c),
     oklchBackground.h ?? 0
   );
 
@@ -88,13 +95,13 @@ const getThemeWithBothColorsTransformed = (
   colorForeground: UIColor,
   colorBackground: UIColor
 ): Theme => {
-  const colorTransformedForeground = transformForegroundColor(
+  const colorTransformedBackground = transformBackgroundColor(
     colorForeground,
     colorBackground
   );
-  const colorTransformedBackground = transformBackgroundColor(
-    colorTransformedForeground,
-    colorBackground
+  const colorTransformedForeground = transformForegroundColor(
+    colorForeground,
+    colorTransformedBackground
   );
   const themeLc = Math.round(
     Math.abs(
@@ -174,14 +181,14 @@ const getSecondaryColor = (colorBackground: UIColor): UIColor => {
   const cssStringOklchBackground = formatCss(oklch);
 
   const apcachSecondaryA = apcach(
-    crTo(cssStringOklchBackground, minLc),
-    oklch.c,
+    crTo(cssStringOklchBackground, minLc, 'apca', 'lighter'),
+    maxChroma(oklch.c),
     oklch.h ?? 0
   );
 
   const apcachSecondaryB = apcach(
-    crTo(cssStringOklchBackground, -minLc),
-    oklch.c,
+    crTo(cssStringOklchBackground, minLc, 'apca', 'darker'),
+    maxChroma(oklch.c),
     oklch.h ?? 0
   );
 
@@ -200,6 +207,16 @@ const getSecondaryColor = (colorBackground: UIColor): UIColor => {
     hex: oklchSecondary,
     oklch: apcachToCulori(apcachSecondaryA),
   };
+};
+
+const getThemeWithMaxLc = (themes: Theme[]): Theme | undefined => {
+  const Lcs = themes.map((theme) => {
+    return theme.Lc;
+  });
+
+  const max = Math.max(...Lcs);
+
+  return themes.find((theme) => theme.Lc === max);
 };
 
 export const generateUIColors = (
@@ -237,77 +254,59 @@ export const generateUIColors = (
     };
   }
 
-  if (oklchForeground.l > 0.8) {
-    // Case: very light, close to white, text
-    // This means there’s no room to make the text lighter
-    // so the only way to achieve the target Lc is to darken the BG
-    // const theme = getThemeForDarkBackground(foreground, background)
-    const theme = getThemeWithTransformedBackground(
-      colorForeground,
-      colorBackground
-    );
+  // The new approach is to try to keep the BG the same as long as possible
+  // because its impact into user’s impression is the highest
+
+  const themes = [];
+  // CASE 1: Thus we change the FG first
+  let theme = getThemeWithTransformedForeground(
+    colorForeground,
+    colorBackground
+  );
+
+  if (theme.Lc >= minLc - toleranceLc) {
     return {
-      debug: 'Very light text, BG was darkened',
-      Lc: Math.round(Lc),
-      oklchBackground,
-      oklchForeground,
-      theme,
-    };
-  } else if (oklchBackground.l < 0.3) {
-    // Case: very dark, close to black, background
-    // This means there’s no room to make the background darker
-    // so the only way to achieve the target Lc is to lighten the text (foreground)
-    // const theme = getThemeForLightForeground(foreground, background)
-    const theme = getThemeWithTransformedForeground(
-      colorForeground,
-      colorBackground
-    );
-    return {
-      debug: 'Very dark BG, text was lightened',
+      debug: 'Case 1: transformed text',
       Lc: Math.round(Lc),
       oklchBackground,
       oklchForeground,
       theme,
     };
   } else {
-    // Case: both text and background are in the middle of their lightnesses
-    // The strategy here is to try to transform the BG first
-    // if there’s no enough lightness then to try to transform FG...
+    themes.push(theme);
+  }
 
-    let theme = getThemeWithTransformedBackground(
-      colorForeground,
-      colorBackground
-    );
-    if (theme.Lc >= minLc - toleranceLc) {
-      return {
-        debug: 'Middle 3.1: transformed BG',
-        Lc: Math.round(Lc),
-        oklchBackground,
-        oklchForeground,
-        theme,
-      };
-    }
+  // CASE 2: If the result contrast isn’t good enough, let’s change the BG
+  theme = getThemeWithTransformedBackground(colorForeground, colorBackground);
 
-    theme = getThemeWithTransformedForeground(colorForeground, colorBackground);
-    if (theme.Lc >= minLc - toleranceLc) {
-      return {
-        debug: 'Middle 3.2: transformed text',
-        Lc: Math.round(Lc),
-        oklchBackground,
-        oklchForeground,
-        theme,
-      };
-    }
-
-    // ...If nothing worked it remains to transform both colors
-    theme = getThemeWithBothColorsTransformed(colorForeground, colorBackground);
-
+  if (theme.Lc >= minLc - toleranceLc) {
     return {
-      debug: 'Middle 3.3: both transformed',
+      debug: 'Case 2: transformed BG',
       Lc: Math.round(Lc),
       oklchBackground,
       oklchForeground,
       theme,
     };
+  } else {
+    themes.push(theme);
+  }
+
+  // If nothing worked, it’s time to change both and end there
+  theme = getThemeWithBothColorsTransformed(colorForeground, colorBackground);
+
+  themes.push(theme);
+
+  const themeWithMaxLc = getThemeWithMaxLc(themes);
+
+  if (notEmpty(themeWithMaxLc)) {
+    return {
+      debug: 'Case 3: transformed both',
+      Lc: Math.round(Lc),
+      oklchBackground,
+      oklchForeground,
+      theme: themeWithMaxLc,
+    };
+  } else {
+    return null;
   }
 };
