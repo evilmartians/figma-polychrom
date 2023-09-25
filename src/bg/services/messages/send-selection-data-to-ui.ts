@@ -63,9 +63,16 @@ const buildEmptyPayload = (): SelectionChangeMessage => ({
 const buildPairSelectionPayload = (
   selection: readonly SceneNode[] & HasLength<readonly SceneNode[], 2>
 ): SelectionChangeMessage => {
-  const [fg, bg] = selection;
-  const fgFill = getFillForNode(fg);
-  const bgFill = getFillForNode(bg);
+  const [firstNode, secondNode] = selection;
+  const firstFigmaNode = createFigmaNode(firstNode);
+  const secondFigmaNode = createFigmaNode(secondNode);
+
+  const [fg, bg] = sortNodesByLayers([firstFigmaNode, secondFigmaNode]);
+
+  if (!notEmpty(fg) || !notEmpty(bg)) return buildEmptyPayload();
+
+  const fgFill = getActualNodeFill(fg.fills);
+  const bgFill = getActualNodeFill(bg.fills);
 
   if (!notEmpty(fgFill) || !notEmpty(bgFill)) return buildEmptyPayload();
 
@@ -74,12 +81,6 @@ const buildPairSelectionPayload = (
   return nodePairPayload != null
     ? { selectedNodePairs: [nodePairPayload], selectedNodes: selection }
     : buildEmptyPayload();
-};
-
-const getFillForNode = (node: SceneNode): FigmaPaint | undefined => {
-  const figmaNode = createFigmaNode(node);
-
-  return getActualNodeFill(figmaNode.fills);
 };
 
 const buildColorsPair = (
