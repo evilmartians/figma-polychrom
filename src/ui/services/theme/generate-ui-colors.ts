@@ -30,8 +30,8 @@ interface Theme {
   secondary: UIColor;
 }
 
-const fixHue = (oklchColor: Oklch | undefined): Oklch | undefined => {
-  if (!notEmpty(oklchColor)) return undefined;
+const fixHue = (oklchColor: null | Oklch): null | Oklch => {
+  if (!notEmpty(oklchColor)) return null;
 
   oklchColor.h = notEmpty(oklchColor.h) ? oklchColor.h : 0;
   return oklchColor;
@@ -187,14 +187,16 @@ const getSecondaryColor = (colorBg: UIColor): UIColor => {
   };
 };
 
-const getThemeWithMaxLc = (themes: Theme[]): Theme | undefined => {
+const getThemeWithMaxLc = (themes: Theme[]): null | Theme => {
   const Lcs = themes.map((theme) => {
     return theme.Lc;
   });
 
   const max = Math.max(...Lcs);
 
-  return themes.find((theme) => theme.Lc === max);
+  const theme = themes.find((theme) => theme.Lc === max);
+
+  return notEmpty(theme) ? theme : null;
 };
 
 export const generateUIColors = (

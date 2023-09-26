@@ -1,14 +1,9 @@
+import { blendFills } from '~api/services/figma/blend/blend-fills.ts';
 import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
 import { isLayerInvisible } from '~api/services/figma/visibility/is-layer-invisible.ts';
-import { createFigmaPaint } from '~test-utils/create-figma-paint.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
-import { notEmpty } from '~utils/not-empty.ts';
-import { blend } from 'culori';
-import { type Rgb } from 'culori/fn';
 
-export const blendLayersColors = (
-  layers: FigmaNode[]
-): FigmaPaint | undefined => {
+export const blendLayersColors = (layers: FigmaNode[]): FigmaPaint | null => {
   const layersToBlend = getLayersToBlend(layers);
   const fillsToBlend = getFillsToBlend(layersToBlend);
   return blendFills(fillsToBlend);
@@ -36,30 +31,4 @@ const getFillsToBlend = (layersToBlend: FigmaNode[]): FigmaPaint[] => {
   );
 
   return visibleFills.slice(0, firstNonTransparentFillIndex + 1).reverse();
-};
-
-export const blendFills = (
-  fillsToBlend: FigmaPaint[]
-): FigmaPaint | undefined => {
-  const [firstColor] = fillsToBlend;
-
-  if (notEmpty(firstColor)) {
-    const firstColorPrepared: Rgb = {
-      ...firstColor.color,
-      alpha: firstColor.opacity,
-      mode: 'rgb',
-    };
-
-    const result = fillsToBlend.reduce((acc, fill) => {
-      const fillColorPrepared: Rgb = {
-        ...fill.color,
-        alpha: fill.opacity,
-        mode: 'rgb',
-      };
-
-      return blend([acc, fillColorPrepared], 'normal', 'rgb');
-    }, firstColorPrepared);
-
-    return createFigmaPaint(result);
-  }
 };
