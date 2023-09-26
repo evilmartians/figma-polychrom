@@ -17,15 +17,15 @@ const toleranceLc = 2;
 export interface WidgetProps {
   debug: string;
   Lc: number;
-  oklchBackground: Oklch;
-  oklchForeground: Oklch;
+  oklchBg: Oklch;
+  oklchFg: Oklch;
   theme: Theme;
 }
 
 interface Theme {
-  background: UIColor;
+  bg: UIColor;
   border: null | UIColor;
-  foreground: UIColor;
+  fg: UIColor;
   Lc: number;
   secondary: UIColor;
 }
@@ -47,126 +47,104 @@ const apcachToCulori = (apcachColor: ApcachColor): Oklch => {
   };
 };
 
-const transformForegroundColor = (
-  colorForeground: UIColor,
-  colorBackground: UIColor
-): UIColor => {
-  const { oklch: oklchForeground } = colorForeground;
-  const { hex: hexBackground } = colorBackground;
+const transformFgColor = (colorFg: UIColor, colorBg: UIColor): UIColor => {
+  const { oklch: oklchFg } = colorFg;
+  const { hex: hexBg } = colorBg;
 
-  const apcachLightForeground = apcach(
-    crTo(hexBackground, minLc),
-    maxChroma(oklchForeground.c),
-    oklchForeground.h ?? 0
+  const apcachLightFg = apcach(
+    crTo(hexBg, minLc),
+    maxChroma(oklchFg.c),
+    oklchFg.h ?? 0
   );
 
-  const hexLightForeground = apcachToCss(apcachLightForeground, 'hex');
-  const oklchLightForeground = apcachToCulori(apcachLightForeground);
+  const hexLightFg = apcachToCss(apcachLightFg, 'hex');
+  const oklchLightFg = apcachToCulori(apcachLightFg);
 
   return {
-    hex: hexLightForeground,
-    oklch: oklchLightForeground,
+    hex: hexLightFg,
+    oklch: oklchLightFg,
   };
 };
 
-const transformBackgroundColor = (
-  colorForeground: UIColor,
-  colorBackground: UIColor
-): UIColor => {
-  const { hex: hexForeground, oklch } = colorForeground;
-  const { oklch: oklchBackground } = colorBackground;
+const transformBgColor = (colorFg: UIColor, colorBg: UIColor): UIColor => {
+  const { hex: hexFg, oklch } = colorFg;
+  const { oklch: oklchBg } = colorBg;
 
-  const apcachDarkBackground = apcach(
-    crToFg(hexForeground, minLc),
+  const apcachDarkBg = apcach(
+    crToFg(hexFg, minLc),
     maxChroma(oklch.c),
-    oklchBackground.h ?? 0
+    oklchBg.h ?? 0
   );
 
-  const hexDarkBackground = apcachToCss(apcachDarkBackground, 'hex');
-  const oklchDarkBackground = apcachToCulori(apcachDarkBackground);
+  const hexDarkBg = apcachToCss(apcachDarkBg, 'hex');
+  const oklchDarkBg = apcachToCulori(apcachDarkBg);
 
   return {
-    hex: hexDarkBackground,
-    oklch: oklchDarkBackground,
+    hex: hexDarkBg,
+    oklch: oklchDarkBg,
   };
 };
 
 const getThemeWithBothColorsTransformed = (
-  colorForeground: UIColor,
-  colorBackground: UIColor
+  colorFg: UIColor,
+  colorBg: UIColor
 ): Theme => {
-  const colorTransformedBackground = transformBackgroundColor(
-    colorForeground,
-    colorBackground
-  );
-  const colorTransformedForeground = transformForegroundColor(
-    colorForeground,
-    colorTransformedBackground
-  );
+  const colorTransformedBg = transformBgColor(colorFg, colorBg);
+  const colorTransformedFg = transformFgColor(colorFg, colorTransformedBg);
   const themeLc = Math.round(
-    Math.abs(
-      Number(
-        calcAPCA(colorTransformedForeground.hex, colorTransformedBackground.hex)
-      )
-    )
+    Math.abs(Number(calcAPCA(colorTransformedFg.hex, colorTransformedBg.hex)))
   );
 
-  const secondary = getSecondaryColor(colorTransformedBackground);
+  const secondary = getSecondaryColor(colorTransformedBg);
 
   return {
-    background: colorTransformedBackground,
+    bg: colorTransformedBg,
     border: null,
-    foreground: colorTransformedForeground,
+    fg: colorTransformedFg,
     Lc: themeLc,
     secondary,
   };
 };
 
-const getThemeWithTransformedForeground = (
-  colorForeground: UIColor,
-  colorBackground: UIColor
+const getThemeWithTransformedFg = (
+  colorFg: UIColor,
+  colorBg: UIColor
 ): Theme => {
-  const { hex: hexBackground } = colorBackground;
+  const { hex: hexBg } = colorBg;
 
-  const colorTransformedForeground = transformForegroundColor(
-    colorForeground,
-    colorBackground
-  );
+  const colorTransformedFg = transformFgColor(colorFg, colorBg);
   const themeLc = Math.round(
-    Math.abs(Number(calcAPCA(colorTransformedForeground.hex, hexBackground)))
+    Math.abs(Number(calcAPCA(colorTransformedFg.hex, hexBg)))
   );
 
-  const secondary = getSecondaryColor(colorBackground);
+  const secondary = getSecondaryColor(colorBg);
 
   return {
-    background: colorBackground,
+    bg: colorBg,
     border: secondary,
-    foreground: colorTransformedForeground,
+    fg: colorTransformedFg,
     Lc: themeLc,
     secondary,
   };
 };
 
-const getThemeWithTransformedBackground = (
-  colorForeground: UIColor,
-  colorBackground: UIColor
+const getThemeWithTransformedBg = (
+  colorFg: UIColor,
+  colorBg: UIColor
 ): Theme => {
-  const { hex: hexForeground } = colorForeground;
+  const { hex: hexFg } = colorFg;
 
-  const colorTransformedBackground = transformBackgroundColor(
-    colorForeground,
-    colorBackground
-  );
+  const colorTransformedBg = transformBgColor(colorFg, colorBg);
   const themeLc = Math.round(
-    Math.abs(Number(calcAPCA(hexForeground, colorTransformedBackground.hex)))
+    Math.abs(Number(calcAPCA(hexFg, colorTransformedBg.hex)))
   );
 
-  const secondary = getSecondaryColor(colorTransformedBackground);
+  const secondary = getSecondaryColor(colorTransformedBg);
 
   return {
-    background: colorTransformedBackground,
+    bg: colorTransformedBg,
     border: null,
-    foreground: colorForeground,
+    fg: colorFg,
     Lc: themeLc,
     secondary,
   };
@@ -175,19 +153,19 @@ const getThemeWithTransformedBackground = (
 /*
  * Returns a string with OKLCH color in oklch() CSS format
  */
-const getSecondaryColor = (colorBackground: UIColor): UIColor => {
-  const { hex, oklch } = colorBackground;
+const getSecondaryColor = (colorBg: UIColor): UIColor => {
+  const { hex, oklch } = colorBg;
 
-  const cssStringOklchBackground = formatCss(oklch);
+  const cssStringOklchBg = formatCss(oklch);
 
   const apcachSecondaryA = apcach(
-    crTo(cssStringOklchBackground, minLc, 'apca', 'lighter'),
+    crTo(cssStringOklchBg, minLc, 'apca', 'lighter'),
     maxChroma(oklch.c),
     oklch.h ?? 0
   );
 
   const apcachSecondaryB = apcach(
-    crTo(cssStringOklchBackground, minLc, 'apca', 'darker'),
+    crTo(cssStringOklchBg, minLc, 'apca', 'darker'),
     maxChroma(oklch.c),
     oklch.h ?? 0
   );
@@ -220,21 +198,21 @@ const getThemeWithMaxLc = (themes: Theme[]): Theme | undefined => {
 };
 
 export const generateUIColors = (
-  foreground: UIColor,
-  background: UIColor
+  fg: UIColor,
+  bg: UIColor
 ): null | WidgetProps => {
-  const oklchForeground = fixHue(foreground.oklch);
-  const oklchBackground = fixHue(background.oklch);
+  const oklchFg = fixHue(fg.oklch);
+  const oklchBg = fixHue(bg.oklch);
 
-  if (!notEmpty(oklchForeground) || !notEmpty(oklchBackground)) return null;
+  if (!notEmpty(oklchFg) || !notEmpty(oklchBg)) return null;
 
-  const colorForeground = { hex: foreground.hex, oklch: oklchForeground };
-  const colorBackground = { hex: background.hex, oklch: oklchBackground };
+  const colorFg = { hex: fg.hex, oklch: oklchFg };
+  const colorBg = { hex: bg.hex, oklch: oklchBg };
 
-  const Lc = Math.abs(Number(calcAPCA(foreground.hex, background.hex)));
+  const Lc = Math.abs(Number(calcAPCA(fg.hex, bg.hex)));
   const themeLc = Math.round(Lc);
 
-  const secondary = getSecondaryColor(colorBackground);
+  const secondary = getSecondaryColor(colorBg);
 
   if (Lc > minLc) {
     // Case: the current selection exceeds the minLc
@@ -242,12 +220,12 @@ export const generateUIColors = (
     return {
       debug: 'Selection > minLc',
       Lc: Math.round(Lc),
-      oklchBackground,
-      oklchForeground,
+      oklchBg,
+      oklchFg,
       theme: {
-        background: colorBackground,
+        bg: colorBg,
         border: secondary,
-        foreground: colorForeground,
+        fg: colorFg,
         Lc: themeLc,
         secondary,
       },
@@ -259,17 +237,14 @@ export const generateUIColors = (
 
   const themes = [];
   // CASE 1: Thus we change the FG first
-  let theme = getThemeWithTransformedForeground(
-    colorForeground,
-    colorBackground
-  );
+  let theme = getThemeWithTransformedFg(colorFg, colorBg);
 
   if (theme.Lc >= minLc - toleranceLc) {
     return {
       debug: 'Case 1: transformed text',
       Lc: Math.round(Lc),
-      oklchBackground,
-      oklchForeground,
+      oklchBg,
+      oklchFg,
       theme,
     };
   } else {
@@ -277,14 +252,14 @@ export const generateUIColors = (
   }
 
   // CASE 2: If the result contrast isn’t good enough, let’s change the BG
-  theme = getThemeWithTransformedBackground(colorForeground, colorBackground);
+  theme = getThemeWithTransformedBg(colorFg, colorBg);
 
   if (theme.Lc >= minLc - toleranceLc) {
     return {
       debug: 'Case 2: transformed BG',
       Lc: Math.round(Lc),
-      oklchBackground,
-      oklchForeground,
+      oklchBg,
+      oklchFg,
       theme,
     };
   } else {
@@ -292,7 +267,7 @@ export const generateUIColors = (
   }
 
   // If nothing worked, it’s time to change both and end there
-  theme = getThemeWithBothColorsTransformed(colorForeground, colorBackground);
+  theme = getThemeWithBothColorsTransformed(colorFg, colorBg);
 
   themes.push(theme);
 
@@ -302,8 +277,8 @@ export const generateUIColors = (
     return {
       debug: 'Case 3: transformed both',
       Lc: Math.round(Lc),
-      oklchBackground,
-      oklchForeground,
+      oklchBg,
+      oklchFg,
       theme: themeWithMaxLc,
     };
   } else {

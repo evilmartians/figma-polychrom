@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
 interface Props {
-  backgroundColor: string;
+  bgColor: string;
   borderColor?: string;
   color: string;
   opacity?: number;
@@ -12,7 +12,7 @@ interface Props {
 const exampleText = 'Aa';
 
 export const ContrastSample = ({
-  backgroundColor,
+  bgColor,
   borderColor,
   color,
   opacity,
@@ -26,7 +26,7 @@ export const ContrastSample = ({
         borderColor != null ? 'border-0.5' : null
       )}
       style={{
-        backgroundColor,
+        backgroundColor: bgColor,
         borderColor,
         color,
       }}

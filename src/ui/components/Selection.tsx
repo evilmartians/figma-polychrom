@@ -49,11 +49,11 @@ export const Selection = ({
         size === 'small' && isLast === true && 'px-5 py-3',
         size === 'large' && 'p-5'
       )}
-      style={{ backgroundColor: uiColors.theme.background.hex }}
+      style={{ backgroundColor: uiColors.theme.bg.hex }}
     >
       <SegmentedFontStyleDefinition
         id={id}
-        primaryColor={uiColors.theme.foreground.hex}
+        primaryColor={uiColors.theme.fg.hex}
         secondaryColor={uiColors.theme.secondary.hex}
       />
 

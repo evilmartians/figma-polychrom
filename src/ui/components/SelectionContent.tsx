@@ -38,7 +38,7 @@ export const SelectionContent = ({
       >
         <p
           style={{
-            color: uiColors.theme.foreground.hex,
+            color: uiColors.theme.fg.hex,
           }}
           className="text-xxs"
         >
@@ -46,7 +46,7 @@ export const SelectionContent = ({
         </p>
 
         <div className="flex h-[18px] items-center">
-          <TextMetrics apca={apca} color={uiColors.theme.foreground.hex} />
+          <TextMetrics apca={apca} color={uiColors.theme.fg.hex} />
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export const SelectionContent = ({
       >
         <div className="shrink-0 grow">
           <ContrastSample
-            backgroundColor={bgNodeFill.hex}
+            bgColor={bgNodeFill.hex}
             borderColor={uiColors.theme.border?.hex}
             color={selectedNodeFill.hex}
             opacity={selectedNodeFill.opacity}
@@ -74,7 +74,7 @@ export const SelectionContent = ({
           style={{
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            '--text-shadow-color': `${uiColors.theme.foreground.hex}3D`,
+            '--text-shadow-color': `${uiColors.theme.fg.hex}3D`,
           }}
         >
           <h1 className="text-shadow">{Math.abs(apca)}</h1>
@@ -90,9 +90,9 @@ export const SelectionContent = ({
           >
             <ProgressBar
               apca={apca}
-              bgColor={uiColors.theme.background.hex}
+              bgColor={uiColors.theme.bg.hex}
               height={size === 'small' ? 6 : 8}
-              primaryColor={uiColors.theme.foreground.hex}
+              primaryColor={uiColors.theme.fg.hex}
               secondaryColor={uiColors.theme.secondary.hex}
             />
           </div>
@@ -101,7 +101,7 @@ export const SelectionContent = ({
         {size === 'large' && (
           <div className="flex items-center justify-between text-xxs">
             <ColorIndicator
-              color={uiColors.theme.foreground.hex}
+              color={uiColors.theme.fg.hex}
               fill={selectedNodeFill}
               hoverBgColor={uiColors.theme.secondary.hex}
               indicatorColor={selectedNodeFill.hex}
