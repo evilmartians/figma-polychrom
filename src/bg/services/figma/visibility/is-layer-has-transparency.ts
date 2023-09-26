@@ -1,4 +1,4 @@
-import { nodeHasFills } from '~bg/services/figma/node-has-fills.ts';
+import { nodeHasFills } from '~bg/services/figma/nodes/node-has-fills.ts';
 import { type FigmaNode } from '~types/figma.ts';
 import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 

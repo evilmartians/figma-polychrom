@@ -1,5 +1,5 @@
-import { collectNodeParents } from '~bg/services/figma/collect-node-parents.ts';
-import { getNodeFills } from '~bg/services/figma/get-node-fills.ts';
+import { collectNodeParents } from '~bg/services/figma/nodes/collect-node-parents.ts';
+import { getNodeFills } from '~bg/services/figma/nodes/get-node-fills.ts';
 import { type FigmaNode } from '~types/figma.ts';
 import { converter } from 'culori';
 import { formatHex } from 'culori/fn';

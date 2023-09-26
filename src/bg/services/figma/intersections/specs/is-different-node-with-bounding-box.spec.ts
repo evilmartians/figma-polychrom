@@ -1,4 +1,4 @@
-import { isDifferentNodeWithBoundingBox } from '~bg/services/figma/is-different-node-with-bounding-box.ts';
+import { isDifferentNodeWithBoundingBox } from '~bg/services/figma/intersections/is-different-node-with-bounding-box.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('isDifferentNodeWithBoundingBox', () => {

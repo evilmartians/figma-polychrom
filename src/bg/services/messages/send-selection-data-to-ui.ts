@@ -1,11 +1,11 @@
 import {
   blendFills,
   blendLayersColors,
-} from '~bg/services/figma/blend-layers-colors.ts';
-import { createFigmaNode } from '~bg/services/figma/create-figma-node.ts';
-import { isLayerHasTransparency } from '~bg/services/figma/is-layer-has-transparency.ts';
-import { sortNodesByLayers } from '~bg/services/figma/sort-nodes-by-layers.ts';
-import { traverseAndCheckIntersections } from '~bg/services/figma/traverse-and-check-intersections.ts';
+} from '~bg/services/figma/blend/blend-layers-colors.ts';
+import { traverseAndCheckIntersections } from '~bg/services/figma/intersections/traverse-and-check-intersections.ts';
+import { createFigmaNode } from '~bg/services/figma/nodes/create-figma-node.ts';
+import { sortNodesByLayers } from '~bg/services/figma/nodes/sort-nodes-by-layers.ts';
+import { isLayerHasTransparency } from '~bg/services/figma/visibility/is-layer-has-transparency.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import {
   type MessagePayload,
