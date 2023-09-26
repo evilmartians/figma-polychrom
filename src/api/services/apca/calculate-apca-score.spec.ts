@@ -1,4 +1,4 @@
-import { createFigmaPaint } from '~test-utils/create-figma-paint.ts';
+import { createFigmaPaint } from '~utils/figma/create-figma-paint.ts';
 import { describe, expect, test } from 'vitest';
 
 import { calculateApcaScore } from './calculate-apca-score.ts';

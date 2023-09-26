@@ -1,5 +1,5 @@
-import { createFigmaPaint } from '~test-utils/create-figma-paint.ts';
 import { type FigmaPaint } from '~types/figma.ts';
+import { createFigmaPaint } from '~utils/figma/create-figma-paint.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import { blend } from 'culori';
 import { type Rgb } from 'culori/fn';
