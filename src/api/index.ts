@@ -1,7 +1,8 @@
+import { sendSelectionDataToUi } from '~api/services/messages/send-selection-data-to-ui.ts';
+
 import { type MessagePayload, MessageTypes } from '../types/messages.ts';
-import { ClientStorageKeys } from './constants.ts';
 import { sendSavedColorSpaceDisplayMode } from './services/messages/send-saved-color-space-display-mode.ts';
-import { sendSelectionDataToUI } from './services/messages/send-selection-data-to-ui.ts';
+import { ClientStorageKeys } from './types.ts';
 
 figma.skipInvisibleInstanceChildren = true;
 
@@ -11,14 +12,14 @@ figma.showUI(__html__, {
   width: 328,
 });
 
-figma.on('selectionchange', sendSelectionDataToUI);
-figma.on('run', sendSelectionDataToUI);
-figma.on('documentchange', sendSelectionDataToUI);
+figma.on('selectionchange', sendSelectionDataToUi);
+figma.on('run', sendSelectionDataToUi);
+figma.on('documentchange', sendSelectionDataToUi);
 
 figma.on('close', () => {
-  figma.off('selectionchange', sendSelectionDataToUI);
-  figma.off('run', sendSelectionDataToUI);
-  figma.off('documentchange', sendSelectionDataToUI);
+  figma.off('selectionchange', sendSelectionDataToUi);
+  figma.off('run', sendSelectionDataToUi);
+  figma.off('documentchange', sendSelectionDataToUi);
 });
 
 figma.ui.onmessage = (message: MessagePayload<any>) => {
