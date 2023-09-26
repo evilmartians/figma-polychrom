@@ -4,16 +4,16 @@
   "version": "0.0.1",
   "scripts": {
     "dev:ui": "vite build --watch -c vite.config.ui.ts",
-    "dev:bg": "vite build --watch -c vite.config.bg.ts",
+    "dev:api": "vite build --watch -c vite.config.api.ts",
     "dev": "pnpm run /^dev:/",
     "build:ui": "tsc && vite build -c vite.config.ui.ts",
-    "build:bg": "tsc && vite build -c vite.config.bg.ts",
+    "build:api": "tsc && vite build -c vite.config.api.ts",
     "build": "pnpm run /^build:/",
     "prettier:format": "prettier --write ./",
     "test:lint": "eslint --ext .ts,.tsx ./src --fix",
     "test:types": "tsc --skipLibCheck --noEmit",
     "test:unit:ui": "vitest --watch=false --coverage -c vite.config.ui.ts",
-    "test:unit:bg": "vitest --watch=false --coverage -c vite.config.bg.ts",
+    "test:unit:api": "vitest --watch=false --coverage -c vite.config.api.ts",
     "test": "pnpm run /^test:/"
   },
   "dependencies": {

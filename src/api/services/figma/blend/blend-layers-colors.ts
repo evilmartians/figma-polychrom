@@ -1,5 +1,5 @@
-import { isLayerHasTransparency } from '~bg/services/figma/visibility/is-layer-has-transparency.ts';
-import { isLayerInvisible } from '~bg/services/figma/visibility/is-layer-invisible.ts';
+import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
+import { isLayerInvisible } from '~api/services/figma/visibility/is-layer-invisible.ts';
 import { createFigmaPaint } from '~test-utils/create-figma-paint.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';

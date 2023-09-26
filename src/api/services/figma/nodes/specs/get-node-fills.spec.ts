@@ -1,4 +1,4 @@
-import { getNodeFills } from '~bg/services/figma/nodes/get-node-fills.ts';
+import { getNodeFills } from '~api/services/figma/nodes/get-node-fills.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('getNodeFills', () => {

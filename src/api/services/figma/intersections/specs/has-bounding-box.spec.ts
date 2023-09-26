@@ -1,4 +1,4 @@
-import { hasBoundingBox } from '~bg/services/figma/intersections/has-bounding-box.ts';
+import { hasBoundingBox } from '~api/services/figma/intersections/has-bounding-box.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('hasBoundingBox', () => {

@@ -1,11 +1,3 @@
-import {
-  blendFills,
-  blendLayersColors,
-} from '~bg/services/figma/blend/blend-layers-colors.ts';
-import { traverseAndCheckIntersections } from '~bg/services/figma/intersections/traverse-and-check-intersections.ts';
-import { createFigmaNode } from '~bg/services/figma/nodes/create-figma-node.ts';
-import { sortNodesByLayers } from '~bg/services/figma/nodes/sort-nodes-by-layers.ts';
-import { isLayerHasTransparency } from '~bg/services/figma/visibility/is-layer-has-transparency.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import {
   type MessagePayload,
@@ -16,6 +8,14 @@ import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 import { hasLength, type HasLength } from '~utils/has-length.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
+import {
+  blendFills,
+  blendLayersColors,
+} from '../../services/figma/blend/blend-layers-colors.ts';
+import { traverseAndCheckIntersections } from '../../services/figma/intersections/traverse-and-check-intersections.ts';
+import { createFigmaNode } from '../../services/figma/nodes/create-figma-node.ts';
+import { sortNodesByLayers } from '../../services/figma/nodes/sort-nodes-by-layers.ts';
+import { isLayerHasTransparency } from '../../services/figma/visibility/is-layer-has-transparency.ts';
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 
 interface ColorPair {

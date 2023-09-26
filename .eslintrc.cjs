@@ -39,8 +39,8 @@ module.exports = {
         default: 'disallow',
         rules: [
           {
-            from: 'bg',
-            allow: ['types', 'utils', 'bg'],
+            from: 'api',
+            allow: ['types', 'utils', 'api'],
           },
           {
             from: 'ui',
@@ -56,7 +56,7 @@ module.exports = {
     },
     'import/resolver': {
       alias: [
-        ['~bg', './src/bg'],
+        ['~api', './src/api'],
         ['~ui', './src/ui'],
         ['~utils', './src/utils'],
         ['~types', './src/types'],
@@ -68,8 +68,8 @@ module.exports = {
     },
     'boundaries/elements': [
       {
-        type: 'bg',
-        pattern: 'src/bg/*',
+        type: 'api',
+        pattern: 'src/api/*',
       },
       {
         type: 'ui',

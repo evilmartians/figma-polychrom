@@ -24,7 +24,7 @@
     "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
     "baseUrl": ".",
     "paths": {
-      "~bg/*": ["src/bg/*"],
+      "~api/*": ["src/api/*"],
       "~test-utils/*": ["src/test-utils/*"],
       "~types/*": ["src/types/*"],
       "~utils/*": ["src/utils/*"],

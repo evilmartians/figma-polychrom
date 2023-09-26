@@ -1,4 +1,4 @@
-import { isContainedIn } from '~bg/services/figma/intersections/is-contained-in.ts';
+import { isContainedIn } from '~api/services/figma/intersections/is-contained-in.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('isContainedIn', () => {

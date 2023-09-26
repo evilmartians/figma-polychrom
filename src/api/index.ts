@@ -1,6 +1,5 @@
-import { ClientStorageKeys } from '~bg/constants.ts';
-
 import { type MessagePayload, MessageTypes } from '../types/messages.ts';
+import { ClientStorageKeys } from './constants.ts';
 import { sendSavedColorSpaceDisplayMode } from './services/messages/send-saved-color-space-display-mode.ts';
 import { sendSelectionDataToUI } from './services/messages/send-selection-data-to-ui.ts';
 

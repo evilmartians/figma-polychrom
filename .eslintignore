@@ -2,4 +2,4 @@ dist/
 postcss.config.js
 tailwind.config.js
 vite.config.ui.ts
-vite.config.bg.ts
+vite.config.api.ts
