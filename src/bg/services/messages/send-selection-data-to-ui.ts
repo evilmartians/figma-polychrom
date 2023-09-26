@@ -1,4 +1,7 @@
-import { blendLayersColors } from '~bg/services/figma/blend-layers-colors.ts';
+import {
+  blendFills,
+  blendLayersColors,
+} from '~bg/services/figma/blend-layers-colors.ts';
 import { createFigmaNode } from '~bg/services/figma/create-figma-node.ts';
 import { isLayerHasTransparency } from '~bg/services/figma/is-layer-has-transparency.ts';
 import { sortNodesByLayers } from '~bg/services/figma/sort-nodes-by-layers.ts';
@@ -12,7 +15,6 @@ import {
 import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
 import { hasLength, type HasLength } from '~utils/has-length.ts';
 import { notEmpty } from '~utils/not-empty.ts';
-import { converter, formatHex } from 'culori';
 
 import { calculateApcaScore } from '../apca/calculate-apca-score.ts';
 
@@ -23,10 +25,9 @@ interface ColorPair {
   id: string;
 }
 
-const convertToOklch = converter('oklch');
-
 export const sendSelectionDataToUI = (): void => {
   const currentSelection = getCurrentPageSelection();
+
   const messagePayload = buildMessagePayload(currentSelection);
 
   figma.ui.postMessage({
@@ -71,7 +72,16 @@ const buildPairSelectionPayload = (
 
   if (!notEmpty(fg) || !notEmpty(bg)) return buildEmptyPayload();
 
-  const fgFill = getActualNodeFill(fg.fills);
+  const isFgHasTransparency = isLayerHasTransparency(fg);
+
+  let fgFill;
+
+  if (isFgHasTransparency) {
+    fgFill = blendLayersColors([fg]);
+  } else {
+    fgFill = getActualNodeFill(fg.fills);
+  }
+
   const bgFill = getActualNodeFill(bg.fills);
 
   if (!notEmpty(fgFill) || !notEmpty(bgFill)) return buildEmptyPayload();
@@ -100,10 +110,8 @@ const buildColorsPair = (
 const buildGeneralSelectionPayload = (
   selection: readonly SceneNode[]
 ): SelectionChangeMessage => {
-  const pageNode = createFigmaNode(figma.currentPage);
-
   const selectedNodePairs = selection
-    .map((node) => processNodeForSelection(node, pageNode))
+    .map((node) => processNodeForSelection(node))
     .filter(notEmpty);
 
   return {
@@ -112,11 +120,9 @@ const buildGeneralSelectionPayload = (
   };
 };
 
-const processNodeForSelection = (
-  node: SceneNode,
-  pageNode: FigmaNode
-): ColorPair | null => {
-  const intersectingNodes = getIntersectingNodesWithPage(node, pageNode);
+const processNodeForSelection = (node: SceneNode): ColorPair | null => {
+  const figmaNode = createFigmaNode(node);
+  const intersectingNodes = getIntersectingNodesWithPage(node);
 
   if (intersectingNodes.length === 0) return null;
 
@@ -125,62 +131,62 @@ const processNodeForSelection = (
   if (!notEmpty(firstIntersectingNode)) return null;
 
   if (isLayerHasTransparency(firstIntersectingNode)) {
-    return handleTransparentLayer(node, intersectingNodes);
+    return handleTransparentLayer(figmaNode, intersectingNodes);
   } else {
-    return handleOpaqueLayer(node, firstIntersectingNode);
+    return handleOpaqueLayer(figmaNode, firstIntersectingNode);
   }
 };
 
-const getIntersectingNodesWithPage = (
-  node: SceneNode,
-  pageNode: FigmaNode
-): FigmaNode[] => {
+const getIntersectingNodesWithPage = (node: SceneNode): FigmaNode[] => {
   const intersectingNodes = traverseAndCheckIntersections(
     Array.from(figma.currentPage.children),
     node
   ).map(createFigmaNode);
 
-  return [...sortNodesByLayers(intersectingNodes), pageNode];
+  return [
+    ...sortNodesByLayers(intersectingNodes),
+    createFigmaNode(figma.currentPage),
+  ];
 };
 
 const handleTransparentLayer = (
-  node: SceneNode,
+  selectedNode: FigmaNode,
   intersectingNodes: FigmaNode[]
 ): ColorPair | null => {
   const blendedBgColor = blendLayersColors(intersectingNodes);
-  const actualNodeColor = getActualNodeFillFromNode(node);
 
-  if (!notEmpty(actualNodeColor) || !notEmpty(blendedBgColor)) return null;
+  const isFgHasTransparency = isLayerHasTransparency(selectedNode);
 
-  const newFigmaPaint: FigmaPaint = createNewFigmaPaint(blendedBgColor);
+  let fgFill;
 
-  return buildColorsPair(node.id, actualNodeColor, newFigmaPaint);
+  if (isFgHasTransparency) {
+    fgFill = blendFills(selectedNode.fills);
+  } else {
+    fgFill = getActualNodeFill(selectedNode.fills);
+  }
+
+  if (!notEmpty(fgFill) || !notEmpty(blendedBgColor)) return null;
+
+  return buildColorsPair(selectedNode.id, fgFill, blendedBgColor);
 };
 
 const handleOpaqueLayer = (
-  node: SceneNode,
+  selectedNode: FigmaNode,
   firstIntersectingNode: FigmaNode
 ): ColorPair | null => {
-  const fgFill = getActualNodeFillFromNode(node);
   const bgFill = getActualNodeFill(firstIntersectingNode.fills);
+
+  const isFgHasTransparency = isLayerHasTransparency(selectedNode);
+
+  let fgFill;
+
+  if (isFgHasTransparency) {
+    fgFill = blendFills(selectedNode.fills);
+  } else {
+    fgFill = getActualNodeFill(selectedNode.fills);
+  }
 
   if (fgFill == null || bgFill == null) return null;
 
-  return buildColorsPair(node.id, fgFill, bgFill);
-};
-
-const getActualNodeFillFromNode = (node: SceneNode): FigmaPaint | undefined => {
-  const figmaNode = createFigmaNode(node);
-
-  return getActualNodeFill(figmaNode.fills);
-};
-
-const createNewFigmaPaint = (blendedBgColor: string): FigmaPaint => {
-  const newSolidPaint = figma.util.solidPaint(blendedBgColor);
-
-  return {
-    ...newSolidPaint,
-    hex: formatHex({ ...newSolidPaint.color, mode: 'rgb' }),
-    oklch: convertToOklch({ ...newSolidPaint.color, mode: 'rgb' }, 'oklch'),
-  };
+  return buildColorsPair(selectedNode.id, fgFill, bgFill);
 };
