@@ -1,8 +1,7 @@
 import { buildColorsPair } from '~api/services/colors/build-colors-pair.ts';
-import { blendLayersColors } from '~api/services/figma/blend/blend-layers-colors.ts';
+import { getComputedNodeFill } from '~api/services/colors/get-computed-node-fill.ts';
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
 import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layers.ts';
-import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
 import { buildEmptyPayload } from '~api/services/payload/build-empty-payload.ts';
 import { type SelectionChangeMessage } from '~types/messages.ts';
 import { getFirstVisibleNodeFill } from '~utils/figma/get-first-visible-node-fill.ts';
@@ -20,15 +19,7 @@ export const buildPairSelectionPayload = (
 
   if (!notEmpty(fg) || !notEmpty(bg)) return buildEmptyPayload();
 
-  const isFgHasTransparency = isLayerHasTransparency(fg);
-
-  let fgFill;
-
-  if (isFgHasTransparency) {
-    fgFill = blendLayersColors([fg]);
-  } else {
-    fgFill = getFirstVisibleNodeFill(fg.fills);
-  }
+  const fgFill = getComputedNodeFill(fg);
 
   const bgFill = getFirstVisibleNodeFill(bg.fills);
 
