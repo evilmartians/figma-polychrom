@@ -3,10 +3,10 @@ import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts'
 import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layers.ts';
 import { type FigmaNode } from '~types/figma.ts';
 
-export const getIntersectingNodesWithPage = (node: SceneNode): FigmaNode[] => {
+export const getIntersectingNodes = (selectedNode: SceneNode): FigmaNode[] => {
   const intersectingNodes = traverseAndCheckIntersections(
     Array.from(figma.currentPage.children),
-    node
+    selectedNode
   ).map(createFigmaNode);
 
   return [

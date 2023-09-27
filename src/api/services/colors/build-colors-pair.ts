@@ -1,12 +1,12 @@
 import { calculateApcaScore } from '~api/services/apca/calculate-apca-score.ts';
-import { type ColorPair } from '~api/types.ts';
 import { type FigmaPaint } from '~types/figma.ts';
+import { type SelectedNodes } from '~types/selection.ts';
 
 export const buildColorsPair = (
   id: string,
   fgFill: FigmaPaint,
   bgFill: FigmaPaint
-): ColorPair | null => {
+): null | SelectedNodes => {
   const apca = calculateApcaScore(
     fgFill,
     bgFill,
