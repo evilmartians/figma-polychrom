@@ -36,7 +36,7 @@ export const buildPairSelectionPayload = (
 
   const nodePairPayload = buildColorsPair(fg.id, fgFill, bgFill);
 
-  return nodePairPayload != null
+  return notEmpty(nodePairPayload)
     ? { selectedNodePairs: [nodePairPayload], selectedNodes: selection }
     : buildEmptyPayload();
 };

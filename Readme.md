@@ -24,16 +24,19 @@ Read more: [APCA in a Nutshell](https://git.apcacontrast.com/documentation/APCA_
 ## Installation
 
 Clone the repository:
+
 ```bash
 git clone https://github.com/evil-martians/figma-polychrom.git
 ```
 
 Navigate to the project directory:
+
 ```bash
 cd figma-polychrom
 ```
 
 Install the dependencies:
+
 ```bash
 pnpm install
 ```
@@ -41,6 +44,7 @@ pnpm install
 ## Development
 
 Run the development server:
+
 ```bash
 pnpm dev
 ```
@@ -48,6 +52,7 @@ pnpm dev
 ## Build
 
 Build the plugin:
+
 ```bash
 pnpm build
 ```
