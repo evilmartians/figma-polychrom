@@ -5,7 +5,7 @@ import { type FigmaNode } from '~types/figma.ts';
 import { getFirstVisibleNodeFill } from '~utils/figma/get-first-visible-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
-export const handleOpaqueLayer = (
+export const handleOpaqueBackground = (
   selectedNode: FigmaNode,
   firstIntersectingNode: FigmaNode
 ): ColorPair | null => {

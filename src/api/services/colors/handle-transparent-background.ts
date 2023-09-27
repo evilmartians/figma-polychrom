@@ -5,7 +5,7 @@ import { type ColorPair } from '~api/types.ts';
 import { type FigmaNode } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
-export const handleTransparentLayer = (
+export const handleTransparentBackground = (
   selectedNode: FigmaNode,
   intersectingNodes: FigmaNode[]
 ): ColorPair | null => {
@@ -14,7 +14,7 @@ export const handleTransparentLayer = (
   const fgFill = getComputedNodeFill(selectedNode);
 
   if (notEmpty(fgFill) && notEmpty(blendedBgColor))
-    buildColorsPair(selectedNode.id, fgFill, blendedBgColor);
+    return buildColorsPair(selectedNode.id, fgFill, blendedBgColor);
 
   return null;
 };

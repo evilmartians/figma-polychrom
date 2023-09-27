@@ -1,5 +1,5 @@
-import { handleOpaqueLayer } from '~api/services/colors/handle-opaque-layer.ts';
-import { handleTransparentLayer } from '~api/services/colors/handle-transparent-layer.ts';
+import { handleOpaqueBackground } from '~api/services/colors/handle-opaque-background.ts';
+import { handleTransparentBackground } from '~api/services/colors/handle-transparent-background.ts';
 import { getIntersectingNodesWithPage } from '~api/services/figma/intersections/get-intersecting-nodes-with-page.ts';
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
 import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
@@ -17,8 +17,8 @@ export const processNodeForSelection = (node: SceneNode): ColorPair | null => {
   if (!notEmpty(firstIntersectingNode)) return null;
 
   if (isLayerHasTransparency(firstIntersectingNode)) {
-    return handleTransparentLayer(figmaNode, intersectingNodes);
+    return handleTransparentBackground(figmaNode, intersectingNodes);
   } else {
-    return handleOpaqueLayer(figmaNode, firstIntersectingNode);
+    return handleOpaqueBackground(figmaNode, firstIntersectingNode);
   }
 };
