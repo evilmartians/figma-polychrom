@@ -5,7 +5,7 @@ import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layer
 import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
 import { buildEmptyPayload } from '~api/services/payload/build-empty-payload.ts';
 import { type SelectionChangeMessage } from '~types/messages.ts';
-import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
+import { getFirstVisibleNodeFill } from '~utils/figma/get-first-visible-node-fill.ts';
 import { type HasLength } from '~utils/has-length.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
@@ -27,10 +27,10 @@ export const buildPairSelectionPayload = (
   if (isFgHasTransparency) {
     fgFill = blendLayersColors([fg]);
   } else {
-    fgFill = getActualNodeFill(fg.fills);
+    fgFill = getFirstVisibleNodeFill(fg.fills);
   }
 
-  const bgFill = getActualNodeFill(bg.fills);
+  const bgFill = getFirstVisibleNodeFill(bg.fills);
 
   if (!notEmpty(fgFill) || !notEmpty(bgFill)) return buildEmptyPayload();
 

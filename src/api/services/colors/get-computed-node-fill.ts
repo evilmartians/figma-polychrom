@@ -1,9 +1,9 @@
 import { blendFills } from '~api/services/figma/blend/blend-fills.ts';
 import { isLayerHasTransparency } from '~api/services/figma/visibility/is-layer-has-transparency.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
-import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
+import { getFirstVisibleNodeFill } from '~utils/figma/get-first-visible-node-fill.ts';
 
-export const getNodeFill = (node: FigmaNode): FigmaPaint | null => {
+export const getComputedNodeFill = (node: FigmaNode): FigmaPaint | null => {
   const isFgHasTransparency = isLayerHasTransparency(node);
 
   let fgFill;
@@ -11,7 +11,7 @@ export const getNodeFill = (node: FigmaNode): FigmaPaint | null => {
   if (isFgHasTransparency) {
     fgFill = blendFills(node.fills);
   } else {
-    fgFill = getActualNodeFill(node.fills);
+    fgFill = getFirstVisibleNodeFill(node.fills);
   }
 
   return fgFill;

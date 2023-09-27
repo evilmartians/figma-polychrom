@@ -1,17 +1,17 @@
 import { buildColorsPair } from '~api/services/colors/build-colors-pair.ts';
-import { getNodeFill } from '~api/services/colors/get-node-fill.ts';
+import { getComputedNodeFill } from '~api/services/colors/get-computed-node-fill.ts';
 import { type ColorPair } from '~api/types.ts';
 import { type FigmaNode } from '~types/figma.ts';
-import { getActualNodeFill } from '~utils/figma/get-actual-node-fill.ts';
+import { getFirstVisibleNodeFill } from '~utils/figma/get-first-visible-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
 export const handleOpaqueLayer = (
   selectedNode: FigmaNode,
   firstIntersectingNode: FigmaNode
 ): ColorPair | null => {
-  const bgFill = getActualNodeFill(firstIntersectingNode.fills);
+  const bgFill = getFirstVisibleNodeFill(firstIntersectingNode.fills);
 
-  const fgFill = getNodeFill(selectedNode);
+  const fgFill = getComputedNodeFill(selectedNode);
 
   if (notEmpty(fgFill) && notEmpty(bgFill))
     return buildColorsPair(selectedNode.id, fgFill, bgFill);
