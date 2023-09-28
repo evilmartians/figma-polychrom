@@ -1,5 +1,5 @@
 import { conclusions } from '~ui/services/apca/conclusion.ts';
-import { notEmpty } from '~utils/not-empty.ts';
+import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
@@ -70,7 +70,7 @@ export const ProgressBar = ({
               const value = conclusionScores[i];
               const isMinForText = value === conclusions['Content Text'];
 
-              if (!notEmpty(value)) return null;
+              if (isEmpty(value)) return null;
 
               const position = value * SCALE - SERIF_OFFSET;
 

@@ -1,5 +1,5 @@
 import { type UIColor } from '~types/common.ts';
-import { notEmpty } from '~utils/not-empty.ts';
+import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { calcAPCA } from 'apca-w3';
 import {
   apcach,
@@ -31,7 +31,7 @@ interface Theme {
 }
 
 const fixHue = (oklchColor: null | Oklch): null | Oklch => {
-  if (!notEmpty(oklchColor)) return null;
+  if (isEmpty(oklchColor)) return null;
 
   oklchColor.h = notEmpty(oklchColor.h) ? oklchColor.h : 0;
   return oklchColor;
@@ -206,7 +206,7 @@ export const generateUIColors = (
   const oklchFg = fixHue(fg.oklch);
   const oklchBg = fixHue(bg.oklch);
 
-  if (!notEmpty(oklchFg) || !notEmpty(oklchBg)) return null;
+  if (isEmpty(oklchFg) || isEmpty(oklchBg)) return null;
 
   const colorFg = { hex: fg.hex, oklch: oklchFg };
   const colorBg = { hex: bg.hex, oklch: oklchBg };

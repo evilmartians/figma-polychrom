@@ -1,4 +1,4 @@
-import { notEmpty } from '~utils/not-empty.ts';
+import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type Oklch } from 'culori/fn';
 import { nanoid } from 'nanoid';
@@ -29,7 +29,7 @@ export const Selection = ({
   size,
   userSelection: { apca, bg, fg },
 }: Props): ReactElement => {
-  if (!notEmpty(apca)) {
+  if (isEmpty(apca)) {
     return <CantCalculateMessage />;
   }
 
@@ -38,7 +38,7 @@ export const Selection = ({
     { hex: bg.hex, oklch: bg.oklch }
   );
 
-  if (!notEmpty(uiColors)) {
+  if (isEmpty(uiColors)) {
     return <CantCalculateMessage />;
   }
 
