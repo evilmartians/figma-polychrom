@@ -73,14 +73,19 @@ const isVisibleFill = (fill: FigmaPaint): boolean =>
 
 const drawFillsOnContext = (
   ctx: CanvasRenderingContext2D,
-  fills: FigmaPaint[],
+  layers: Array<{
+    fills: FigmaPaint[];
+    opacity: number | undefined;
+  }>,
   x: number,
   y: number,
   width: number,
   height: number
 ): void => {
-  fills.filter(isVisibleFill).forEach((fill) => {
-    drawRect(ctx, x, y, width, height, fill);
+  layers.forEach((layer) => {
+    layer.fills.filter(isVisibleFill).forEach((fill) => {
+      drawRect(ctx, x, y, width, height, fill, layer.opacity);
+    });
   });
 };
 
@@ -89,9 +94,13 @@ const processIntersectingNodes = (
   nodes: FigmaNode[]
 ): void => {
   const fillsFromIntersectingNodes = nodes
-    .map((node) => node.fills)
+    .map((node) => ({
+      fills: node.fills,
+      opacity: node.opacity,
+    }))
     .reverse()
     .flat();
+
   drawFillsOnContext(ctx, fillsFromIntersectingNodes, 0, 0, 2, 2);
 };
 
@@ -99,7 +108,14 @@ const processSelectedNode = (
   ctx: CanvasRenderingContext2D,
   node: FigmaNode
 ): void => {
-  drawFillsOnContext(ctx, node.fills, 1, 1, 1, 1);
+  drawFillsOnContext(
+    ctx,
+    [{ fills: node.fills, opacity: node.opacity }],
+    1,
+    1,
+    1,
+    1
+  );
 };
 
 const drawRect = (
@@ -108,13 +124,16 @@ const drawRect = (
   y: number,
   width: number,
   height: number,
-  fill: FigmaPaint
+  fill: FigmaPaint,
+  opacity: number | undefined
 ): void => {
   ctx.fillStyle = formatHex8({
     alpha: fill.opacity,
     ...fill.color,
     mode: 'rgb',
   });
+
+  ctx.globalAlpha = opacity ?? 1;
 
   ctx.fillRect(x, y, width, height);
 };
