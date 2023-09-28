@@ -11,6 +11,7 @@ export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
   const solidFills = fills.filter(
     (fill): fill is SolidPaint => fill.type === 'SOLID'
   );
+  const parents = collectNodeParents(node);
 
   return {
     fills: solidFills.map((fill) => {
@@ -22,9 +23,9 @@ export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
     }),
     id: node.id,
     name: node.name,
-    nestingLevel: collectNodeParents(node).length,
+    nestingLevel: parents.length,
     opacity: 'opacity' in node ? node.opacity : 1,
-    parents: collectNodeParents(node),
+    parents,
     visible: 'visible' in node ? node.visible : true,
     zIndex: node.parent?.children.findIndex((child) => {
       return child.id === node.id;
