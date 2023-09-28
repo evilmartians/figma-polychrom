@@ -46,6 +46,10 @@ module.exports = {
             from: 'ui',
             allow: ['types', 'utils', 'ui'],
           },
+          {
+            from: 'utils',
+            allow: ['types', 'utils'],
+          },
         ],
       },
     ],

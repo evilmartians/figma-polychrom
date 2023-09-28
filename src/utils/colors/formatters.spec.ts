@@ -18,7 +18,11 @@ describe('color formatters', () => {
     test('converts decimal RGB to 255 scale', () => {
       const input = { b: 0.3, g: 0.4, r: 0.5 };
       const result = convertDecimalRGBto255Scale(input);
-      expect(result).toEqual([128, 102, 77]);
+      expect(result).toEqual({
+        b: 77,
+        g: 102,
+        r: 128,
+      });
     });
   });
 

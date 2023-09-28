@@ -1,10 +1,10 @@
 import { useStore } from '@nanostores/react';
-import { type FigmaPaint } from '~types/figma.ts';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import {
   getFormatterForCSS,
   getFormatterForDisplaying,
 } from '~utils/colors/formatters.ts';
+import { type Oklch } from 'culori/fn';
 import { type ReactElement } from 'react';
 import useClipboard from 'react-use-clipboard';
 
@@ -14,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 interface ColorIndicatorProps {
   borderColor?: string;
   color: string;
-  fill: FigmaPaint;
+  fill: { hex: string; oklch: Oklch };
   hoverBgColor: string;
   indicatorColor: string;
 }
@@ -34,7 +34,7 @@ export const ColorIndicator = ({
   const displayValue = formatColorForDisplay(fill.oklch);
 
   const formatColorForCSS = getFormatterForCSS(colorSpaceDisplayMode);
-  const cssValue = formatColorForCSS(fill.oklch, fill.opacity);
+  const cssValue = formatColorForCSS(fill.oklch);
 
   const [isCopied, setCopied] = useClipboard(cssValue, {
     successDuration: 2000,
@@ -59,7 +59,6 @@ export const ColorIndicator = ({
             <ColorPreview
               borderColor={borderColor}
               indicatorColor={indicatorColor}
-              indicatorOpacity={fill.opacity}
             />
             <span style={{ color }}>{displayValue}</span>
           </div>

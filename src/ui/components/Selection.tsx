@@ -1,6 +1,6 @@
-import { type SelectedNodes } from '~types/selection.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
+import { type Oklch } from 'culori/fn';
 import { nanoid } from 'nanoid';
 import { type ReactElement } from 'react';
 
@@ -17,7 +17,11 @@ const CantCalculateMessage = (): ReactElement => (
 interface Props {
   isLast?: boolean;
   size: 'large' | 'small';
-  userSelection: SelectedNodes;
+  userSelection: {
+    apca: number;
+    bg: { hex: string; oklch: Oklch };
+    fg: { hex: string; oklch: Oklch };
+  };
 }
 
 export const Selection = ({
@@ -29,11 +33,10 @@ export const Selection = ({
     return <CantCalculateMessage />;
   }
 
-  if (!notEmpty(bg) || !notEmpty(fg)) {
-    return <CantCalculateMessage />;
-  }
-
-  const uiColors = generateUIColors(fg, bg);
+  const uiColors = generateUIColors(
+    { hex: fg.hex, oklch: fg.oklch },
+    { hex: bg.hex, oklch: bg.oklch }
+  );
 
   if (!notEmpty(uiColors)) {
     return <CantCalculateMessage />;
@@ -59,10 +62,10 @@ export const Selection = ({
 
       <SelectionContent
         apca={apca}
-        bgNodeFill={bg}
+        bg={bg}
+        fg={fg}
         id={id}
         isLast={isLast}
-        selectedNodeFill={fg}
         size={size}
         uiColors={uiColors}
       />

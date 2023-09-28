@@ -1,4 +1,5 @@
-import { processNodeFromMultipleSelection } from '~api/services/selection/process-node-from-multiple-selection.ts';
+import { getIntersectingNodes } from '~api/services/figma/intersections/get-intersecting-nodes.ts';
+import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
 import { type SelectionChangeMessage } from '~types/messages.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
@@ -6,11 +7,14 @@ export const buildGeneralSelectionPayload = (
   selection: readonly SceneNode[]
 ): SelectionChangeMessage => {
   const selectedNodePairs = selection
-    .map((selectedNode) => processNodeFromMultipleSelection(selectedNode))
+    .map((selectedNode) => ({
+      intersectingNodes: getIntersectingNodes(selectedNode),
+      selectedNode: createFigmaNode(selectedNode),
+    }))
     .filter(notEmpty);
 
   return {
+    colorSpace: figma.root.documentColorProfile,
     selectedNodePairs,
-    selectedNodes: selection,
   };
 };

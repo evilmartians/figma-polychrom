@@ -1,6 +1,6 @@
-import { type FigmaPaint } from '~types/figma.ts';
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import clsx from 'clsx';
+import { type Oklch } from 'culori/fn';
 import { type ReactElement } from 'react';
 
 import { type WidgetProps } from '../services/theme/generate-ui-colors.ts';
@@ -11,20 +11,20 @@ import { TextMetrics } from './TextMetrics.tsx';
 
 interface Props {
   apca: number;
-  bgNodeFill: FigmaPaint;
+  bg: { hex: string; oklch: Oklch };
+  fg: { hex: string; oklch: Oklch };
   id: string;
   isLast?: boolean;
-  selectedNodeFill: FigmaPaint;
   size: 'large' | 'small';
   uiColors: WidgetProps;
 }
 
 export const SelectionContent = ({
   apca,
-  bgNodeFill,
+  bg,
+  fg,
   id,
   isLast,
-  selectedNodeFill,
   size,
   uiColors,
 }: Props): ReactElement => {
@@ -58,10 +58,9 @@ export const SelectionContent = ({
       >
         <div className="shrink-0 grow">
           <ContrastSample
-            bgColor={bgNodeFill.hex}
+            bgColor={bg.hex}
             borderColor={uiColors.theme.border?.hex}
-            color={selectedNodeFill.hex}
-            opacity={selectedNodeFill.opacity}
+            color={fg.hex}
             size={size}
           />
         </div>
@@ -102,17 +101,17 @@ export const SelectionContent = ({
           <div className="flex items-center justify-between text-xxs">
             <ColorIndicator
               color={uiColors.theme.fg.hex}
-              fill={selectedNodeFill}
+              fill={fg}
               hoverBgColor={uiColors.theme.secondary.hex}
-              indicatorColor={selectedNodeFill.hex}
+              indicatorColor={fg.hex}
             />
 
             <ColorIndicator
               borderColor={uiColors.theme.border?.hex}
               color={uiColors.theme.secondary.hex}
-              fill={bgNodeFill}
+              fill={bg}
               hoverBgColor={uiColors.theme.secondary.hex}
-              indicatorColor={bgNodeFill.hex}
+              indicatorColor={bg.hex}
             />
           </div>
         )}

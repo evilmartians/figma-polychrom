@@ -1,5 +1,5 @@
 import { notEmpty } from '~utils/not-empty.ts';
-import { formatHex, formatHex8, modeRgb, type Oklch, useMode } from 'culori/fn';
+import { formatHex, modeRgb, type Oklch, useMode } from 'culori/fn';
 
 import { type ColorSpaceDisplayModes } from '../../constants.ts';
 
@@ -9,21 +9,23 @@ export const convertDecimalRGBto255Scale = (color: {
   b: number;
   g: number;
   r: number;
-}): [r: number, g: number, b: number] => [
-  Math.round(color.r * 255),
-  Math.round(color.g * 255),
-  Math.round(color.b * 255),
-];
+}): { b: number; g: number; r: number } => {
+  const { b, g, r } = color;
+  return {
+    b: Math.round(b * 255),
+    g: Math.round(g * 255),
+    r: Math.round(r * 255),
+  };
+};
 
 export const convert255ScaleRGBtoDecimal = (color: {
   b: number;
   g: number;
   r: number;
-}): [r: number, g: number, b: number] => [
-  color.r / 255,
-  color.g / 255,
-  color.b / 255,
-];
+}): { b: number; g: number; r: number } => {
+  const { b, g, r } = color;
+  return { b: b / 255, g: g / 255, r: r / 255 };
+};
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {
   return `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(
@@ -34,7 +36,7 @@ export const formatForOklchDisplay = (oklch: Oklch): string => {
 
 export const formatForRgbDisplay = (oklch: Oklch): string => {
   const { b, g, r } = convertToRgb(oklch);
-  return convertDecimalRGBto255Scale({ b, g, r }).join(' ');
+  return `${Math.round(r * 255)} ${Math.round(g * 255)} ${Math.round(b * 255)}`;
 };
 
 export const getFormatterForDisplaying = (
@@ -72,7 +74,11 @@ export const formatForOklchCSS = (color: Oklch, opacity?: number): string => {
 
 export const formatForRGBCSS = (color: Oklch, opacity?: number): string => {
   const { b, g, r } = convertToRgb(color);
-  const [r255, g255, b255] = convertDecimalRGBto255Scale({ b, g, r });
+  const {
+    b: b255,
+    g: g255,
+    r: r255,
+  } = convertDecimalRGBto255Scale({ b, g, r });
   let postfix = '';
 
   if (notEmpty(opacity) && opacity < 1) {
@@ -82,17 +88,8 @@ export const formatForRGBCSS = (color: Oklch, opacity?: number): string => {
   return `rgb(${r255} ${g255} ${b255}${postfix})`;
 };
 
-export const formatForHexCSS = (color: Oklch, opacity?: number): string => {
-  if (notEmpty(opacity) && opacity < 1) {
-    return formatHex8({
-      alpha: opacity,
-      ...color,
-      mode: 'oklch',
-    });
-  }
-
+export const formatForHexCSS = (color: Oklch): string => {
   return formatHex({
-    alpha: opacity,
     ...color,
     mode: 'oklch',
   });
@@ -100,7 +97,7 @@ export const formatForHexCSS = (color: Oklch, opacity?: number): string => {
 
 export const getFormatterForCSS = (
   colorSpaceDisplayMode: ColorSpaceDisplayModes
-): ((oklch: Oklch, opacity?: number) => string) => {
+): ((oklch: Oklch) => string) => {
   const formatters = {
     HEX: formatForHexCSS,
     OKLCH: formatForOklchCSS,

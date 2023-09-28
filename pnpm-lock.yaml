@@ -44,6 +44,9 @@ dependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.25)
+  bigint-conversion:
+    specifier: ^2.4.2
+    version: 2.4.2
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
@@ -83,6 +86,9 @@ dependencies:
   typescript:
     specifier: ^5.0.2
     version: 5.0.2
+  uint8-to-hex:
+    specifier: ^2.0.0
+    version: 2.0.0
   vite:
     specifier: ^4.4.0
     version: 4.4.0(@types/node@20.4.1)(terser@5.19.0)
@@ -1401,6 +1407,13 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
 
+  /@juanelas/base64@1.1.2:
+    resolution:
+      {
+        integrity: sha512-mr2pfRQpWap0Uq4tlrCgp3W+Yjx1/Bpq4QJsYeAQUh1mExgyQvXz7xUhmYT2HcLLspuAL5dpnos8P2QhaCSXsQ==,
+      }
+    dev: false
+
   /@nanostores/react@0.7.1(nanostores@0.9.3)(react@18.2.0):
     resolution:
       {
@@ -2526,6 +2539,15 @@ packages:
       {
         integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==,
       }
+
+  /bigint-conversion@2.4.2:
+    resolution:
+      {
+        integrity: sha512-2s3aRYaQtYGqY1w6x2PQqYbHUjktOWX0S0dkv7c+FjRnkKspictZ4IaEKmGEtZJjT2ccR29ufPB7QPEDfSs4bg==,
+      }
+    dependencies:
+      '@juanelas/base64': 1.1.2
+    dev: false
 
   /binary-extensions@2.2.0:
     resolution:
@@ -4229,6 +4251,16 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
+  /hex-encoding@2.0.2:
+    resolution:
+      {
+        integrity: sha512-NhclxbCmF1NTU9mE0GYEkUrFX5VvnfiHrzcqGbsQJcLT33rE/yqBB+U1bHDuLk86AQyN/hsr+Q/sX3jRxmarhg==,
+      }
+    dependencies:
+      node-buffer-encoding: 1.0.1
+      uint8-encoding: 2.0.0
+    dev: false
+
   /html-encoding-sniffer@3.0.0:
     resolution:
       {
@@ -5033,6 +5065,13 @@ packages:
     resolution:
       {
         integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==,
+      }
+    dev: false
+
+  /node-buffer-encoding@1.0.1:
+    resolution:
+      {
+        integrity: sha512-eklg9A4yXOlIZOIeV8D33gHZjw2g61TREuhucTM+/OR/xn4MXTZaV60fEYP+Lsa7C9bliJvvNrgkC6igafgKrw==,
       }
     dev: false
 
@@ -6731,6 +6770,22 @@ packages:
       {
         integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==,
       }
+    dev: false
+
+  /uint8-encoding@2.0.0:
+    resolution:
+      {
+        integrity: sha512-MQcY+mEuLoHBqAawasWrFbZx1SqUoFU/wVYNGO6lsIxczeO+cNjA1djYHQM3GWU3SaEhKTfG3Z5cE2r+zR6tNw==,
+      }
+    dev: false
+
+  /uint8-to-hex@2.0.0:
+    resolution:
+      {
+        integrity: sha512-qtUFd8qhwWMZuoRkntbD9UUgNi/BmYR3bVPFAG8w78tGZDzrQjSGMxqL2pAHOshritIWK2fA+XxNhb1aBXURMA==,
+      }
+    dependencies:
+      hex-encoding: 2.0.2
     dev: false
 
   /unbox-primitive@1.0.2:

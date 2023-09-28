@@ -1,5 +1,6 @@
+import { type SelectedNodes } from '~types/selection.ts';
+
 import { type ColorSpaceDisplayModes } from '../constants.ts';
-import { type SelectedNodes } from './selection.ts';
 
 export enum MessageTypes {
   ColorSpaceDisplayModeChange = 'Polychrom_ColorSpaceDisplayModeChange',
@@ -17,8 +18,8 @@ export interface Message<T> {
 }
 
 export interface SelectionChangeMessage {
+  colorSpace: 'DISPLAY_P3' | 'LEGACY' | 'SRGB';
   selectedNodePairs: SelectedNodes[];
-  selectedNodes: readonly SceneNode[];
 }
 
 export interface ColorSpaceDisplayModeChangeMessage {
