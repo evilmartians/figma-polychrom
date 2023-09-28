@@ -1,5 +1,5 @@
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
-import { nodeHasFills } from '~api/services/figma/nodes/node-has-fills.ts';
+import { nodeHasFills } from '~utils/node-has-fills.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('nodeHasFills', () => {

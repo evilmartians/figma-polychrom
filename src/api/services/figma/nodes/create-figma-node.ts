@@ -1,6 +1,6 @@
 import { collectNodeParents } from '~api/services/figma/nodes/collect-node-parents.ts';
-import { getNodeFills } from '~api/services/figma/nodes/get-node-fills.ts';
 import { type FigmaNode } from '~types/figma.ts';
+import { getNodeFills } from '~utils/get-node-fills.ts';
 import { converter } from 'culori';
 import { formatHex } from 'culori/fn';
 

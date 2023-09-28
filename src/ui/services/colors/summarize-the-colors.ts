@@ -8,6 +8,20 @@ import { formatHex, formatHex8, type Oklch } from 'culori/fn';
 
 const convertToOklch = converter('oklch');
 
+const BACKGROUND_BOX = {
+  height: 2,
+  width: 2,
+  x: 0,
+  y: 0,
+};
+
+const FOREGROUND_BOX = {
+  height: 1,
+  width: 1,
+  x: 1,
+  y: 1,
+};
+
 export const summarizeTheColors = (
   pairs: SelectedNodes[],
   colorSpace: 'DISPLAY_P3' | 'LEGACY' | 'SRGB'
@@ -42,7 +56,7 @@ const summarizeTheColorsForPair = (
   const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1));
   const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0));
 
-  if (fgDecimal == null || bgDecimal == null) return null;
+  if (isEmpty(fgDecimal) || isEmpty(bgDecimal)) return null;
 
   const apca = calculateApcaScore(
     {
@@ -77,10 +91,17 @@ const drawFillsOnContext = (
     fills: FigmaPaint[];
     opacity: number | undefined;
   }>,
-  x: number,
-  y: number,
-  width: number,
-  height: number
+  {
+    height,
+    width,
+    x,
+    y,
+  }: {
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  }
 ): void => {
   layers.forEach((layer) => {
     layer.fills.filter(isVisibleFill).forEach((fill) => {
@@ -101,7 +122,7 @@ const processIntersectingNodes = (
     .reverse()
     .flat();
 
-  drawFillsOnContext(ctx, fillsFromIntersectingNodes, 0, 0, 2, 2);
+  drawFillsOnContext(ctx, fillsFromIntersectingNodes, BACKGROUND_BOX);
 };
 
 const processSelectedNode = (
@@ -111,10 +132,7 @@ const processSelectedNode = (
   drawFillsOnContext(
     ctx,
     [{ fills: node.fills, opacity: node.opacity }],
-    1,
-    1,
-    1,
-    1
+    FOREGROUND_BOX
   );
 };
 
