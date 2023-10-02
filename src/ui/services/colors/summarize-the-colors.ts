@@ -5,6 +5,7 @@ import { convert255ScaleRGBtoDecimal } from '~utils/colors/formatters.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { converter } from 'culori';
 import { formatHex, formatHex8, type Oklch } from 'culori/fn';
+import { nanoid } from 'nanoid';
 
 const convertToOklch = converter('oklch');
 
@@ -50,8 +51,8 @@ const summarizeTheColorsForPair = (
 
   if (isEmpty(ctx)) return null;
 
-  processIntersectingNodes(ctx, pair.intersectingNodes);
-  processSelectedNode(ctx, pair.selectedNode);
+  drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX);
+  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX);
 
   const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1));
   const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0));
@@ -78,7 +79,7 @@ const summarizeTheColorsForPair = (
     apca,
     bg: formatColorData(bgDecimal),
     fg: formatColorData(fgDecimal),
-    id: pair.selectedNode.id,
+    id: nanoid(),
   };
 };
 
@@ -110,9 +111,20 @@ const drawFillsOnContext = (
   });
 };
 
-const processIntersectingNodes = (
+const drawNodes = (
   ctx: CanvasRenderingContext2D,
-  nodes: FigmaNode[]
+  nodes: FigmaNode[],
+  {
+    height,
+    width,
+    x,
+    y,
+  }: {
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  }
 ): void => {
   const fillsFromIntersectingNodes = nodes
     .map((node) => ({
@@ -122,18 +134,7 @@ const processIntersectingNodes = (
     .reverse()
     .flat();
 
-  drawFillsOnContext(ctx, fillsFromIntersectingNodes, BACKGROUND_BOX);
-};
-
-const processSelectedNode = (
-  ctx: CanvasRenderingContext2D,
-  node: FigmaNode
-): void => {
-  drawFillsOnContext(
-    ctx,
-    [{ fills: node.fills, opacity: node.opacity }],
-    FOREGROUND_BOX
-  );
+  drawFillsOnContext(ctx, fillsFromIntersectingNodes, { height, width, x, y });
 };
 
 const drawRect = (

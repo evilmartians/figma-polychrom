@@ -9,9 +9,9 @@ export const buildGeneralSelectionPayload = (
   const selectedNodePairs = selection
     .map((selectedNode) => ({
       intersectingNodes: getIntersectingNodes(selectedNode),
-      selectedNode: createFigmaNode(selectedNode),
+      selectedNode: [createFigmaNode(selectedNode)],
     }))
-    .filter((pair) => isNodeVisible(pair.selectedNode));
+    .filter((pair) => pair.selectedNode.every((node) => isNodeVisible(node)));
 
   return {
     colorSpace: figma.root.documentColorProfile,

@@ -22,6 +22,7 @@ export const SelectionsList = (): ReactElement => {
           key={pair.id}
         >
           <Selection
+            id={pair.id}
             isLast={index === userSelection.length - 1}
             size={isMultiSelection ? 'small' : 'large'}
             userSelection={pair}

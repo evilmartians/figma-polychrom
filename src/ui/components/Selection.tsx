@@ -1,7 +1,6 @@
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type Oklch } from 'culori/fn';
-import { nanoid } from 'nanoid';
 import { type ReactElement } from 'react';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
@@ -15,6 +14,7 @@ const CantCalculateMessage = (): ReactElement => (
 );
 
 interface Props {
+  id: string;
   isLast?: boolean;
   size: 'large' | 'small';
   userSelection: {
@@ -25,6 +25,7 @@ interface Props {
 }
 
 export const Selection = ({
+  id,
   isLast,
   size,
   userSelection: { apca, bg, fg },
@@ -41,8 +42,6 @@ export const Selection = ({
   if (isEmpty(uiColors)) {
     return <CantCalculateMessage />;
   }
-
-  const id = nanoid();
 
   return (
     <div
