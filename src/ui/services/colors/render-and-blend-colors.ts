@@ -4,8 +4,8 @@ import { type SelectedNodes } from '~types/selection.ts';
 import { calculateApcaScore } from '~utils/apca/calculate-apca-score.ts';
 import { convert255ScaleRGBtoDecimal } from '~utils/colors/formatters.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
-import { converter } from 'culori';
-import { formatHex, formatHex8, type Oklch } from 'culori/fn';
+import { converter, formatHex8 } from 'culori';
+import { formatHex, type Oklch } from 'culori/fn';
 import { nanoid } from 'nanoid';
 
 const convertToOklch = converter('oklch');
@@ -29,6 +29,12 @@ const FOREGROUND_BOX = {
   width: 1,
   x: 1,
   y: 1,
+};
+
+const CanvasColorSpace: Record<ColorSpace, 'display-p3' | 'srgb'> = {
+  DISPLAY_P3: 'display-p3',
+  LEGACY: 'srgb',
+  SRGB: 'srgb',
 };
 
 export const renderAndBlendColors = (
@@ -55,15 +61,17 @@ const summarizeTheColorsForPair = (
   id: string;
 } | null => {
   const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', {
+    colorSpace: CanvasColorSpace[colorSpace],
+  });
 
   if (isEmpty(ctx)) return null;
 
   drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX, colorSpace);
   drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX, colorSpace);
 
-  const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1));
-  const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0));
+  const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1, colorSpace));
+  const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0, colorSpace));
 
   if (isEmpty(fgDecimal) || isEmpty(bgDecimal)) return null;
 
@@ -142,13 +150,17 @@ const drawRect = (
   opacity: number | undefined,
   colorSpace: ColorSpace
 ): void => {
-  console.log(colorSpace);
-
-  ctx.fillStyle = formatHex8({
-    alpha: fill.opacity,
-    ...fill.color,
-    mode: 'rgb',
-  });
+  if (colorSpace === 'DISPLAY_P3') {
+    ctx.fillStyle = `color(display-p3 ${fill.color.r} ${fill.color.g} ${
+      fill.color.b
+    } / ${fill.opacity ?? 1})`;
+  } else {
+    ctx.fillStyle = formatHex8({
+      alpha: fill.opacity,
+      ...fill.color,
+      mode: 'rgb',
+    });
+  }
 
   ctx.globalAlpha = opacity ?? 1;
 
@@ -168,8 +180,11 @@ const formatColorData = (
 const getFillFromCtx = (
   ctx: CanvasRenderingContext2D,
   x: number,
-  y: number
-): Uint8ClampedArray => ctx.getImageData(x, y, 1, 1).data;
+  y: number,
+  colorSpace: ColorSpace
+): Uint8ClampedArray =>
+  ctx.getImageData(x, y, 1, 1, { colorSpace: CanvasColorSpace[colorSpace] })
+    .data;
 
 const getColorData = (
   fill: Uint8ClampedArray

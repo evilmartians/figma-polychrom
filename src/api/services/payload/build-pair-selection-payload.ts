@@ -30,8 +30,6 @@ export const buildPairSelectionPayload = (
   const fgSceneNode = fg.id === firstFigmaNode.id ? firstNode : secondNode;
   const bgSceneNode = bg.id === firstFigmaNode.id ? firstNode : secondNode;
 
-  console.log(areNodesIntersecting(firstNode, secondNode));
-
   if (areNodesIntersecting(firstNode, secondNode)) {
     return {
       colorSpace: figma.root.documentColorProfile,
