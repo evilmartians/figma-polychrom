@@ -1,3 +1,4 @@
+import { type ColorSpace } from '~types/common.ts';
 import { type SelectedNodes } from '~types/selection.ts';
 
 import { type ColorSpaceDisplayModes } from '../constants.ts';
@@ -18,7 +19,7 @@ export interface Message<T> {
 }
 
 export interface SelectionChangeMessage {
-  colorSpace: 'DISPLAY_P3' | 'LEGACY' | 'SRGB';
+  colorSpace: ColorSpace;
   selectedNodePairs: SelectedNodes[];
 }
 

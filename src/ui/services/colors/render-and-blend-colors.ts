@@ -1,3 +1,4 @@
+import { type ColorSpace } from '~types/common.ts';
 import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import { type SelectedNodes } from '~types/selection.ts';
 import { calculateApcaScore } from '~utils/apca/calculate-apca-score.ts';
@@ -8,6 +9,13 @@ import { formatHex, formatHex8, type Oklch } from 'culori/fn';
 import { nanoid } from 'nanoid';
 
 const convertToOklch = converter('oklch');
+
+interface CanvasRect {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+}
 
 const BACKGROUND_BOX = {
   height: 2,
@@ -23,9 +31,9 @@ const FOREGROUND_BOX = {
   y: 1,
 };
 
-export const summarizeTheColors = (
+export const renderAndBlendColors = (
   pairs: SelectedNodes[],
-  colorSpace: 'DISPLAY_P3' | 'LEGACY' | 'SRGB'
+  colorSpace: ColorSpace
 ): Array<{
   apca: number;
   bg: { hex: string; oklch: Oklch };
@@ -39,7 +47,7 @@ export const summarizeTheColors = (
 
 const summarizeTheColorsForPair = (
   pair: SelectedNodes,
-  colorSpace: 'DISPLAY_P3' | 'LEGACY' | 'SRGB'
+  colorSpace: ColorSpace
 ): {
   apca: number;
   bg: { hex: string; oklch: Oklch };
@@ -51,8 +59,8 @@ const summarizeTheColorsForPair = (
 
   if (isEmpty(ctx)) return null;
 
-  drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX);
-  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX);
+  drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX, colorSpace);
+  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX, colorSpace);
 
   const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1));
   const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0));
@@ -92,21 +100,12 @@ const drawFillsOnContext = (
     fills: FigmaPaint[];
     opacity: number | undefined;
   }>,
-  {
-    height,
-    width,
-    x,
-    y,
-  }: {
-    height: number;
-    width: number;
-    x: number;
-    y: number;
-  }
+  { height, width, x, y }: CanvasRect,
+  colorSpace: ColorSpace
 ): void => {
   layers.forEach((layer) => {
     layer.fills.filter(isVisibleFill).forEach((fill) => {
-      drawRect(ctx, x, y, width, height, fill, layer.opacity);
+      drawRect(ctx, x, y, width, height, fill, layer.opacity, colorSpace);
     });
   });
 };
@@ -114,17 +113,8 @@ const drawFillsOnContext = (
 const drawNodes = (
   ctx: CanvasRenderingContext2D,
   nodes: FigmaNode[],
-  {
-    height,
-    width,
-    x,
-    y,
-  }: {
-    height: number;
-    width: number;
-    x: number;
-    y: number;
-  }
+  { height, width, x, y }: CanvasRect,
+  colorSpace: ColorSpace
 ): void => {
   const fillsFromIntersectingNodes = nodes
     .map((node) => ({
@@ -134,7 +124,12 @@ const drawNodes = (
     .reverse()
     .flat();
 
-  drawFillsOnContext(ctx, fillsFromIntersectingNodes, { height, width, x, y });
+  drawFillsOnContext(
+    ctx,
+    fillsFromIntersectingNodes,
+    { height, width, x, y },
+    colorSpace
+  );
 };
 
 const drawRect = (
@@ -144,8 +139,11 @@ const drawRect = (
   width: number,
   height: number,
   fill: FigmaPaint,
-  opacity: number | undefined
+  opacity: number | undefined,
+  colorSpace: ColorSpace
 ): void => {
+  console.log(colorSpace);
+
   ctx.fillStyle = formatHex8({
     alpha: fill.opacity,
     ...fill.color,
