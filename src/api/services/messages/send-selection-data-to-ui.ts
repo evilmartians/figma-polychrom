@@ -7,12 +7,22 @@ import {
 } from '~types/messages.ts';
 
 export const sendSelectionDataToUi = (): void => {
-  const currentSelection = getCurrentPageSelection();
+  try {
+    const currentSelection = getCurrentPageSelection();
 
-  const messagePayload = buildMessagePayload(currentSelection);
+    const messagePayload = buildMessagePayload(currentSelection);
 
-  figma.ui.postMessage({
-    payload: messagePayload,
-    type: MessageTypes.SelectionChange,
-  } satisfies MessagePayload<SelectionChangeMessage>);
+    figma.ui.postMessage({
+      payload: messagePayload,
+      type: MessageTypes.SelectionChange,
+    } satisfies MessagePayload<SelectionChangeMessage>);
+  } catch (error) {
+    figma.ui.postMessage({
+      payload: {
+        colorSpace: figma.root.documentColorProfile,
+        selectedNodePairs: [],
+      },
+      type: MessageTypes.SelectionChange,
+    } satisfies MessagePayload<SelectionChangeMessage>);
+  }
 };
