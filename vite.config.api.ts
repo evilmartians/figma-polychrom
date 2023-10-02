@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: true,
     outDir: 'dist',
     emptyOutDir: false,
     target: 'es2015',
