@@ -1,7 +1,7 @@
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
+import { isNodeVisible } from '~api/services/figma/nodes/is-node-visible.ts';
 import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layers.ts';
 import { type SelectionChangeMessage } from '~types/messages.ts';
-import { isLayerVisible } from '~utils/is-layer-visible.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 
 export const buildPairSelectionPayload = (
@@ -19,7 +19,7 @@ export const buildPairSelectionPayload = (
   const secondFigmaNode = createFigmaNode(secondNode);
 
   const [fg, bg] = sortNodesByLayers(
-    [firstFigmaNode, secondFigmaNode].filter(isLayerVisible)
+    [firstFigmaNode, secondFigmaNode].filter(isNodeVisible)
   );
 
   if (isEmpty(fg) || isEmpty(bg))
