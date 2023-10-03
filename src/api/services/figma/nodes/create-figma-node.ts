@@ -8,18 +8,19 @@ const convertToOklch = converter('oklch');
 
 export const createFigmaNode = (node: PageNode | SceneNode): FigmaNode => {
   const fills = getNodeFills(node);
-  const solidFills = fills.filter(
-    (fill): fill is SolidPaint => fill.type === 'SOLID'
-  );
   const parents = collectNodeParents(node);
 
   return {
-    fills: solidFills.map((fill) => {
-      return {
-        ...fill,
-        hex: formatHex({ ...fill.color, mode: 'rgb' }),
-        oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
-      };
+    fills: fills.map((fill) => {
+      if (fill.type === 'SOLID') {
+        return {
+          ...fill,
+          hex: formatHex({ ...fill.color, mode: 'rgb' }),
+          oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
+        };
+      } else {
+        return fill;
+      }
     }),
     id: node.id,
     name: node.name,

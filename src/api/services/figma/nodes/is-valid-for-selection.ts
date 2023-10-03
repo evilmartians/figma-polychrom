@@ -1,0 +1,26 @@
+import { getActualNodeFill } from '~api/services/figma/nodes/get-actual-node-fill.ts';
+import { notEmpty } from '~utils/not-empty.ts';
+
+export const isValidForSelection = (node: SceneNode): boolean => {
+  if (!node.visible) {
+    return false;
+  }
+
+  if ('opacity' in node && node.opacity === 0) return false;
+
+  if ('fills' in node) {
+    if (typeof node.fills === 'symbol') {
+      return false;
+    } else {
+      const actualFill = getActualNodeFill(node.fills);
+
+      if (notEmpty(actualFill)) {
+        return actualFill.type === 'SOLID';
+      } else {
+        return false;
+      }
+    }
+  }
+
+  return false;
+};

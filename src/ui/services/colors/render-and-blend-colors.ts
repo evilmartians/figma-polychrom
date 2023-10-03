@@ -99,8 +99,10 @@ const summarizeTheColorsForPair = (
   };
 };
 
-const isVisibleFill = (fill: FigmaPaint): boolean =>
-  fill.visible === true && (notEmpty(fill.opacity) ? fill.opacity > 0 : true);
+const isVisibleSolidFill = (fill: FigmaPaint): boolean =>
+  fill.visible === true &&
+  (notEmpty(fill.opacity) ? fill.opacity > 0 : true) &&
+  fill.type === 'SOLID';
 
 const drawFillsOnContext = (
   ctx: CanvasRenderingContext2D,
@@ -112,7 +114,7 @@ const drawFillsOnContext = (
   colorSpace: ColorSpace
 ): void => {
   layers.forEach((layer) => {
-    layer.fills.filter(isVisibleFill).forEach((fill) => {
+    layer.fills.filter(isVisibleSolidFill).forEach((fill) => {
       drawRect(ctx, x, y, width, height, fill, layer.opacity, colorSpace);
     });
   });
@@ -150,21 +152,23 @@ const drawRect = (
   opacity: number | undefined,
   colorSpace: ColorSpace
 ): void => {
-  if (colorSpace === 'DISPLAY_P3') {
-    ctx.fillStyle = `color(display-p3 ${fill.color.r} ${fill.color.g} ${
-      fill.color.b
-    } / ${fill.opacity ?? 1})`;
-  } else {
-    ctx.fillStyle = formatHex8({
-      alpha: fill.opacity,
-      ...fill.color,
-      mode: 'rgb',
-    });
+  if (fill.type === 'SOLID') {
+    if (colorSpace === 'DISPLAY_P3') {
+      ctx.fillStyle = `color(display-p3 ${fill.color.r} ${fill.color.g} ${
+        fill.color.b
+      } / ${fill.opacity ?? 1})`;
+    } else {
+      ctx.fillStyle = formatHex8({
+        alpha: fill.opacity,
+        ...fill.color,
+        mode: 'rgb',
+      });
+    }
+
+    ctx.globalAlpha = opacity ?? 1;
+
+    ctx.fillRect(x, y, width, height);
   }
-
-  ctx.globalAlpha = opacity ?? 1;
-
-  ctx.fillRect(x, y, width, height);
 };
 
 const formatColorData = (

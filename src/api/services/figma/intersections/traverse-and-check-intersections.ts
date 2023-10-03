@@ -1,12 +1,6 @@
-import { areNodesIntersecting } from './are-nodes-intersecting.ts';
+import { getSiblingsThatAreBelowByZIndex } from '~api/services/figma/intersections/get-siblings-that-are-below-by-z-index.ts';
 
-export const getSiblingsBefore = (
-  targetNode: SceneNode,
-  allNodes: readonly SceneNode[]
-): SceneNode[] => {
-  const targetIndex = allNodes.indexOf(targetNode);
-  return targetIndex === -1 ? [] : allNodes.slice(0, targetIndex);
-};
+import { areNodesIntersecting } from './are-nodes-intersecting.ts';
 
 const ifSelectedNodeIsChild = (
   node: SceneNode,
@@ -29,7 +23,10 @@ export const traverseAndCheckIntersections = (
 
       if ('children' in node && node.children.length > 0) {
         if (ifSelectedNodeIsChild(node, selectedNode)) {
-          const siblingsBefore = getSiblingsBefore(selectedNode, node.children);
+          const siblingsBefore = getSiblingsThatAreBelowByZIndex(
+            selectedNode,
+            node.children
+          );
 
           traverseAndCheckIntersections(
             siblingsBefore,

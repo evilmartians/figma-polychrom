@@ -1,6 +1,6 @@
 import { type UIColor } from '~types/common.ts';
 
-export type FigmaPaint = SolidPaint & UIColor;
+export type FigmaPaint = Paint | (SolidPaint & UIColor);
 
 export interface FigmaNode {
   fills: FigmaPaint[];

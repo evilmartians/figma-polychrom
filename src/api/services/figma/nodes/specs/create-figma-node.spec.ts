@@ -26,24 +26,6 @@ describe('createFigmaNode', () => {
     });
   });
 
-  test('should filter out non-solid fills', () => {
-    const node = {
-      fills: [
-        { gradient: 'some-gradient', type: 'GRADIENT' },
-        { color: { b: 0, g: 0, r: 0 }, type: 'SOLID' },
-      ],
-      id: '123',
-    } as unknown as SceneNode;
-
-    const result = createFigmaNode(node);
-
-    expect(result.fills).toHaveLength(1);
-
-    const [fill] = result.fills;
-
-    expect(fill?.type).toBe('SOLID');
-  });
-
   test('should handle multiple solid fills', () => {
     const node = {
       fills: [
