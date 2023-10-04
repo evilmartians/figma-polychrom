@@ -26,7 +26,7 @@ Read more: [APCA in a Nutshell](https://git.apcacontrast.com/documentation/APCA_
 Clone the repository:
 
 ```bash
-git clone https://github.com/evil-martians/figma-polychrom.git
+git clone https://github.com/evilmartians/figma-polychrom.git
 ```
 
 Navigate to the project directory:
