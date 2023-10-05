@@ -1,4 +1,4 @@
-# Polychrom—APCA Contrast Checker Figma Plugin
+<a href="https://evilmartians.com/devtools?utm_source=figma-plugin-polychrom&utm_campaign=devtools-button&utm_medium=github"><img width="830" alt="Polychrom—APCA Contrast Checker" src="./images/github-header-polychrom.png" /></a>
 
 ## How It Works:
 
