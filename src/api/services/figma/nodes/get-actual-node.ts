@@ -7,6 +7,10 @@ export const getActualNode = (nodes: FigmaNode[]): FigmaNode | undefined => {
       node.visible === true &&
       notEmpty(node.opacity) &&
       node.opacity > 0 &&
-      node.fills.length > 0
+      node.fills.length > 0 &&
+      node.fills.some(
+        (fill) =>
+          fill.visible === true && notEmpty(fill.opacity) && fill.opacity > 0
+      )
   );
 };
