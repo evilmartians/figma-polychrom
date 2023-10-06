@@ -20,7 +20,7 @@ export const SettingsButton = (): ReactElement => {
     <Tooltip>
       <TooltipTrigger>
         <button
-          className="interactive mb-2 flex h-6 w-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
+          className="interactive flex h-6 w-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
           onClick={changeColorSpaceDisplayMode}
           type="button"
         >

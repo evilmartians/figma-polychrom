@@ -11,11 +11,15 @@ export const $userSelection = atom<SelectionChangeMessage>({
   selectedNodePairs: [],
 });
 
-export const processedUserSelection = computed($userSelection, (selection) => {
+export const $processedUserSelection = computed($userSelection, (selection) => {
   return renderAndBlendColors(
     selection.selectedNodePairs,
     selection.colorSpace
   );
+});
+
+export const $isP3 = computed($userSelection, (selection) => {
+  return selection.colorSpace === 'DISPLAY_P3';
 });
 
 export const $isMultiSelection = computed(
