@@ -14,7 +14,7 @@ interface Props {
 export const TextMetrics = ({ apca, color }: Props): ReactElement => {
   const [, , , , regular, , , bold] = fontLookupAPCA(apca);
 
-  if (Math.abs(apca) < conclusions.Invisible) {
+  if (Math.abs(apca) < conclusions['Not Readable']) {
     return <StopIcon color={color} />;
   }
 
