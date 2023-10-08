@@ -1,7 +1,7 @@
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type Oklch } from 'culori/fn';
-import { type ReactElement } from 'react';
+import { type ReactElement, useState } from 'react';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
@@ -24,12 +24,30 @@ interface Props {
   };
 }
 
+const SEGMENTED_FONT_STYLES = {
+  INITIAL: 1,
+  MAX: 2,
+};
+
 export const Selection = ({
   id,
   isLast,
   size,
   userSelection: { apca, bg, fg },
 }: Props): ReactElement => {
+  const [currentStyleNumber, setCurrentStyleNumber] = useState(
+    SEGMENTED_FONT_STYLES.INITIAL
+  );
+
+  const handleCurrentStyleNumberChange = (): void => {
+    const newStyleNumber = currentStyleNumber + 1;
+    if (newStyleNumber > SEGMENTED_FONT_STYLES.MAX) {
+      setCurrentStyleNumber(SEGMENTED_FONT_STYLES.INITIAL);
+    } else {
+      setCurrentStyleNumber(newStyleNumber);
+    }
+  };
+
   if (isEmpty(apca)) {
     return <CantCalculateMessage />;
   }
@@ -54,6 +72,7 @@ export const Selection = ({
       style={{ backgroundColor: uiColors.theme.bg.hex }}
     >
       <SegmentedFontStyleDefinition
+        currentStyleNumber={currentStyleNumber}
         id={id}
         primaryColor={uiColors.theme.fg.hex}
         secondaryColor={uiColors.theme.secondary.hex}
@@ -65,6 +84,7 @@ export const Selection = ({
         fg={fg}
         id={id}
         isLast={isLast}
+        onApcaDoubleClick={handleCurrentStyleNumberChange}
         size={size}
         uiColors={uiColors}
       />

@@ -15,6 +15,7 @@ interface Props {
   fg: { hex: string; oklch: Oklch };
   id: string;
   isLast?: boolean;
+  onApcaDoubleClick: () => void;
   size: 'large' | 'small';
   uiColors: WidgetProps;
 }
@@ -25,6 +26,7 @@ export const SelectionContent = ({
   fg,
   id,
   isLast,
+  onApcaDoubleClick,
   size,
   uiColors,
 }: Props): ReactElement => {
@@ -76,7 +78,9 @@ export const SelectionContent = ({
             '--text-shadow-color': `${uiColors.theme.fg.hex}3D`,
           }}
         >
-          <h1 className="text-shadow">{Math.abs(apca)}</h1>
+          <h1 className="inline text-shadow" onDoubleClick={onApcaDoubleClick}>
+            {Math.abs(apca)}
+          </h1>
         </div>
       </div>
 
