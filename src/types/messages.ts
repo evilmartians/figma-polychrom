@@ -18,10 +18,23 @@ export interface Message<T> {
   pluginMessage: MessagePayload<T>;
 }
 
-export interface SelectionChangeMessage {
+export enum SelectionMessageTypes {
+  invalidBackground = 'invalidBackground',
+}
+
+export interface SelectionChangePayload {
   colorSpace: ColorSpace;
   selectedNodePairs: SelectedNodes[];
 }
+
+export interface SelectionChangeMessage {
+  colorSpace: ColorSpace;
+  text: SelectionMessageTypes;
+}
+
+export type SelectionChangeEvent =
+  | SelectionChangeMessage
+  | SelectionChangePayload;
 
 export interface ColorSpaceDisplayModeChangeMessage {
   colorSpaceDisplayMode: ColorSpaceDisplayModes;

@@ -220,7 +220,7 @@ export const generateUIColors = (
     // Case: the current selection exceeds the minLc
     // no transformation is needed
     return {
-      debug: 'Selection > minLc',
+      debug: 'SelectionChangeEvent > minLc',
       Lc: Math.round(Lc),
       oklchBg,
       oklchFg,

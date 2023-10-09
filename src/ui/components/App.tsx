@@ -1,9 +1,8 @@
 import { useStore } from '@nanostores/react';
 import { MessageTypes } from '~types/messages.ts';
-import { EmptySelectionMessage } from '~ui/components/EmptySelectionMessage.tsx';
+import { AppContent } from '~ui/components/AppContent.tsx';
 import { HelpLink } from '~ui/components/HelpLink.tsx';
 import { LurkersLink } from '~ui/components/LurkersLink.tsx';
-import { SelectionsList } from '~ui/components/SelectionsList.tsx';
 import { SettingsButton } from '~ui/components/SettingsButton.tsx';
 import {
   Tooltip,
@@ -12,10 +11,9 @@ import {
 } from '~ui/components/Tooltip.tsx';
 import React, { useEffect } from 'react';
 
-import { $isEmptySelection, $isP3 } from '../stores/selected-nodes';
+import { $isP3 } from '../stores/selected-nodes';
 
 export const App: React.FC = () => {
-  const isEmptySelection = useStore($isEmptySelection);
   const isP3 = useStore($isP3);
 
   useEffect(() => {
@@ -31,7 +29,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="flex h-full w-full select-none flex-col items-center p-1 pb-0 font-martianMono">
-      {isEmptySelection ? <EmptySelectionMessage /> : <SelectionsList />}
+      <AppContent />
 
       <div className="mb-2 mt-auto flex w-full items-end px-1">
         <HelpLink />

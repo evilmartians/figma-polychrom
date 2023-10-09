@@ -37,6 +37,13 @@ const CanvasColorSpace: Record<ColorSpace, 'display-p3' | 'srgb'> = {
   SRGB: 'srgb',
 };
 
+export type ContrastConclusion = Array<{
+  apca: number;
+  bg: { hex: string; oklch: Oklch };
+  fg: { hex: string; oklch: Oklch };
+  id: string;
+}>;
+
 export const renderAndBlendColors = (
   pairs: SelectedNodes[],
   colorSpace: ColorSpace

@@ -2,12 +2,15 @@ import { getIntersectingNodes } from '~api/services/figma/intersections/get-inte
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
-import { type SelectionChangeMessage } from '~types/messages.ts';
-import { notEmpty } from '~utils/not-empty.ts';
+import {
+  type SelectionChangeEvent,
+  SelectionMessageTypes,
+} from '~types/messages.ts';
+import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 
 export const buildGeneralSelectionPayload = (
   selection: readonly SceneNode[]
-): SelectionChangeMessage => {
+): SelectionChangeEvent => {
   const selectedNodePairs = selection
     .filter(isValidForSelection)
     .map((selectedNode) => {
@@ -21,11 +24,22 @@ export const buildGeneralSelectionPayload = (
       } else {
         return null;
       }
-    })
-    .filter(notEmpty);
+    });
+
+  const isSingleInvalidBackground =
+    selectedNodePairs.some(isEmpty) && selectedNodePairs.length === 1;
+  const areAllInvalidBackgrounds =
+    selectedNodePairs.length > 1 && selectedNodePairs.every(isEmpty);
+
+  const invalidBackground =
+    isSingleInvalidBackground || areAllInvalidBackgrounds;
 
   return {
     colorSpace: figma.root.documentColorProfile,
-    selectedNodePairs,
+    ...(invalidBackground
+      ? { text: SelectionMessageTypes.invalidBackground }
+      : {
+          selectedNodePairs: selectedNodePairs.filter(notEmpty),
+        }),
   };
 };

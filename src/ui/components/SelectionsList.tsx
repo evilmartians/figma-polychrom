@@ -1,19 +1,20 @@
 import { useStore } from '@nanostores/react';
 import { Selection } from '~ui/components/Selection.tsx';
-import {
-  $isMultiSelection,
-  $processedUserSelection,
-} from '~ui/stores/selected-nodes.ts';
+import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
+import { $isMultiSelection } from '~ui/stores/selected-nodes.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
-export const SelectionsList = (): ReactElement => {
-  const processedUserSelection = useStore($processedUserSelection);
+interface Props {
+  contrastConclusion: ContrastConclusion;
+}
+
+export const SelectionsList = ({ contrastConclusion }: Props): ReactElement => {
   const isMultiSelection = useStore($isMultiSelection);
 
   return (
     <ul className={clsx('w-full', isMultiSelection ? 'mb-4' : '')}>
-      {processedUserSelection.map((pair, index) => (
+      {contrastConclusion.map((pair, index) => (
         <li
           className={clsx(
             'flex w-full items-center justify-center',
@@ -23,7 +24,7 @@ export const SelectionsList = (): ReactElement => {
         >
           <Selection
             id={pair.id}
-            isLast={index === processedUserSelection.length - 1}
+            isLast={index === contrastConclusion.length - 1}
             size={isMultiSelection ? 'small' : 'large'}
             userSelection={pair}
           />

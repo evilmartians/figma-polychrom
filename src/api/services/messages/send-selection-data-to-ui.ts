@@ -3,7 +3,7 @@ import { getCurrentPageSelection } from '~api/services/selection/get-current-pag
 import {
   type MessagePayload,
   MessageTypes,
-  type SelectionChangeMessage,
+  type SelectionChangeEvent,
 } from '~types/messages.ts';
 
 export const sendSelectionDataToUi = (): void => {
@@ -15,7 +15,7 @@ export const sendSelectionDataToUi = (): void => {
     figma.ui.postMessage({
       payload: messagePayload,
       type: MessageTypes.SelectionChange,
-    } satisfies MessagePayload<SelectionChangeMessage>);
+    } satisfies MessagePayload<SelectionChangeEvent>);
   } catch (error) {
     figma.ui.postMessage({
       payload: {
@@ -23,6 +23,6 @@ export const sendSelectionDataToUi = (): void => {
         selectedNodePairs: [],
       },
       type: MessageTypes.SelectionChange,
-    } satisfies MessagePayload<SelectionChangeMessage>);
+    } satisfies MessagePayload<SelectionChangeEvent>);
   }
 };
