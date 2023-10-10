@@ -1,4 +1,4 @@
-import { getActualNodeFill } from '~api/services/figma/nodes/get-actual-node-fill.ts';
+import { getActualNodeFill } from '~utils/get-actual-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
 export const isValidForSelection = (node: SceneNode): boolean => {
