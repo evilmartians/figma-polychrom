@@ -1,6 +1,6 @@
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
+import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
 import clsx from 'clsx';
-import { type Oklch } from 'culori/fn';
 import { type ReactElement } from 'react';
 
 import { type WidgetProps } from '../services/theme/generate-ui-colors.ts';
@@ -9,11 +9,7 @@ import { ContrastSample } from './ContrastSample.tsx';
 import { ProgressBar } from './ProgressBar.tsx';
 import { TextMetrics } from './TextMetrics.tsx';
 
-interface Props {
-  apca: number;
-  bg: { hex: string; oklch: Oklch };
-  fg: { hex: string; oklch: Oklch };
-  id: string;
+interface Props extends ContrastConclusion {
   isLast?: boolean;
   onApcaDoubleClick: () => void;
   size: 'large' | 'small';
@@ -61,7 +57,7 @@ export const SelectionContent = ({
         <div className="shrink-0 grow">
           <ContrastSample
             bgColor={bg.hex}
-            borderColor={uiColors.theme.border?.hex}
+            borderColor={uiColors.theme.bgBorder?.hex}
             color={fg.hex}
             size={size}
           />
@@ -104,18 +100,21 @@ export const SelectionContent = ({
         {size === 'large' && (
           <div className="flex items-center justify-between text-xxs">
             <ColorIndicator
-              color={uiColors.theme.fg.hex}
+              borderColor={uiColors.theme.fgBorder?.hex}
               fill={fg}
               hoverBgColor={uiColors.theme.secondary.hex}
               indicatorColor={fg.hex}
+              isBlended={fg.isBlended}
+              textColor={uiColors.theme.fg.hex}
             />
 
             <ColorIndicator
-              borderColor={uiColors.theme.border?.hex}
-              color={uiColors.theme.secondary.hex}
+              borderColor={uiColors.theme.bgBorder?.hex}
               fill={bg}
               hoverBgColor={uiColors.theme.secondary.hex}
               indicatorColor={bg.hex}
+              isBlended={bg.isBlended}
+              textColor={uiColors.theme.secondary.hex}
             />
           </div>
         )}

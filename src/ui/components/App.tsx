@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex h-full w-full select-none flex-col items-center p-1 pb-0 font-martianMono">
+    <div className="relative flex min-h-full w-full select-none flex-col items-center p-1 pb-0 font-martianMono">
       <AppContent />
 
       <div className="mb-2 mt-auto flex w-full items-end px-1">

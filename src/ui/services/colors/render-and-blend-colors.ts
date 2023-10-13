@@ -3,6 +3,8 @@ import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
 import { type SelectedNodes } from '~types/selection.ts';
 import { calculateApcaScore } from '~utils/apca/calculate-apca-score.ts';
 import { convert255ScaleRGBtoDecimal } from '~utils/colors/formatters.ts';
+import { getActualNodeFill } from '~utils/get-actual-node-fill.ts';
+import { getActualNode } from '~utils/get-actual-node.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { converter, formatHex8 } from 'culori';
 import { formatHex, type Oklch } from 'culori/fn';
@@ -37,22 +39,19 @@ const CanvasColorSpace: Record<ColorSpace, 'display-p3' | 'srgb'> = {
   SRGB: 'srgb',
 };
 
-export type ContrastConclusion = Array<{
+export interface ContrastConclusion {
   apca: number;
-  bg: { hex: string; oklch: Oklch };
-  fg: { hex: string; oklch: Oklch };
+  bg: { hex: string; isBlended: boolean; oklch: Oklch };
+  fg: { hex: string; isBlended: boolean; oklch: Oklch };
   id: string;
-}>;
+}
+
+export type ContrastConclusionList = ContrastConclusion[];
 
 export const renderAndBlendColors = (
   pairs: SelectedNodes[],
   colorSpace: ColorSpace
-): Array<{
-  apca: number;
-  bg: { hex: string; oklch: Oklch };
-  fg: { hex: string; oklch: Oklch };
-  id: string;
-}> => {
+): ContrastConclusionList => {
   return pairs
     .map((pair) => summarizeTheColorsForPair(pair, colorSpace))
     .filter(notEmpty);
@@ -61,12 +60,7 @@ export const renderAndBlendColors = (
 const summarizeTheColorsForPair = (
   pair: SelectedNodes,
   colorSpace: ColorSpace
-): {
-  apca: number;
-  bg: { hex: string; oklch: Oklch };
-  fg: { hex: string; oklch: Oklch };
-  id: string;
-} | null => {
+): ContrastConclusion | null => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d', {
     colorSpace: CanvasColorSpace[colorSpace],
@@ -74,37 +68,77 @@ const summarizeTheColorsForPair = (
 
   if (isEmpty(ctx)) return null;
 
-  drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX, colorSpace);
-  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX, colorSpace);
+  renderNodesOnCanvas(ctx, pair, colorSpace);
 
-  const fgDecimal = getColorData(getFillFromCtx(ctx, 1, 1, colorSpace));
-  const bgDecimal = getColorData(getFillFromCtx(ctx, 0, 0, colorSpace));
-
-  if (isEmpty(fgDecimal) || isEmpty(bgDecimal)) return null;
-
-  const apca = calculateApcaScore(
-    {
-      b: fgDecimal.b,
-      g: fgDecimal.g,
-      r: fgDecimal.r,
-    },
-    {
-      b: bgDecimal.b,
-      g: bgDecimal.g,
-      r: bgDecimal.r,
-    },
-    colorSpace
+  const fgColorData = getColorData(
+    getFillFromCtx(ctx, FOREGROUND_BOX.x, FOREGROUND_BOX.y, colorSpace)
   );
+  const bgColorData = getColorData(
+    getFillFromCtx(ctx, BACKGROUND_BOX.x, BACKGROUND_BOX.y, colorSpace)
+  );
+
+  if (isEmpty(fgColorData) || isEmpty(bgColorData)) return null;
+
+  const { fill: fgFill, node: fgNode } = getNodeAndFill(pair.selectedNode);
+  const { fill: bgFill, node: bgNode } = getNodeAndFill(pair.intersectingNodes);
+
+  const isFgBlended = isBlended(fgNode, fgFill);
+  const isBgBlended = isBlended(bgNode, bgFill);
+
+  const apca = calculateApcaScore(fgColorData, bgColorData, colorSpace);
 
   canvas.remove();
 
-  return {
+  return createContrastConclusion(
     apca,
-    bg: formatColorData(bgDecimal),
-    fg: formatColorData(fgDecimal),
-    id: nanoid(),
+    fgColorData,
+    isFgBlended,
+    bgColorData,
+    isBgBlended
+  );
+};
+
+const renderNodesOnCanvas = (
+  ctx: CanvasRenderingContext2D,
+  pair: SelectedNodes,
+  colorSpace: ColorSpace
+): void => {
+  drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX, colorSpace);
+  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX, colorSpace);
+};
+
+const getNodeAndFill = (
+  nodes: FigmaNode[]
+): {
+  fill?: FigmaPaint;
+  node?: FigmaNode;
+} => {
+  const actualNode = getActualNode(nodes);
+
+  return {
+    fill: actualNode != null ? getActualNodeFill(actualNode.fills) : undefined,
+    node: actualNode,
   };
 };
+
+const isBlended = (node?: FigmaNode, fill?: FigmaPaint): boolean => {
+  return (
+    (node != null && node.opacity !== 1) || (fill != null && fill.opacity !== 1)
+  );
+};
+
+const createContrastConclusion = (
+  apcaScore: number,
+  fgColor: RGB,
+  isFgBlended: boolean,
+  bgColor: RGB,
+  isBgBlended: boolean
+): ContrastConclusion => ({
+  apca: apcaScore,
+  bg: formatColorData(bgColor, isBgBlended),
+  fg: formatColorData(fgColor, isFgBlended),
+  id: nanoid(),
+});
 
 const isVisibleSolidFill = (fill: FigmaPaint): boolean =>
   fill.visible === true &&
@@ -115,14 +149,14 @@ const drawFillsOnContext = (
   ctx: CanvasRenderingContext2D,
   layers: Array<{
     fills: FigmaPaint[];
-    opacity: number | undefined;
+    opacity?: number;
   }>,
   { height, width, x, y }: CanvasRect,
   colorSpace: ColorSpace
 ): void => {
   layers.forEach((layer) => {
     layer.fills.filter(isVisibleSolidFill).forEach((fill) => {
-      drawRect(ctx, x, y, width, height, fill, layer.opacity, colorSpace);
+      drawRect(ctx, x, y, width, height, fill, colorSpace, layer.opacity);
     });
   });
 };
@@ -156,35 +190,49 @@ const drawRect = (
   width: number,
   height: number,
   fill: FigmaPaint,
-  opacity: number | undefined,
-  colorSpace: ColorSpace
+  colorSpace: ColorSpace,
+  opacity?: number
 ): void => {
+  const fillStyle = determineFillStyle(fill, colorSpace);
+  if (isEmpty(fillStyle)) return;
+
+  ctx.fillStyle = fillStyle;
+  ctx.globalAlpha = opacity ?? 1;
+
+  ctx.fillRect(x, y, width, height);
+};
+
+const determineFillStyle = (
+  fill: FigmaPaint,
+  colorSpace: ColorSpace
+): string | undefined => {
   if (fill.type === 'SOLID') {
+    const { b, g, r } = fill.color;
+
     if (colorSpace === 'DISPLAY_P3') {
-      ctx.fillStyle = `color(display-p3 ${fill.color.r} ${fill.color.g} ${
-        fill.color.b
-      } / ${fill.opacity ?? 1})`;
-    } else {
-      ctx.fillStyle = formatHex8({
-        alpha: fill.opacity,
-        ...fill.color,
-        mode: 'rgb',
-      });
+      return `color(display-p3 ${r} ${g} ${b} / ${fill.opacity ?? 1})`;
     }
 
-    ctx.globalAlpha = opacity ?? 1;
-
-    ctx.fillRect(x, y, width, height);
+    return formatHex8({
+      alpha: fill.opacity,
+      b,
+      g,
+      mode: 'rgb',
+      r,
+    });
   }
 };
 
 const formatColorData = (
-  color: RGB
+  color: RGB,
+  isBlended: boolean
 ): {
   hex: string;
+  isBlended: boolean;
   oklch: Oklch;
 } => ({
   hex: formatHex({ ...color, mode: 'rgb' }),
+  isBlended,
   oklch: convertToOklch({ ...color, mode: 'rgb' }, 'oklch'),
 });
 

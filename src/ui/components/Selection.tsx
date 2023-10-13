@@ -1,6 +1,6 @@
+import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type Oklch } from 'culori/fn';
 import { type ReactElement, useState } from 'react';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
@@ -17,11 +17,7 @@ interface Props {
   id: string;
   isLast?: boolean;
   size: 'large' | 'small';
-  userSelection: {
-    apca: number;
-    bg: { hex: string; oklch: Oklch };
-    fg: { hex: string; oklch: Oklch };
-  };
+  userSelection: ContrastConclusion;
 }
 
 const SEGMENTED_FONT_STYLES = {

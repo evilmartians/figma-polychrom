@@ -12,7 +12,8 @@ import {
 import { formatCss, type Oklch } from 'culori/fn';
 
 const minLc = 60;
-const toleranceLc = 2;
+const toleranceLc = 4;
+const borderLcThreshold = 10;
 
 export interface WidgetProps {
   debug: string;
@@ -24,8 +25,9 @@ export interface WidgetProps {
 
 interface Theme {
   bg: UIColor;
-  border: null | UIColor;
+  bgBorder: null | UIColor;
   fg: UIColor;
+  fgBorder: null | UIColor;
   Lc: number;
   secondary: UIColor;
 }
@@ -99,8 +101,9 @@ const getThemeWithBothColorsTransformed = (
 
   return {
     bg: colorTransformedBg,
-    border: null,
+    bgBorder: colorBg,
     fg: colorTransformedFg,
+    fgBorder: colorFg,
     Lc: themeLc,
     secondary,
   };
@@ -108,7 +111,8 @@ const getThemeWithBothColorsTransformed = (
 
 const getThemeWithTransformedFg = (
   colorFg: UIColor,
-  colorBg: UIColor
+  colorBg: UIColor,
+  Lc: number
 ): Theme => {
   const { hex: hexBg } = colorBg;
 
@@ -119,10 +123,13 @@ const getThemeWithTransformedFg = (
 
   const secondary = getSecondaryColor(colorBg);
 
+  const fgBorder = Lc < borderLcThreshold ? colorTransformedFg : colorFg;
+
   return {
     bg: colorBg,
-    border: secondary,
+    bgBorder: secondary,
     fg: colorTransformedFg,
+    fgBorder,
     Lc: themeLc,
     secondary,
   };
@@ -143,8 +150,9 @@ const getThemeWithTransformedBg = (
 
   return {
     bg: colorTransformedBg,
-    border: null,
+    bgBorder: colorBg,
     fg: colorFg,
+    fgBorder: colorFg,
     Lc: themeLc,
     secondary,
   };
@@ -175,16 +183,25 @@ const getSecondaryColor = (colorBg: UIColor): UIColor => {
   const secondaryALc = Math.abs(Number(calcAPCA(hexSecondaryA, hex)));
   const secondaryBLc = Math.abs(Number(calcAPCA(hexSecondaryB, hex)));
 
-  let oklchSecondary = apcachToCss(apcachSecondaryA, 'hex');
-
-  if (secondaryALc < secondaryBLc) {
-    oklchSecondary = apcachToCss(apcachSecondaryB, 'hex');
+  // Logic: if both options are greater than or equal to minLc
+  // then prefer the option with higher Chroma
+  if (
+    secondaryALc >= minLc - toleranceLc &&
+    secondaryBLc >= minLc - toleranceLc
+  ) {
+    if (apcachSecondaryA.chroma >= apcachSecondaryB.chroma) {
+      return { hex: hexSecondaryA, oklch: apcachToCulori(apcachSecondaryA) };
+    } else {
+      return { hex: hexSecondaryB, oklch: apcachToCulori(apcachSecondaryB) };
+    }
   }
 
-  return {
-    hex: oklchSecondary,
-    oklch: apcachToCulori(apcachSecondaryA),
-  };
+  // Else prefer the option with greater contrast
+  if (secondaryALc >= secondaryBLc) {
+    return { hex: hexSecondaryA, oklch: apcachToCulori(apcachSecondaryA) };
+  }
+
+  return { hex: hexSecondaryB, oklch: apcachToCulori(apcachSecondaryB) };
 };
 
 const getThemeWithMaxLc = (themes: Theme[]): null | Theme => {
@@ -202,11 +219,11 @@ const getThemeWithMaxLc = (themes: Theme[]): null | Theme => {
 export const generateUIColors = (
   fg: UIColor,
   bg: UIColor
-): null | WidgetProps => {
+): undefined | WidgetProps => {
   const oklchFg = fixHue(fg.oklch);
   const oklchBg = fixHue(bg.oklch);
 
-  if (isEmpty(oklchFg) || isEmpty(oklchBg)) return null;
+  if (isEmpty(oklchFg) || isEmpty(oklchBg)) return undefined;
 
   const colorFg = { hex: fg.hex, oklch: oklchFg };
   const colorBg = { hex: bg.hex, oklch: oklchBg };
@@ -220,14 +237,15 @@ export const generateUIColors = (
     // Case: the current selection exceeds the minLc
     // no transformation is needed
     return {
-      debug: 'SelectionChangeEvent > minLc',
+      debug: 'Selection > minLc',
       Lc: Math.round(Lc),
       oklchBg,
       oklchFg,
       theme: {
         bg: colorBg,
-        border: secondary,
+        bgBorder: secondary,
         fg: colorFg,
+        fgBorder: colorFg,
         Lc: themeLc,
         secondary,
       },
@@ -239,7 +257,7 @@ export const generateUIColors = (
 
   const themes = [];
   // CASE 1: Thus we change the FG first
-  let theme = getThemeWithTransformedFg(colorFg, colorBg);
+  let theme = getThemeWithTransformedFg(colorFg, colorBg, Lc);
 
   if (theme.Lc >= minLc - toleranceLc) {
     return {
@@ -284,6 +302,6 @@ export const generateUIColors = (
       theme: themeWithMaxLc,
     };
   } else {
-    return null;
+    return undefined;
   }
 };

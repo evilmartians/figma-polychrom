@@ -13,18 +13,20 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 
 interface ColorIndicatorProps {
   borderColor?: string;
-  color: string;
   fill: { hex: string; oklch: Oklch };
   hoverBgColor: string;
   indicatorColor: string;
+  isBlended?: boolean;
+  textColor: string;
 }
 
 export const ColorIndicator = ({
   borderColor,
-  color,
   fill,
   hoverBgColor,
   indicatorColor,
+  isBlended,
+  textColor,
 }: ColorIndicatorProps): ReactElement => {
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
 
@@ -49,18 +51,21 @@ export const ColorIndicator = ({
             // @ts-expect-error
             '--indicators-active': `${hoverBgColor}3D`,
             '--indicators-hover': `${hoverBgColor}28`,
-            color,
+            color: textColor,
           }}
           className="interactive"
           onClick={setCopied}
           type="button"
         >
-          <div className="flex items-center rounded-md p-0.5 hover:bg-indicatorsHover active:bg-indicatorsActive">
-            <ColorPreview
-              borderColor={borderColor}
-              indicatorColor={indicatorColor}
-            />
-            <span style={{ color }}>{displayValue}</span>
+          <div className="flex items-center rounded-[7px] p-1 hover:bg-indicatorsHover active:bg-indicatorsActive">
+            <div className="mr-2">
+              <ColorPreview
+                borderColor={borderColor}
+                indicatorColor={indicatorColor}
+                isBlended={isBlended}
+              />
+            </div>
+            <span style={{ color: textColor }}>{displayValue}</span>
           </div>
         </button>
       </TooltipTrigger>

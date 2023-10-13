@@ -7,7 +7,7 @@ export const InvalidBackgroundSelectionMessage = (): ReactElement => {
       style={{
         backgroundImage: `url(${layersImage})`,
       }}
-      className="mx-auto mb-4 flex h-[200px] w-[180px] select-none items-end justify-center bg-[length:180px_180px] bg-center bg-no-repeat pt-2 text-center font-martianMono text-xxs text-secondary-75"
+      className="mx-auto flex h-[200px] w-[180px] select-none items-end justify-center bg-[length:180px_180px] bg-center bg-no-repeat pt-2 text-center font-martianMono text-xxs text-secondary-75"
     >
       The background layer should be a solid fill
     </p>

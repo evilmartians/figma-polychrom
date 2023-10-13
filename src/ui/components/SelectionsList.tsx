@@ -1,19 +1,19 @@
 import { useStore } from '@nanostores/react';
 import { Selection } from '~ui/components/Selection.tsx';
-import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
+import { type ContrastConclusionList } from '~ui/services/colors/render-and-blend-colors.ts';
 import { $isMultiSelection } from '~ui/stores/selected-nodes.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
 interface Props {
-  contrastConclusion: ContrastConclusion;
+  contrastConclusion: ContrastConclusionList;
 }
 
 export const SelectionsList = ({ contrastConclusion }: Props): ReactElement => {
   const isMultiSelection = useStore($isMultiSelection);
 
   return (
-    <ul className={clsx('w-full', isMultiSelection ? 'mb-4' : '')}>
+    <ul className={clsx('w-full', isMultiSelection ? 'mb-3' : '')}>
       {contrastConclusion.map((pair, index) => (
         <li
           className={clsx(

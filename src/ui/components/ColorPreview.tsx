@@ -1,26 +1,33 @@
-import { notEmpty } from '~utils/not-empty.ts';
+import { BasicColorPreviewIcon } from '~ui/components/BasicColorPreviewIcon.tsx';
+import { LayeredColorPreviewIcon } from '~ui/components/LayeredColorPreviewIcon.tsx';
 import { type ReactElement } from 'react';
 
 interface Props {
   borderColor?: string;
   indicatorColor: string;
+  isBlended?: boolean;
 }
 
 export const ColorPreview = ({
   borderColor,
   indicatorColor,
+  isBlended,
 }: Props): ReactElement => {
+  if (isBlended === true) {
+    return (
+      <div className="flex">
+        <LayeredColorPreviewIcon
+          borderColor={borderColor}
+          indicatorColor={indicatorColor}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div
-      style={{
-        backgroundColor: indicatorColor,
-        ...(notEmpty(borderColor) && {
-          borderColor,
-          borderStyle: 'solid',
-          borderWidth: '0.5px',
-        }),
-      }}
-      className={`mr-2 h-4 w-4 shrink-0 grow rounded`}
+    <BasicColorPreviewIcon
+      borderColor={borderColor}
+      indicatorColor={indicatorColor}
     />
   );
 };
