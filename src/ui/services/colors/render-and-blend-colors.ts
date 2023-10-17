@@ -46,6 +46,9 @@ export interface ContrastConclusion {
   id: string;
 }
 
+// remove any non-alphabetical or non-numeric characters
+const formatFigmaNodeID = (id: string): string => id.replace(/[^a-z0-9]/gi, '');
+
 export type ContrastConclusionList = ContrastConclusion[];
 
 export const renderAndBlendColors = (
@@ -64,6 +67,7 @@ const summarizeTheColorsForPair = (
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d', {
     colorSpace: CanvasColorSpace[colorSpace],
+    willReadFrequently: true,
   });
 
   if (isEmpty(ctx)) return null;
@@ -86,10 +90,13 @@ const summarizeTheColorsForPair = (
   const isBgBlended = isBlended(bgNode, bgFill);
 
   const apca = calculateApcaScore(fgColorData, bgColorData, colorSpace);
+  const nodeId = pair.selectedNode[0]?.id;
+  const id = notEmpty(nodeId) ? formatFigmaNodeID(nodeId) : nanoid();
 
   canvas.remove();
 
   return createContrastConclusion(
+    id,
     apca,
     fgColorData,
     isFgBlended,
@@ -128,6 +135,7 @@ const isBlended = (node?: FigmaNode, fill?: FigmaPaint): boolean => {
 };
 
 const createContrastConclusion = (
+  id: string,
   apcaScore: number,
   fgColor: RGB,
   isFgBlended: boolean,
@@ -137,7 +145,7 @@ const createContrastConclusion = (
   apca: apcaScore,
   bg: formatColorData(bgColor, isBgBlended),
   fg: formatColorData(fgColor, isFgBlended),
-  id: nanoid(),
+  id,
 });
 
 const isVisibleSolidFill = (fill: FigmaPaint): boolean =>

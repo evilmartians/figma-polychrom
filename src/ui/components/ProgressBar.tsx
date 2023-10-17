@@ -1,4 +1,9 @@
+import { useStore } from '@nanostores/react';
+import { RewardingAnimationBodyText } from '~ui/components/RewardingAnimationBodyText.tsx';
+import { RewardingAnimationContentText } from '~ui/components/RewardingAnimationContentText.tsx';
+import { RewardingAnimationFluentText } from '~ui/components/RewardingAnimationFluentText.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
+import { $rewardAnimationLaunch } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
@@ -23,6 +28,7 @@ export const ProgressBar = ({
   primaryColor,
   secondaryColor,
 }: Props): ReactElement => {
+  const rewardAnimationLaunch = useStore($rewardAnimationLaunch);
   const maxScale = apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE;
   const barWidth = maxScale * SCALE;
   const filledSegmentWidth = Math.abs(apca) * SCALE;
@@ -50,42 +56,64 @@ export const ProgressBar = ({
         >
           <div
             style={{
-              backgroundImage: `linear-gradient(to right, ${primaryColor}B2 60%, ${primaryColor} 85%)`,
+              backgroundImage: `linear-gradient(to right, ${primaryColor}B2 70%, ${primaryColor} 85%)`,
               height: `${height}px`,
               width: filledSegmentWidth,
             }}
             className="rounded-full"
           />
 
-          <div
-            style={{
-              backgroundColor: primaryColor,
-              left: filledSegmentWidth,
-            }}
-            className="absolute h-3 w-3 -translate-x-1.5 -translate-y-2.5 rounded-full blur-md"
-          />
+          {/* {notEmpty(initialSingleSelectionAPCA) && ( */}
+          {/*  <div */}
+          {/*    style={{ */}
+          {/*      left: filledSegmentWidth, */}
+          {/*    }} */}
+          {/*    className="absolute -translate-x-0.5 -translate-y-1" */}
+          {/*  > */}
+          {/*    <RewardingAnimation apca={Math.abs(apca)} /> */}
+          {/*  </div> */}
+          {/* )} */}
 
           <div>
             {Array.from({ length: conclusionScores.length }).map((_, i) => {
               const value = conclusionScores[i];
-              const isMinForText = value === conclusions['Content Text'];
+              const isContextText = value === conclusions['Content Text'];
+              const isBodyText = value === conclusions['Body Text'];
+              const isFluentText = value === conclusions['Fluent Text'];
 
               if (isEmpty(value)) return null;
 
               const position = value * SCALE - SERIF_OFFSET;
 
               return (
-                <span
+                <div
                   className={clsx(
                     'absolute top-1/2 w-px -translate-y-1/2',
-                    isMinForText ? 'h-1' : 'h-0.5'
+                    isContextText ? 'h-1' : 'h-0.5'
                   )}
                   style={{
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
+                    '--color-sparkles': primaryColor,
                     backgroundColor: bgColor,
                     left: position,
                   }}
                   key={i}
-                />
+                >
+                  {isContextText &&
+                    rewardAnimationLaunch.contentText === true && (
+                      <RewardingAnimationContentText />
+                    )}
+
+                  {isBodyText && rewardAnimationLaunch.bodyText === true && (
+                    <RewardingAnimationBodyText />
+                  )}
+
+                  {isFluentText &&
+                    rewardAnimationLaunch.fluentText === true && (
+                      <RewardingAnimationFluentText />
+                    )}
+                </div>
               );
             })}
           </div>

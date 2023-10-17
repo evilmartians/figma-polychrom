@@ -1,0 +1,309 @@
+/** {*/
+/*  box-sizing: border-box;*/
+/*}*/
+
+.animation {
+  /*--color-sparkles: #fff;*/
+  --size: 40px;
+  --opacity-max: 0.6;
+  --duration-max: 1s;
+
+  position: absolute;
+  width: var(--size);
+  aspect-ratio: 1/1;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.animation-60 {
+  left: 40%;
+}
+
+.animation-75 {
+  left: 50%;
+}
+
+.animation-90 {
+  left: 60%;
+}
+
+.object {
+  position: absolute;
+  transform-origin: center center;
+}
+
+/* Animation 60 */
+
+.animation-60 .glowing {
+  width: calc(var(--size) * 0.8);
+  aspect-ratio: 1/1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: solid 1px var(--color-sparkles);
+  animation: glowing-60 calc(var(--duration-max) * 0.6) ease-out 1 forwards;
+}
+
+@keyframes glowing-60 {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    border-width: 1px;
+    opacity: 0;
+  }
+  10% {
+    transform: translate(-50%, -50%) scale(0.8);
+    border-width: 8px;
+    opacity: var(--opacity-max);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(0.8);
+    border-width: 6px;
+    opacity: calc(var(--opacity-max) / 2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    border-width: 0.5px;
+    opacity: 0;
+  }
+}
+
+/* Animation 75 */
+
+.animation-75 .glowing {
+  width: calc(var(--size) * 0.8);
+  aspect-ratio: 1/1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: solid 1px var(--color-sparkles);
+  animation: glowing-75 calc(var(--duration-max) * 0.6) ease-out 1 forwards;
+}
+
+@keyframes glowing-75 {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    border-width: 1px;
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(0.8);
+    border-width: 8px;
+    opacity: var(--opacity-max);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    border-width: 0.5px;
+    opacity: 0;
+  }
+}
+
+.animation-75 .star-1 {
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-sparkles);
+  transform: rotate(45deg);
+  animation: star-75-1 var(--duration-max) ease-out 1 forwards;
+}
+
+@keyframes star-75-1 {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(0.3rem, 0.3rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  80% {
+    transform: translate(0.35rem, 0.35rem) scale(1) rotate(45deg);
+    opacity: calc(var(--opacity-max) / 2);
+  }
+  100% {
+    transform: translate(0.35rem, -1rem) scale(0) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animation-75 .star-2 {
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-sparkles);
+  transform: rotate(45deg);
+  animation: star-75-2 var(--duration-max) ease-out 1 forwards;
+}
+
+@keyframes star-75-2 {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-0.5rem, -0.1rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  60% {
+    transform: translate(-0.65rem, -0.15rem) scale(0.6) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  70% {
+    transform: translate(-0.65rem, -0.15rem) scale(0.6) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  100% {
+    transform: translate(-0.65rem, -1rem) scale(0) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Animation 90 */
+
+.animation-90 .glowing {
+  width: var(--size);
+  aspect-ratio: 1/1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: solid 1px var(--color-sparkles);
+  animation: glowing-90 calc(var(--duration-max) * 0.8) ease-out 1 forwards;
+}
+
+@keyframes glowing-90 {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    border-width: 1px;
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(0.8);
+    border-width: 8px;
+    opacity: var(--opacity-max);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(0.8);
+    border-width: 6px;
+    opacity: var(--opacity-max);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    border-width: 0.5px;
+    opacity: 0;
+  }
+}
+
+.animation-90 .star-1 {
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-sparkles);
+  transform: rotate(45deg);
+  animation: star-90-1 var(--duration-max) ease-out 1 forwards;
+}
+
+@keyframes star-90-1 {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(-0.5rem, 0.3rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  40% {
+    transform: translate(-0.55rem, 0.3rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  80% {
+    transform: translate(-0.75rem, 0.15rem) scale(1) rotate(45deg);
+    opacity: calc(var(--opacity-max) * 1.4);
+  }
+  100% {
+    transform: translate(-0.75rem, -1rem) scale(0) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animation-90 .star-2 {
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-sparkles);
+  transform: rotate(45deg);
+  animation: star-90-2 var(--duration-max) ease-out 1 forwards;
+}
+
+@keyframes star-90-2 {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-0.5rem, -0.4rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  60% {
+    transform: translate(-0.35rem, -0.55rem) scale(0.6) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  70% {
+    transform: translate(-0.35rem, -0.65rem) scale(0.6) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  100% {
+    transform: translate(-0.35rem, -1.2rem) scale(0) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animation-90 .star-3 {
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-sparkles);
+  transform: rotate(45deg);
+  animation: star-90-3 var(--duration-max) ease-out 1 forwards;
+}
+
+@keyframes star-90-3 {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(0.8rem, 0.8rem) scale(1) rotate(45deg);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(0.8rem, 0.8rem) scale(1.4) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  50% {
+    transform: translate(0.4rem, -0.2rem) scale(1.4) rotate(45deg);
+    opacity: calc(var(--opacity-max) * 1.4);
+  }
+  70% {
+    transform: translate(0.4rem, -0.2rem) scale(1) rotate(45deg);
+    opacity: var(--opacity-max);
+  }
+  100% {
+    transform: translate(0.4rem, -1.2rem) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+}
