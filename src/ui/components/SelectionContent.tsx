@@ -57,7 +57,7 @@ export const SelectionContent = ({
         <div className="shrink-0 grow">
           <ContrastSample
             bgColor={bg.hex}
-            borderColor={uiColors.theme.bgBorder?.hex}
+            borderColor={uiColors.theme.borderOriginal?.hex}
             color={fg.hex}
             size={size}
           />

@@ -26,6 +26,7 @@ export interface WidgetProps {
 interface Theme {
   bg: UIColor;
   bgBorder: null | UIColor;
+  borderOriginal: null | UIColor;
   fg: UIColor;
   fgBorder: null | UIColor;
   Lc: number;
@@ -102,6 +103,7 @@ const getThemeWithBothColorsTransformed = (
   return {
     bg: colorTransformedBg,
     bgBorder: colorBg,
+    borderOriginal: colorBg,
     fg: colorTransformedFg,
     fgBorder: colorFg,
     Lc: themeLc,
@@ -128,6 +130,7 @@ const getThemeWithTransformedFg = (
   return {
     bg: colorBg,
     bgBorder: secondary,
+    borderOriginal: secondary,
     fg: colorTransformedFg,
     fgBorder,
     Lc: themeLc,
@@ -151,6 +154,7 @@ const getThemeWithTransformedBg = (
   return {
     bg: colorTransformedBg,
     bgBorder: colorBg,
+    borderOriginal: colorBg,
     fg: colorFg,
     fgBorder: colorFg,
     Lc: themeLc,
@@ -244,6 +248,7 @@ export const generateUIColors = (
       theme: {
         bg: colorBg,
         bgBorder: secondary,
+        borderOriginal: secondary,
         fg: colorFg,
         fgBorder: colorFg,
         Lc: themeLc,
