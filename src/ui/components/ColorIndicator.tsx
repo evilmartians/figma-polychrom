@@ -1,5 +1,6 @@
 import { useStore } from '@nanostores/react';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
+import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import {
   getFormatterForCSS,
   getFormatterForDisplaying,
@@ -12,18 +13,16 @@ import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip.tsx';
 
 interface ColorIndicatorProps {
-  borderColor?: string;
+  borderColor: string;
   fill: { hex: string; oklch: Oklch };
-  hoverBgColor: string;
   indicatorColor: string;
-  isBlended?: boolean;
+  isBlended: boolean;
   textColor: string;
 }
 
 export const ColorIndicator = ({
   borderColor,
   fill,
-  hoverBgColor,
   indicatorColor,
   isBlended,
   textColor,
@@ -49,9 +48,9 @@ export const ColorIndicator = ({
           style={{
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            '--indicators-active': `${hoverBgColor}3D`,
-            '--indicators-hover': `${hoverBgColor}28`,
-            color: textColor,
+            '--indicators-active': `var(${ThemeVariablesKeys.secondary24})`,
+            '--indicators-hover': `var(${ThemeVariablesKeys.secondary16})`,
+            color: indicatorColor,
           }}
           className="interactive"
           onClick={setCopied}
@@ -65,7 +64,7 @@ export const ColorIndicator = ({
                 isBlended={isBlended}
               />
             </div>
-            <span style={{ color: textColor }}>{displayValue}</span>
+            <span style={{ color: `var(${textColor})` }}>{displayValue}</span>
           </div>
         </button>
       </TooltipTrigger>

@@ -1,3 +1,4 @@
+import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { fontLookupAPCA } from 'apca-w3';
 import { type ReactElement } from 'react';
@@ -8,35 +9,34 @@ import { WarningIcon } from './WarningIcon.tsx';
 
 interface Props {
   apca: number;
-  color: string;
 }
 
-export const TextMetrics = ({ apca, color }: Props): ReactElement => {
+export const TextMetrics = ({ apca }: Props): ReactElement => {
   const [, , , , regular, , , bold] = fontLookupAPCA(apca);
 
   if (Math.abs(apca) < conclusions['Not Readable']) {
-    return <StopIcon color={color} />;
+    return <StopIcon />;
   }
 
   if (Math.abs(apca) < conclusions['Non-Text']) {
-    return <WarningIcon color={color} />;
+    return <WarningIcon />;
   }
 
   if (Math.abs(apca) < conclusions['Large Text']) {
-    return <PictureIcon color={color} />;
+    return <PictureIcon />;
   }
 
   return (
     <div
       style={{
-        color,
+        color: `var(${ThemeVariablesKeys.fg})`,
       }}
       className="flex items-center"
     >
       <div className="mr-3 flex items-center">
         <p
           style={{
-            borderColor: color,
+            borderColor: `var(${ThemeVariablesKeys.fg})`,
           }}
           className="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
         >
@@ -47,7 +47,7 @@ export const TextMetrics = ({ apca, color }: Props): ReactElement => {
       <div className="flex items-center">
         <p
           style={{
-            borderColor: color,
+            borderColor: `var(${ThemeVariablesKeys.fg})`,
           }}
           className="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
         >

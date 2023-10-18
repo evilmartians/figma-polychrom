@@ -36,7 +36,7 @@ export const AppContent = (): ReactElement => {
     const pair = contrastConclusion[0];
 
     if (isEmpty(pair)) {
-      return <div />;
+      return <EmptySelectionMessage />;
     }
 
     return <Selection id={pair.id} isLast size="large" userSelection={pair} />;

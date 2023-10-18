@@ -23,7 +23,7 @@ export interface WidgetProps {
   theme: Theme;
 }
 
-interface Theme {
+export interface Theme {
   bg: UIColor;
   bgBorder: null | UIColor;
   borderOriginal: null | UIColor;

@@ -1,10 +1,12 @@
+import { type UIColor } from '~types/common.ts';
+import { formatColorForTheme } from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ReactElement } from 'react';
 
 interface Props {
   currentStyleNumber: number;
   id: string;
-  primaryColor: string;
-  secondaryColor: string;
+  primaryColor: UIColor;
+  secondaryColor: UIColor;
 }
 
 export const SegmentedFontStyleDefinition = ({
@@ -21,12 +23,15 @@ export const SegmentedFontStyleDefinition = ({
     }
   );
 
+  const primaryFormatted = formatColorForTheme(primaryColor);
+  const secondaryFormatted = formatColorForTheme(secondaryColor, 0.12);
+
   return (
     <style>
       {`
         @font-palette-values --segmented-${id} {
           font-family: Segmented;
-          override-colors: 0 ${primaryColor}, 1 ${secondaryColor}1F;
+          override-colors: 0 ${primaryFormatted}, 1 ${secondaryFormatted};
         }
 
         .segmented-${id} {

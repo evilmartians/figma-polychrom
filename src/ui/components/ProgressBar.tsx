@@ -2,6 +2,7 @@ import { useStore } from '@nanostores/react';
 import { RewardingAnimationBodyText } from '~ui/components/RewardingAnimationBodyText.tsx';
 import { RewardingAnimationContentText } from '~ui/components/RewardingAnimationContentText.tsx';
 import { RewardingAnimationFluentText } from '~ui/components/RewardingAnimationFluentText.tsx';
+import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { $rewardAnimationLaunch } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
@@ -10,10 +11,7 @@ import { type ReactElement } from 'react';
 
 interface Props {
   apca: number;
-  bgColor: string;
   height: number;
-  primaryColor: string;
-  secondaryColor: string;
 }
 
 const SCALE = 2;
@@ -21,13 +19,7 @@ const APCA_NEGATIVE_MAX_SCALE = 108;
 const APCA_POSITIVE_MAX_SCALE = 106;
 const SERIF_OFFSET = 2;
 
-export const ProgressBar = ({
-  apca,
-  bgColor,
-  height,
-  primaryColor,
-  secondaryColor,
-}: Props): ReactElement => {
+export const ProgressBar = ({ apca, height }: Props): ReactElement => {
   const rewardAnimationLaunch = useStore($rewardAnimationLaunch);
   const maxScale = apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE;
   const barWidth = maxScale * SCALE;
@@ -39,7 +31,7 @@ export const ProgressBar = ({
       <div className="flex items-center">
         <span
           style={{
-            color: secondaryColor,
+            color: `var(${ThemeVariablesKeys.secondary})`,
           }}
           className="mr-2 text-xxs"
         >
@@ -48,7 +40,7 @@ export const ProgressBar = ({
 
         <div
           style={{
-            backgroundColor: `${secondaryColor}1F`,
+            backgroundColor: `var(${ThemeVariablesKeys.secondary12})`,
             height: `${height}px`,
             width: barWidth,
           }}
@@ -56,23 +48,12 @@ export const ProgressBar = ({
         >
           <div
             style={{
-              backgroundImage: `linear-gradient(to right, ${primaryColor}B2 70%, ${primaryColor} 85%)`,
+              backgroundImage: `linear-gradient(to right, var(${ThemeVariablesKeys.fg70}) 70%, var(${ThemeVariablesKeys.fg}) 85%)`,
               height: `${height}px`,
               width: filledSegmentWidth,
             }}
             className="rounded-full"
           />
-
-          {/* {notEmpty(initialSingleSelectionAPCA) && ( */}
-          {/*  <div */}
-          {/*    style={{ */}
-          {/*      left: filledSegmentWidth, */}
-          {/*    }} */}
-          {/*    className="absolute -translate-x-0.5 -translate-y-1" */}
-          {/*  > */}
-          {/*    <RewardingAnimation apca={Math.abs(apca)} /> */}
-          {/*  </div> */}
-          {/* )} */}
 
           <div>
             {Array.from({ length: conclusionScores.length }).map((_, i) => {
@@ -94,8 +75,8 @@ export const ProgressBar = ({
                   style={{
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
-                    '--color-sparkles': primaryColor,
-                    backgroundColor: bgColor,
+                    '--color-sparkles': `var(${ThemeVariablesKeys.fg})`,
+                    backgroundColor: `var(${ThemeVariablesKeys.bg})`,
                     left: position,
                   }}
                   key={i}
@@ -121,7 +102,7 @@ export const ProgressBar = ({
 
         <span
           style={{
-            color: secondaryColor,
+            color: `var(${ThemeVariablesKeys.secondary})`,
           }}
           className="ml-2 text-xxs"
         >

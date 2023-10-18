@@ -1,10 +1,9 @@
-import { notEmpty } from '~utils/not-empty.ts';
+import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
 interface Props {
   bgColor: string;
-  borderColor?: string;
   color: string;
   opacity?: number;
   size: 'large' | 'small';
@@ -14,7 +13,6 @@ const exampleText = 'Aa';
 
 export const ContrastSample = ({
   bgColor,
-  borderColor,
   color,
   opacity,
   size,
@@ -23,12 +21,11 @@ export const ContrastSample = ({
     <p
       className={clsx(
         size === 'small' ? 'h-9 w-9 text-xxs' : 'h-13 w-13 text-base',
-        'flex items-center justify-center rounded-lg text-base',
-        notEmpty(borderColor) ? 'border-0.5' : null
+        'flex items-center justify-center rounded-lg border-0.5 text-base'
       )}
       style={{
         backgroundColor: bgColor,
-        borderColor,
+        borderColor: `var(${ThemeVariablesKeys.borderOriginal})`,
         color,
       }}
     >

@@ -1,9 +1,12 @@
+import {
+  formatColorForTheme,
+  ThemeVariablesKeys,
+} from '~ui/components/ThemeVariablesProvider.tsx';
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
-import { type WidgetProps } from '../services/theme/generate-ui-colors.ts';
 import { ColorIndicator } from './ColorIndicator.tsx';
 import { ContrastSample } from './ContrastSample.tsx';
 import { ProgressBar } from './ProgressBar.tsx';
@@ -13,7 +16,6 @@ interface Props extends ContrastConclusion {
   isLast?: boolean;
   onApcaDoubleClick: () => void;
   size: 'large' | 'small';
-  uiColors: WidgetProps;
 }
 
 export const SelectionContent = ({
@@ -24,8 +26,10 @@ export const SelectionContent = ({
   isLast,
   onApcaDoubleClick,
   size,
-  uiColors,
 }: Props): ReactElement => {
+  const bgColor = formatColorForTheme(bg);
+  const fgColor = formatColorForTheme(fg);
+
   return (
     <div className="relative grid h-full w-full">
       <div
@@ -36,7 +40,7 @@ export const SelectionContent = ({
       >
         <p
           style={{
-            color: uiColors.theme.fg.hex,
+            color: `var(${ThemeVariablesKeys.fg})`,
           }}
           className="text-xxs"
         >
@@ -44,7 +48,7 @@ export const SelectionContent = ({
         </p>
 
         <div className="flex h-[18px] items-center">
-          <TextMetrics apca={apca} color={uiColors.theme.fg.hex} />
+          <TextMetrics apca={apca} />
         </div>
       </div>
 
@@ -55,12 +59,7 @@ export const SelectionContent = ({
         )}
       >
         <div className="shrink-0 grow">
-          <ContrastSample
-            bgColor={bg.hex}
-            borderColor={uiColors.theme.borderOriginal?.hex}
-            color={fg.hex}
-            size={size}
-          />
+          <ContrastSample bgColor={bgColor} color={fgColor} size={size} />
         </div>
 
         <div
@@ -71,7 +70,7 @@ export const SelectionContent = ({
           style={{
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            '--text-shadow-color': `${uiColors.theme.fg.hex}3D`,
+            '--text-shadow-color': `var(${ThemeVariablesKeys.fg24})`,
           }}
         >
           <h1 className="inline text-shadow" onDoubleClick={onApcaDoubleClick}>
@@ -87,34 +86,26 @@ export const SelectionContent = ({
               isLast === true && size === 'small' ? 'mb-0 mt-1' : 'mb-5'
             }
           >
-            <ProgressBar
-              apca={apca}
-              bgColor={uiColors.theme.bg.hex}
-              height={size === 'small' ? 6 : 8}
-              primaryColor={uiColors.theme.fg.hex}
-              secondaryColor={uiColors.theme.secondary.hex}
-            />
+            <ProgressBar apca={apca} height={size === 'small' ? 6 : 8} />
           </div>
         )}
 
         {size === 'large' && (
           <div className="flex items-center justify-between text-xxs">
             <ColorIndicator
-              borderColor={uiColors.theme.fgBorder?.hex}
+              borderColor={ThemeVariablesKeys.fgBorder}
               fill={fg}
-              hoverBgColor={uiColors.theme.secondary.hex}
-              indicatorColor={fg.hex}
+              indicatorColor={fgColor}
               isBlended={fg.isBlended}
-              textColor={uiColors.theme.fg.hex}
+              textColor={ThemeVariablesKeys.fg}
             />
 
             <ColorIndicator
-              borderColor={uiColors.theme.bgBorder?.hex}
+              borderColor={ThemeVariablesKeys.bgBorder}
               fill={bg}
-              hoverBgColor={uiColors.theme.secondary.hex}
-              indicatorColor={bg.hex}
+              indicatorColor={bgColor}
               isBlended={bg.isBlended}
-              textColor={uiColors.theme.secondary.hex}
+              textColor={ThemeVariablesKeys.secondary}
             />
           </div>
         )}

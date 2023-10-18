@@ -1,3 +1,7 @@
+import {
+  ThemeVariablesKeys,
+  ThemeVariablesProvider,
+} from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
@@ -58,32 +62,35 @@ export const Selection = ({
   }
 
   return (
-    <div
-      className={clsx(
-        'w-full rounded-2.5xl',
-        size === 'small' && isLast === false && 'px-5 pb-8 pt-2',
-        size === 'small' && isLast === true && 'px-5 py-3',
-        size === 'large' && 'p-5'
-      )}
-      style={{ backgroundColor: uiColors.theme.bg.hex }}
-    >
-      <SegmentedFontStyleDefinition
-        currentStyleNumber={currentStyleNumber}
-        id={id}
-        primaryColor={uiColors.theme.fg.hex}
-        secondaryColor={uiColors.theme.secondary.hex}
-      />
+    <ThemeVariablesProvider theme={uiColors.theme}>
+      <div
+        className={clsx(
+          'w-full rounded-2.5xl',
+          size === 'small' && isLast === false && 'px-5 pb-8 pt-2',
+          size === 'small' && isLast === true && 'px-5 py-3',
+          size === 'large' && 'p-5'
+        )}
+        style={{
+          backgroundColor: `var(${ThemeVariablesKeys.bg})`,
+        }}
+      >
+        <SegmentedFontStyleDefinition
+          currentStyleNumber={currentStyleNumber}
+          id={id}
+          primaryColor={uiColors.theme.fg}
+          secondaryColor={uiColors.theme.secondary}
+        />
 
-      <SelectionContent
-        apca={apca}
-        bg={bg}
-        fg={fg}
-        id={id}
-        isLast={isLast}
-        onApcaDoubleClick={handleCurrentStyleNumberChange}
-        size={size}
-        uiColors={uiColors}
-      />
-    </div>
+        <SelectionContent
+          apca={apca}
+          bg={bg}
+          fg={fg}
+          id={id}
+          isLast={isLast}
+          onApcaDoubleClick={handleCurrentStyleNumberChange}
+          size={size}
+        />
+      </div>
+    </ThemeVariablesProvider>
   );
 };
