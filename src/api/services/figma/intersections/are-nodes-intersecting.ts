@@ -10,6 +10,8 @@ export const areNodesIntersecting = (
 
   return (
     isDifferentNodeWithBoundingBox(node, selectedNode.id) &&
-    isContainedIn(node.absoluteBoundingBox, selectedNode.absoluteBoundingBox)
+    isContainedIn(node.absoluteBoundingBox, selectedNode.absoluteBoundingBox) &&
+    'visible' in node &&
+    node.visible
   );
 };
