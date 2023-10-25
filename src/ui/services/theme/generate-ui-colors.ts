@@ -70,12 +70,12 @@ const transformFgColor = (colorFg: UIColor, colorBg: UIColor): UIColor => {
 };
 
 const transformBgColor = (colorFg: UIColor, colorBg: UIColor): UIColor => {
-  const { hex: hexFg, oklch } = colorFg;
+  const { hex: hexFg } = colorFg;
   const { oklch: oklchBg } = colorBg;
 
   const apcachDarkBg = apcach(
     crToFg(hexFg, minLc),
-    maxChroma(oklch.c),
+    maxChroma(oklchBg.c),
     oklchBg.h ?? 0
   );
 
