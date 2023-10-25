@@ -8,12 +8,14 @@ describe('traverseAndCheckIntersections', () => {
       {
         absoluteBoundingBox: { height: 50, width: 50, x: 200, y: 200 },
         id: '1',
+        visible: true,
       },
     ] as unknown as SceneNode[];
 
     const selectedNode = {
       absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
       id: '2',
+      visible: true,
     } as unknown as SceneNode;
 
     expect(traverseAndCheckIntersections(nodes, selectedNode)).toEqual([]);
@@ -24,12 +26,14 @@ describe('traverseAndCheckIntersections', () => {
       {
         absoluteBoundingBox: { height: 100, width: 100, x: 0, y: 0 },
         id: '1',
+        visible: true,
       },
     ] as unknown as SceneNode[];
 
     const selectedNode = {
       absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
       id: '2',
+      visible: true,
     } as unknown as SceneNode;
 
     expect(traverseAndCheckIntersections(nodes, selectedNode)).toEqual(nodes);
@@ -42,14 +46,17 @@ describe('traverseAndCheckIntersections', () => {
         {
           absoluteBoundingBox: { height: 90, width: 90, x: 0, y: 0 },
           id: '3',
+          visible: true,
         },
       ],
       id: '1',
+      visible: true,
     } as unknown as FrameNode;
 
     const selectedNode = {
       absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
       id: '2',
+      visible: true,
     } as unknown as SceneNode;
 
     expect(traverseAndCheckIntersections([frameNode], selectedNode)).toEqual([
@@ -66,15 +73,18 @@ describe('traverseAndCheckIntersections', () => {
           {
             absoluteBoundingBox: { height: 5, width: 5, x: 90, y: 90 },
             id: '3',
+            visible: true,
           },
         ],
         id: '1',
+        visible: true,
       },
     ] as unknown as SceneNode[];
 
     const selectedNode = {
       absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
       id: '2',
+      visible: true,
     } as unknown as SceneNode;
 
     expect(traverseAndCheckIntersections(nodes, selectedNode)).toEqual([
@@ -87,12 +97,14 @@ describe('traverseAndCheckIntersections', () => {
       {
         absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
         id: '2',
+        visible: true,
       },
     ] as unknown as SceneNode[];
 
     const selectedNode = {
       absoluteBoundingBox: { height: 50, width: 50, x: 10, y: 10 },
       id: '2',
+      visible: true,
     } as unknown as SceneNode;
 
     expect(traverseAndCheckIntersections(nodes, selectedNode)).toEqual([]);
