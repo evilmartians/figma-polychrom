@@ -1,6 +1,8 @@
 import { getActualNodeFill } from '~utils/get-actual-node-fill.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
+// TODO: Improve if there are any non solid visible fills with opacity.
+
 export const isValidForSelection = (node: SceneNode): boolean => {
   if (!node.visible) {
     return false;

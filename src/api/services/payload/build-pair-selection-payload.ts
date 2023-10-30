@@ -1,6 +1,7 @@
 import { areNodesIntersecting } from '~api/services/figma/intersections/are-nodes-intersecting.ts';
 import { getIntersectingNodes } from '~api/services/figma/intersections/get-intersecting-nodes.ts';
 import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
+// import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
 import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layers.ts';
@@ -39,6 +40,13 @@ export const buildPairSelectionPayload = (
     };
   }
 
+  // if (!hasOnlyValidBlendModes([bg, fg])) {
+  //   return {
+  //     colorSpace: figma.root.documentColorProfile,
+  //     text: SelectionMessageTypes.unprocessedBlendModes,
+  //   };
+  // }
+
   const fgSceneNode = fg.id === firstFigmaNode.id ? firstNode : secondNode;
   const bgSceneNode = bg.id === firstFigmaNode.id ? firstNode : secondNode;
 
@@ -48,13 +56,13 @@ export const buildPairSelectionPayload = (
       selectedNodePairs: [],
     };
 
-  if (areNodesIntersecting(firstNode, secondNode)) {
+  if (areNodesIntersecting(bgSceneNode, fgSceneNode)) {
     return {
       colorSpace: figma.root.documentColorProfile,
       selectedNodePairs: [
         {
           intersectingNodes: getIntersectingNodes(fgSceneNode),
-          selectedNode: [fg],
+          selectedNodeWithIntersectingNodes: [fg],
         },
       ],
     };
@@ -64,7 +72,10 @@ export const buildPairSelectionPayload = (
       selectedNodePairs: [
         {
           intersectingNodes: [bg, ...getIntersectingNodes(bgSceneNode)],
-          selectedNode: [fg, ...getIntersectingNodes(fgSceneNode)],
+          selectedNodeWithIntersectingNodes: [
+            fg,
+            ...getIntersectingNodes(fgSceneNode),
+          ],
         },
       ],
     };

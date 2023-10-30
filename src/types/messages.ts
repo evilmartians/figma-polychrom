@@ -20,6 +20,7 @@ export interface Message<T> {
 
 export enum SelectionMessageTypes {
   invalidBackground = 'invalidBackground',
+  unprocessedBlendModes = 'unprocessedBlendModes',
 }
 
 export interface SelectionChangePayload {

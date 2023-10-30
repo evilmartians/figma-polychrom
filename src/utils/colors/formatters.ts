@@ -19,12 +19,14 @@ export const convertDecimalRGBto255Scale = (color: {
 };
 
 export const convert255ScaleRGBtoDecimal = (color: {
+  alpha?: number;
   b: number;
   g: number;
   r: number;
-}): { b: number; g: number; r: number } => {
-  const { b, g, r } = color;
-  return { b: b / 255, g: g / 255, r: r / 255 };
+}): { alpha: number; b: number; g: number; r: number } => {
+  const { alpha, b, g, r } = color;
+
+  return { alpha: (alpha ?? 255) / 255, b: b / 255, g: g / 255, r: r / 255 };
 };
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {

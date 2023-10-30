@@ -45,6 +45,16 @@ export const $isInvalidBackground = computed($userSelection, (selection) => {
   );
 });
 
+export const $isUnprocessedBlendModes = computed(
+  $userSelection,
+  (selection) => {
+    return (
+      'text' in selection &&
+      selection.text === SelectionMessageTypes.unprocessedBlendModes
+    );
+  }
+);
+
 export const $isEmptySelection = computed(
   $contrastConclusion,
   (selection) => selection?.length === 0

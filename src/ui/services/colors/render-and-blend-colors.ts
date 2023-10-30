@@ -20,17 +20,17 @@ interface CanvasRect {
 }
 
 const BACKGROUND_BOX = {
-  height: 2,
-  width: 2,
+  height: 20,
+  width: 20,
   x: 0,
   y: 0,
 };
 
 const FOREGROUND_BOX = {
-  height: 1,
-  width: 1,
-  x: 1,
-  y: 1,
+  height: 10,
+  width: 10,
+  x: 0,
+  y: 10,
 };
 
 const CanvasColorSpace: Record<ColorSpace, 'display-p3' | 'srgb'> = {
@@ -46,8 +46,25 @@ export interface ContrastConclusion {
   id: string;
 }
 
+interface Layer {
+  // blendMode?: BlendMode;
+  fills: FigmaPaint[];
+  opacity?: number;
+}
+
 // remove any non-alphabetical or non-numeric characters
 const formatFigmaNodeID = (id: string): string => id.replace(/[^a-z0-9]/gi, '');
+
+const isBlended = (node?: FigmaNode, fill?: FigmaPaint): boolean => {
+  return (
+    (node != null && node.opacity !== 1) || (fill != null && fill.opacity !== 1)
+  );
+};
+
+const isVisibleSolidFill = (fill: FigmaPaint): boolean =>
+  fill.visible === true &&
+  (notEmpty(fill.opacity) ? fill.opacity > 0 : true) &&
+  fill.type === 'SOLID';
 
 export type ContrastConclusionList = ContrastConclusion[];
 
@@ -83,14 +100,16 @@ const summarizeTheColorsForPair = (
 
   if (isEmpty(fgColorData) || isEmpty(bgColorData)) return null;
 
-  const { fill: fgFill, node: fgNode } = getNodeAndFill(pair.selectedNode);
+  const { fill: fgFill, node: fgNode } = getNodeAndFill(
+    pair.selectedNodeWithIntersectingNodes
+  );
   const { fill: bgFill, node: bgNode } = getNodeAndFill(pair.intersectingNodes);
 
   const isFgBlended = isBlended(fgNode, fgFill);
   const isBgBlended = isBlended(bgNode, bgFill);
 
   const apca = calculateApcaScore(fgColorData, bgColorData, colorSpace);
-  const nodeId = pair.selectedNode[0]?.id;
+  const nodeId = pair.selectedNodeWithIntersectingNodes[0]?.id;
   const id = notEmpty(nodeId) ? formatFigmaNodeID(nodeId) : nanoid();
 
   canvas.remove();
@@ -111,7 +130,13 @@ const renderNodesOnCanvas = (
   colorSpace: ColorSpace
 ): void => {
   drawNodes(ctx, pair.intersectingNodes, BACKGROUND_BOX, colorSpace);
-  drawNodes(ctx, pair.selectedNode, FOREGROUND_BOX, colorSpace);
+
+  drawNodes(
+    ctx,
+    pair.selectedNodeWithIntersectingNodes,
+    FOREGROUND_BOX,
+    colorSpace
+  );
 };
 
 const getNodeAndFill = (
@@ -128,12 +153,6 @@ const getNodeAndFill = (
   };
 };
 
-const isBlended = (node?: FigmaNode, fill?: FigmaPaint): boolean => {
-  return (
-    (node != null && node.opacity !== 1) || (fill != null && fill.opacity !== 1)
-  );
-};
-
 const createContrastConclusion = (
   id: string,
   apcaScore: number,
@@ -148,24 +167,60 @@ const createContrastConclusion = (
   id,
 });
 
-const isVisibleSolidFill = (fill: FigmaPaint): boolean =>
-  fill.visible === true &&
-  (notEmpty(fill.opacity) ? fill.opacity > 0 : true) &&
-  fill.type === 'SOLID';
+const drawResultFill = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  tempColorData: {
+    alpha: number;
+    b: number;
+    g: number;
+    r: number;
+  } | null,
+  layer: Layer,
+  colorSpace: ColorSpace
+): void => {
+  const resultFill: FigmaPaint = {
+    // blendMode: layer.blendMode,
+    color: {
+      b: tempColorData?.b ?? 0,
+      g: tempColorData?.g ?? 0,
+      r: tempColorData?.r ?? 0,
+    },
+    opacity: (layer.opacity ?? 1) * (tempColorData?.alpha ?? 1),
+    // opacity: tempColorData?.alpha ?? 1,
+    type: 'SOLID',
+  };
+
+  drawRect(ctx, x, y, width, height, resultFill, colorSpace);
+};
 
 const drawFillsOnContext = (
   ctx: CanvasRenderingContext2D,
-  layers: Array<{
-    fills: FigmaPaint[];
-    opacity?: number;
-  }>,
+  layers: Layer[],
   { height, width, x, y }: CanvasRect,
   colorSpace: ColorSpace
 ): void => {
-  layers.forEach((layer) => {
-    layer.fills.filter(isVisibleSolidFill).forEach((fill) => {
-      drawRect(ctx, x, y, width, height, fill, colorSpace, layer.opacity);
+  const tempY = y + height * 2;
+
+  layers.forEach((layer, index) => {
+    const tempX = x + width * index;
+
+    const visibleFills = layer.fills.filter(isVisibleSolidFill);
+
+    visibleFills.forEach((fill) => {
+      drawRect(ctx, tempX, tempY, width, height, fill, colorSpace);
     });
+
+    // Retrieve color data of the filled region.
+    const tempColorData = getColorData(
+      getFillFromCtx(ctx, tempX, tempY, colorSpace)
+    );
+
+    // Draw the resulting fill on the main drawing area using the retrieved color data.
+    drawResultFill(ctx, x, y, width, height, tempColorData, layer, colorSpace);
   });
 };
 
@@ -175,8 +230,9 @@ const drawNodes = (
   { height, width, x, y }: CanvasRect,
   colorSpace: ColorSpace
 ): void => {
-  const fillsFromIntersectingNodes = nodes
+  const formattedIntersectingNodes = nodes
     .map((node) => ({
+      // blendMode: node.blendMode,
       fills: node.fills,
       opacity: node.opacity,
     }))
@@ -185,7 +241,7 @@ const drawNodes = (
 
   drawFillsOnContext(
     ctx,
-    fillsFromIntersectingNodes,
+    formattedIntersectingNodes,
     { height, width, x, y },
     colorSpace
   );
@@ -198,14 +254,17 @@ const drawRect = (
   width: number,
   height: number,
   fill: FigmaPaint,
-  colorSpace: ColorSpace,
-  opacity?: number
+  colorSpace: ColorSpace
 ): void => {
   const fillStyle = determineFillStyle(fill, colorSpace);
+
   if (isEmpty(fillStyle)) return;
 
   ctx.fillStyle = fillStyle;
-  ctx.globalAlpha = opacity ?? 1;
+
+  // if (notEmpty(fill.blendMode)) {
+  //   ctx.globalCompositeOperation = mapFigmaBlendToCanvas(fill.blendMode);
+  // }
 
   ctx.fillRect(x, y, width, height);
 };
@@ -219,6 +278,10 @@ const determineFillStyle = (
 
     if (colorSpace === 'DISPLAY_P3') {
       return `color(display-p3 ${r} ${g} ${b} / ${fill.opacity ?? 1})`;
+    }
+
+    if (fill.opacity === 1) {
+      return formatHex({ b, g, mode: 'rgb', r });
     }
 
     return formatHex8({
@@ -256,13 +319,45 @@ const getFillFromCtx = (
 const getColorData = (
   fill: Uint8ClampedArray
 ): {
+  alpha: number;
   b: number;
   g: number;
   r: number;
 } | null => {
-  const [r, g, b] = fill;
+  const [r, g, b, alpha] = fill;
 
   if (isEmpty(r) || isEmpty(g) || isEmpty(b)) return null;
 
-  return convert255ScaleRGBtoDecimal({ b, g, r });
+  return convert255ScaleRGBtoDecimal({ alpha, b, g, r });
+};
+
+export const mapFigmaBlendToCanvas = (
+  figmaBlend: BlendMode
+): GlobalCompositeOperation => {
+  const mapping: Record<BlendMode, GlobalCompositeOperation> = {
+    COLOR: 'color',
+    COLOR_BURN: 'color-burn',
+    COLOR_DODGE: 'color-dodge',
+    DARKEN: 'darken',
+    DIFFERENCE: 'difference',
+    EXCLUSION: 'exclusion',
+    HARD_LIGHT: 'hard-light',
+    HUE: 'hue',
+    LIGHTEN: 'lighten',
+    // unsupported
+    LINEAR_BURN: 'color-burn',
+    // unsupported
+    LINEAR_DODGE: 'lighter',
+    LUMINOSITY: 'luminosity',
+    MULTIPLY: 'multiply',
+    NORMAL: 'source-over',
+    OVERLAY: 'overlay',
+    // only for layers, not for fills
+    PASS_THROUGH: 'source-over',
+    SATURATION: 'saturation',
+    SCREEN: 'screen',
+    SOFT_LIGHT: 'soft-light',
+  };
+
+  return mapping[figmaBlend];
 };
