@@ -237,7 +237,7 @@ export const generateUIColors = (
 
   const secondary = getSecondaryColor(colorBg);
 
-  if (Lc > minLc) {
+  if (Lc > minLc - toleranceLc) {
     // Case: the current selection exceeds the minLc
     // no transformation is needed
     return {
