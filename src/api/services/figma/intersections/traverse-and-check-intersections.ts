@@ -1,8 +1,8 @@
-import { getSiblingsThatAreBelowByZIndex } from '~api/services/figma/intersections/get-siblings-that-are-below-by-z-index.ts';
 import { createPolychromNode } from '~api/services/figma/nodes/create-polychrom-node.ts';
 import { type PolychromNode } from '~types/figma.ts';
 
 import { areNodesIntersecting } from './are-nodes-intersecting.ts';
+import { getSiblingsThatAreBelowByZIndex } from './get-siblings-that-are-below-by-z-index.ts';
 
 const ifSelectedNodeIsChild = (
   node: SceneNode,
