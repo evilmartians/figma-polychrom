@@ -1,4 +1,4 @@
-// import { type FigmaNode, type FigmaPaint } from '~types/figma.ts';
+// import { type PolychromNode, type FigmaPaint } from '~types/figma.ts';
 // import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 //
 // // PLUS_LIGHTER is LINEAR_DODGE
@@ -16,7 +16,7 @@
 //   return !unprocessedBlendModes.includes(fill.blendMode);
 // };
 //
-// export const hasOnlyValidBlendModes = (nodes: FigmaNode[]): boolean =>
+// export const hasOnlyValidBlendModes = (nodes: PolychromNode[]): boolean =>
 //   nodes.every(
 //     (node) =>
 //       node.fills

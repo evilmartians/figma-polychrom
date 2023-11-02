@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 
-import { createFigmaNode } from '../create-figma-node.ts';
+import { createPolychromNode } from '../create-polychrom-node.ts';
 
-describe('createFigmaNode', () => {
+describe('createPolychromNode', () => {
   test('should handle nodes with no fills', () => {
     const node = {
       fills: [],
@@ -12,11 +12,13 @@ describe('createFigmaNode', () => {
       visible: true,
     } as unknown as SceneNode;
 
-    const result = createFigmaNode(node);
+    const result = createPolychromNode(node);
 
     expect(result).toEqual({
+      children: [],
       fills: [],
       id: '123',
+      isSelected: false,
       name: 'some-name',
       nestingLevel: 0,
       opacity: 1,
@@ -35,7 +37,7 @@ describe('createFigmaNode', () => {
       id: '123',
     } as unknown as SceneNode;
 
-    const result = createFigmaNode(node);
+    const result = createPolychromNode(node);
 
     expect(result.fills).toHaveLength(2);
   });
@@ -45,7 +47,7 @@ describe('createFigmaNode', () => {
       id: '123',
     } as unknown as SceneNode;
 
-    const result = createFigmaNode(node);
+    const result = createPolychromNode(node);
 
     expect(result.fills).toEqual([]);
   });
@@ -56,7 +58,7 @@ describe('createFigmaNode', () => {
       id: '123',
     } as unknown as SceneNode;
 
-    const result = createFigmaNode(node);
+    const result = createPolychromNode(node);
 
     expect(result.fills).toEqual([]);
   });
@@ -66,7 +68,7 @@ describe('createFigmaNode', () => {
       fills: [{ color: { b: 0, g: 0, r: 0 }, type: 'SOLID' }],
     } as unknown as SceneNode;
 
-    const result = createFigmaNode(node);
+    const result = createPolychromNode(node);
 
     expect(result.id).toBeUndefined();
     expect(result.fills).toHaveLength(1);

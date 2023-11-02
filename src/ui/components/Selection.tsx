@@ -2,7 +2,7 @@ import {
   ThemeVariablesKeys,
   ThemeVariablesProvider,
 } from '~ui/components/ThemeVariablesProvider.tsx';
-import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
+import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type ReactElement, useState } from 'react';

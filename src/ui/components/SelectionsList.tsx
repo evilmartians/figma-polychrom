@@ -1,5 +1,5 @@
 import { Selection } from '~ui/components/Selection.tsx';
-import { type ContrastConclusionList } from '~ui/services/colors/render-and-blend-colors.ts';
+import { type ContrastConclusionList } from '~ui/services/blend/blend-colors.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 

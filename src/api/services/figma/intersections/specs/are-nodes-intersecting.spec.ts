@@ -18,7 +18,7 @@ describe('areNodesIntersecting', () => {
     expect(areNodesIntersecting(node, selectedNode)).toBe(false);
   });
 
-  test('should return false if node and selectedNode are identical', () => {
+  test('should return true if node and selectedNode are identical', () => {
     const node = {
       absoluteBoundingBox: { height: 50, width: 50, x: 20, y: 20 },
       id: '1',
@@ -31,7 +31,7 @@ describe('areNodesIntersecting', () => {
       visible: true,
     } as unknown as SceneNode;
 
-    expect(areNodesIntersecting(node, selectedNode)).toBe(false);
+    expect(areNodesIntersecting(node, selectedNode)).toBe(true);
   });
 
   test('should return false if node has no bounding box', () => {

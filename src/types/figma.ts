@@ -2,9 +2,11 @@ import { type UIColor } from '~types/common.ts';
 
 export type FigmaPaint = Paint | (SolidPaint & UIColor);
 
-export interface FigmaNode {
+export interface PolychromNode {
+  children: PolychromNode[];
   fills: FigmaPaint[];
   id: string;
+  isSelected?: boolean;
   name: string;
   nestingLevel: number;
   opacity?: number;

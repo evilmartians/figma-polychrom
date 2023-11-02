@@ -1,7 +1,7 @@
 import { type FigmaPaint } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
-export const getActualNodeFill = (
+export const getActualFill = (
   fills: FigmaPaint[] | readonly Paint[]
 ): Paint | undefined => {
   return Array.from(fills)

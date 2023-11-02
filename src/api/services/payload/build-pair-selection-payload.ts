@@ -1,15 +1,17 @@
-import { areNodesIntersecting } from '~api/services/figma/intersections/are-nodes-intersecting.ts';
 import { getIntersectingNodes } from '~api/services/figma/intersections/get-intersecting-nodes.ts';
-import { createFigmaNode } from '~api/services/figma/nodes/create-figma-node.ts';
+import { createPolychromNode } from '~api/services/figma/nodes/create-polychrom-node.ts';
 // import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
-import { sortNodesByLayers } from '~api/services/figma/nodes/sort-nodes-by-layers.ts';
+import { mapPolychromNodeTree } from '~api/services/figma/nodes/map-tree.ts';
 import {
   type SelectionChangeEvent,
   SelectionMessageTypes,
 } from '~types/messages.ts';
+import { sortByDepthAndOrder } from '~utils/figma/sort-by-depth-and-order.ts';
 import { isEmpty } from '~utils/not-empty.ts';
+
+import { TwoNodesSelectionPairId } from '../../../constants.ts';
 
 export const buildPairSelectionPayload = (
   selection: readonly SceneNode[]
@@ -22,10 +24,13 @@ export const buildPairSelectionPayload = (
       selectedNodePairs: [],
     };
 
-  const firstFigmaNode = createFigmaNode(firstNode);
-  const secondFigmaNode = createFigmaNode(secondNode);
+  const firstPolychromNode = createPolychromNode(firstNode);
+  const secondPolychromNode = createPolychromNode(secondNode);
 
-  const [fg, bg] = sortNodesByLayers([firstFigmaNode, secondFigmaNode]);
+  const [fg, bg] = sortByDepthAndOrder([
+    firstPolychromNode,
+    secondPolychromNode,
+  ]);
 
   if (isEmpty(fg) || isEmpty(bg))
     return {
@@ -33,7 +38,10 @@ export const buildPairSelectionPayload = (
       selectedNodePairs: [],
     };
 
-  if (!isValidForBackground([bg])) {
+  const fgSceneNode = fg.id === firstPolychromNode.id ? firstNode : secondNode;
+  const bgSceneNode = bg.id === firstPolychromNode.id ? firstNode : secondNode;
+
+  if (!isValidForBackground(getIntersectingNodes(bgSceneNode))) {
     return {
       colorSpace: figma.root.documentColorProfile,
       text: SelectionMessageTypes.invalidBackground,
@@ -47,37 +55,34 @@ export const buildPairSelectionPayload = (
   //   };
   // }
 
-  const fgSceneNode = fg.id === firstFigmaNode.id ? firstNode : secondNode;
-  const bgSceneNode = bg.id === firstFigmaNode.id ? firstNode : secondNode;
-
   if (!isValidForSelection(fgSceneNode))
     return {
       colorSpace: figma.root.documentColorProfile,
       selectedNodePairs: [],
     };
 
-  if (areNodesIntersecting(bgSceneNode, fgSceneNode)) {
-    return {
-      colorSpace: figma.root.documentColorProfile,
-      selectedNodePairs: [
-        {
-          intersectingNodes: getIntersectingNodes(fgSceneNode),
-          selectedNodeWithIntersectingNodes: [fg],
-        },
-      ],
-    };
-  } else {
-    return {
-      colorSpace: figma.root.documentColorProfile,
-      selectedNodePairs: [
-        {
-          intersectingNodes: [bg, ...getIntersectingNodes(bgSceneNode)],
-          selectedNodeWithIntersectingNodes: [
-            fg,
-            ...getIntersectingNodes(fgSceneNode),
-          ],
-        },
-      ],
-    };
-  }
+  // return synthetic pair of separate collected nodes for the bg and fg
+  // this is the case when the user selects two nodes and wants to build contrast between them
+  return {
+    colorSpace: figma.root.documentColorProfile,
+    selectedNodePairs: [
+      {
+        children: [
+          mapPolychromNodeTree(getIntersectingNodes(bgSceneNode), (node) => ({
+            ...node,
+            isSelected: false,
+          })),
+          mapPolychromNodeTree(getIntersectingNodes(fgSceneNode), (node) => ({
+            ...node,
+            isSelected: true,
+          })),
+        ],
+        fills: [],
+        id: TwoNodesSelectionPairId,
+        name: TwoNodesSelectionPairId,
+        nestingLevel: 0,
+        parents: [],
+      },
+    ],
+  };
 };

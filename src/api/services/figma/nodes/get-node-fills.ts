@@ -1,7 +1,7 @@
-import { type FigmaNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/figma.ts';
 
 export const getNodeFills = (
-  node: FigmaNode | PageNode | SceneNode
+  node: PageNode | PolychromNode | SceneNode
 ): Paint[] => {
   if ('fills' in node) {
     return typeof node.fills === 'symbol' ? [] : Array.from(node.fills);

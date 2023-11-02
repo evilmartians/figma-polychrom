@@ -1,5 +1,5 @@
 import { type ColorSpace } from '~types/common.ts';
-import { type SelectedNodes } from '~types/selection.ts';
+import { type PolychromNode } from '~types/figma.ts';
 
 import { type ColorSpaceDisplayModes } from '../constants.ts';
 
@@ -25,7 +25,7 @@ export enum SelectionMessageTypes {
 
 export interface SelectionChangePayload {
   colorSpace: ColorSpace;
-  selectedNodePairs: SelectedNodes[];
+  selectedNodePairs: PolychromNode[];
 }
 
 export interface SelectionChangeMessage {

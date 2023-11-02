@@ -1,7 +1,9 @@
-import { type FigmaNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
-export const getActualNode = (nodes: FigmaNode[]): FigmaNode | undefined => {
+export const getActualNode = (
+  nodes: PolychromNode[]
+): PolychromNode | undefined => {
   return nodes.find(
     (node) =>
       node.visible === true &&

@@ -1,4 +1,6 @@
 import { getSiblingsThatAreBelowByZIndex } from '~api/services/figma/intersections/get-siblings-that-are-below-by-z-index.ts';
+import { createPolychromNode } from '~api/services/figma/nodes/create-polychrom-node.ts';
+import { type PolychromNode } from '~types/figma.ts';
 
 import { areNodesIntersecting } from './are-nodes-intersecting.ts';
 
@@ -11,38 +13,28 @@ const ifSelectedNodeIsChild = (
   );
 };
 
-// will return all nodes that are intersecting with selected node starting from depth a.k.a. neighboring nodes to the root a.k.a. PageNode
 export const traverseAndCheckIntersections = (
   nodes: SceneNode[],
-  selectedNode: SceneNode,
-  accumulator: SceneNode[] = []
-): SceneNode[] => {
-  nodes.forEach((node) => {
+  selectedNode: SceneNode
+): PolychromNode[] => {
+  return nodes.reduce((accumulator: PolychromNode[], node) => {
     if (areNodesIntersecting(node, selectedNode)) {
-      accumulator.push(node);
+      const polychromNode = createPolychromNode(node, selectedNode.id);
 
       if ('children' in node && node.children.length > 0) {
-        if (ifSelectedNodeIsChild(node, selectedNode)) {
-          const siblingsBefore = getSiblingsThatAreBelowByZIndex(
-            selectedNode,
-            node.children
-          );
+        const childrenNodes = ifSelectedNodeIsChild(node, selectedNode)
+          ? getSiblingsThatAreBelowByZIndex(selectedNode, node.children)
+          : Array.from(node.children);
 
-          traverseAndCheckIntersections(
-            siblingsBefore,
-            selectedNode,
-            accumulator
-          );
-        } else {
-          traverseAndCheckIntersections(
-            Array.from(node.children),
-            selectedNode,
-            accumulator
-          );
-        }
+        polychromNode.children = traverseAndCheckIntersections(
+          childrenNodes,
+          selectedNode
+        );
       }
-    }
-  });
 
-  return accumulator;
+      accumulator.push(polychromNode);
+    }
+
+    return accumulator;
+  }, []);
 };

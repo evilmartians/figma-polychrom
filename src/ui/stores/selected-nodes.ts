@@ -6,10 +6,10 @@ import {
 } from '~types/messages.ts';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import {
+  blendColors,
   type ContrastConclusionList,
-  renderAndBlendColors,
-} from '~ui/services/colors/render-and-blend-colors.ts';
-import { isEmpty } from '~utils/not-empty.ts';
+} from '~ui/services/blend/blend-colors.ts';
+import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { atom, computed, map, onMount, onSet } from 'nanostores';
 
 export const $userSelection = atom<SelectionChangeEvent>({
@@ -17,14 +17,7 @@ export const $userSelection = atom<SelectionChangeEvent>({
   selectedNodePairs: [],
 });
 
-export const $contrastConclusion = computed($userSelection, (selection) => {
-  if ('selectedNodePairs' in selection) {
-    return renderAndBlendColors(
-      selection.selectedNodePairs,
-      selection.colorSpace
-    );
-  }
-});
+export const $contrastConclusion = atom<ContrastConclusionList>([]);
 
 export const $isP3 = computed($userSelection, (selection) => {
   return 'colorSpace' in selection
@@ -80,6 +73,21 @@ onSet($contrastConclusion, ({ newValue }) => {
   if (isEmpty(newValue)) return;
 
   setRewardAnimationLaunch(newValue);
+});
+
+onSet($userSelection, ({ newValue }) => {
+  const start = async (): Promise<void> => {
+    if ('selectedNodePairs' in newValue) {
+      const res = await blendColors(
+        newValue.selectedNodePairs,
+        newValue.colorSpace
+      );
+
+      if (notEmpty(res)) $contrastConclusion.set(res);
+    }
+  };
+
+  void start();
 });
 
 export const $rewardAnimationLaunch = map<{

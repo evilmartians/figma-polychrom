@@ -3,7 +3,7 @@ import {
   ThemeVariablesKeys,
 } from '~ui/components/ThemeVariablesProvider.tsx';
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
-import { type ContrastConclusion } from '~ui/services/colors/render-and-blend-colors.ts';
+import { type ContrastConclusion } from '~ui/types';
 import clsx from 'clsx';
 import { type ReactElement } from 'react';
 
