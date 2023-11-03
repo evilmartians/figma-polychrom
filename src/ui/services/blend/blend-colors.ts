@@ -1,10 +1,8 @@
 import { type ColorSpace } from '~types/common.ts';
 import { type PolychromNode } from '~types/figma.ts';
+import { isSupportsOKLCH } from '~ui/constants.ts';
 import { formatColorData } from '~ui/services/blend/format-color-data.ts';
-import {
-  type ColorData,
-  getColorData,
-} from '~ui/services/blend/get-color-data.ts';
+import { getColorData } from '~ui/services/blend/get-color-data.ts';
 import { isBlendedFill } from '~ui/services/blend/is-blended-fill.ts';
 import { getFillFromCtx } from '~ui/services/canvas/get-fill-from-ctx.ts';
 import { renderSvgOnCanvas } from '~ui/services/canvas/render-svg-on-canvas.ts';
@@ -16,13 +14,6 @@ import { calculateApcaScore } from '~utils/apca/calculate-apca-score.ts';
 import { getActualFill } from '~utils/figma/get-actual-fill.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { nanoid } from 'nanoid';
-
-export interface Box {
-  eyeDropperX: number;
-  eyeDropperY: number;
-  height: number;
-  width: number;
-}
 
 const BACKGROUND_BOX = {
   eyeDropperX: 10,
@@ -61,19 +52,36 @@ const blendSelectionPair = async (
   pair: PolychromNode,
   colorSpace: ColorSpace
 ): Promise<ContrastConclusion | null> => {
+  const forcedColorSpace = isSupportsOKLCH ? 'DISPLAY_P3' : 'SRGB';
+
   const canvas = document.createElement('canvas');
 
   const ctx = canvas.getContext('2d', {
-    colorSpace: CanvasColorSpace[colorSpace],
+    colorSpace: 'srgb',
     willReadFrequently: true,
   });
 
   if (isEmpty(ctx)) return null;
 
-  await drawNodesOnContext(ctx, pair, colorSpace);
+  await drawNodesOnContext(ctx, pair, forcedColorSpace);
 
-  const bgColorData = extractColorData(ctx, BACKGROUND_BOX, colorSpace);
-  const fgColorData = extractColorData(ctx, FOREGROUND_BOX, colorSpace);
+  const bgColorData = getColorData(
+    getFillFromCtx(
+      ctx,
+      BACKGROUND_BOX.eyeDropperX,
+      BACKGROUND_BOX.eyeDropperY,
+      colorSpace
+    )
+  );
+
+  const fgColorData = getColorData(
+    getFillFromCtx(
+      ctx,
+      FOREGROUND_BOX.eyeDropperX,
+      FOREGROUND_BOX.eyeDropperY,
+      colorSpace
+    )
+  );
 
   if (isEmpty(bgColorData) || isEmpty(fgColorData)) return null;
 
@@ -84,7 +92,11 @@ const blendSelectionPair = async (
   const isFgBlended = checkIfFillBlended(selectedNode);
   const isBgBlended = checkIfFillBlended(closestBgNode);
 
-  const apcaScore = calculateApcaScore(fgColorData, bgColorData, colorSpace);
+  const apcaScore = calculateApcaScore(
+    fgColorData,
+    bgColorData,
+    forcedColorSpace
+  );
 
   const nodeId = notEmpty(selectedNode.id)
     ? formatPolychromNodeId(selectedNode.id)
@@ -107,19 +119,13 @@ const drawNodesOnContext = async (
 ): Promise<void> => {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
+  svg.setAttribute('width', `${BACKGROUND_BOX.width}`);
+  svg.setAttribute('height', `${BACKGROUND_BOX.height}`);
+
   drawFillsOnSvg(svg, pair, FOREGROUND_BOX, BACKGROUND_BOX, colorSpace);
 
   await renderSvgOnCanvas(ctx, svg);
 };
-
-const extractColorData = (
-  ctx: CanvasRenderingContext2D,
-  box: Box,
-  colorSpace: ColorSpace
-): ColorData | null =>
-  getColorData(
-    getFillFromCtx(ctx, box.eyeDropperX, box.eyeDropperY, colorSpace)
-  );
 
 const checkIfFillBlended = (node: PolychromNode): boolean => {
   const actualFill = getActualFill(node.fills);

@@ -1,4 +1,5 @@
 import { type ColorSpace } from '~types/common.ts';
+import { isSupportsOKLCH } from '~ui/constants.ts';
 import { CanvasColorSpace } from '~ui/services/blend/blend-colors.ts';
 
 export const getFillFromCtx = (
@@ -7,5 +8,6 @@ export const getFillFromCtx = (
   y: number,
   colorSpace: ColorSpace
 ): Uint8ClampedArray =>
-  ctx.getImageData(x, y, 1, 1, { colorSpace: CanvasColorSpace[colorSpace] })
-    .data;
+  ctx.getImageData(x, y, 1, 1, {
+    colorSpace: isSupportsOKLCH ? CanvasColorSpace[colorSpace] : 'srgb',
+  }).data;
