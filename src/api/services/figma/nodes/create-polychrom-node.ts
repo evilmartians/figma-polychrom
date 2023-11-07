@@ -14,6 +14,7 @@ export const createPolychromNode = (
   const parents = collectNodeParents(node);
 
   return {
+    blendMode: 'blendMode' in node ? node.blendMode : 'PASS_THROUGH',
     children: [],
     fills: fills.map((fill) => {
       if (fill.type === 'SOLID') {

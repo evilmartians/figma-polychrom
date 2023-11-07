@@ -1,7 +1,10 @@
+import { notEmpty } from '~utils/not-empty.ts';
+import { type CSSProperties } from 'react';
+
 export const mapFigmaBlendToCanvas = (
-  figmaBlend: BlendMode
-): GlobalCompositeOperation => {
-  const mapping: Record<BlendMode, GlobalCompositeOperation> = {
+  figmaBlend?: BlendMode
+): CSSProperties['mixBlendMode'] => {
+  const mapping: Record<BlendMode, CSSProperties['mixBlendMode']> = {
     COLOR: 'color',
     COLOR_BURN: 'color-burn',
     COLOR_DODGE: 'color-dodge',
@@ -13,18 +16,17 @@ export const mapFigmaBlendToCanvas = (
     LIGHTEN: 'lighten',
     // unsupported
     LINEAR_BURN: 'color-burn',
-    // unsupported
-    LINEAR_DODGE: 'lighter',
+    LINEAR_DODGE: 'plus-lighter',
     LUMINOSITY: 'luminosity',
     MULTIPLY: 'multiply',
-    NORMAL: 'source-over',
+    NORMAL: 'normal',
     OVERLAY: 'overlay',
     // only for layers, not for fills
-    PASS_THROUGH: 'source-over',
+    PASS_THROUGH: undefined,
     SATURATION: 'saturation',
     SCREEN: 'screen',
     SOFT_LIGHT: 'soft-light',
   };
 
-  return mapping[figmaBlend];
+  return notEmpty(figmaBlend) ? mapping[figmaBlend] : undefined;
 };

@@ -1,6 +1,6 @@
 import { getIntersectingNodes } from '~api/services/figma/intersections/get-intersecting-nodes.ts';
 import { createPolychromNode } from '~api/services/figma/nodes/create-polychrom-node.ts';
-// import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
+import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
 import { mapPolychromNodeTree } from '~api/services/figma/nodes/map-tree.ts';
@@ -48,12 +48,12 @@ export const buildPairSelectionPayload = (
     };
   }
 
-  // if (!hasOnlyValidBlendModes([bg, fg])) {
-  //   return {
-  //     colorSpace: figma.root.documentColorProfile,
-  //     text: SelectionMessageTypes.unprocessedBlendModes,
-  //   };
-  // }
+  if (!hasOnlyValidBlendModes(bg) || !hasOnlyValidBlendModes(fg)) {
+    return {
+      colorSpace: figma.root.documentColorProfile,
+      text: SelectionMessageTypes.unprocessedBlendModes,
+    };
+  }
 
   if (!isValidForSelection(fgSceneNode))
     return {
@@ -67,6 +67,7 @@ export const buildPairSelectionPayload = (
     colorSpace: figma.root.documentColorProfile,
     selectedNodePairs: [
       {
+        blendMode: 'NORMAL',
         children: [
           mapPolychromNodeTree(getIntersectingNodes(bgSceneNode), (node) => ({
             ...node,

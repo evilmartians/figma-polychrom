@@ -8,7 +8,7 @@ import { getFillFromCtx } from '~ui/services/canvas/get-fill-from-ctx.ts';
 import { renderSvgOnCanvas } from '~ui/services/canvas/render-svg-on-canvas.ts';
 import { findFgAndBgNodes } from '~ui/services/figma/find-fg-and-bg-nodes.ts';
 import { formatPolychromNodeId } from '~ui/services/figma/format-figma-node-id.ts';
-import { drawFillsOnSvg } from '~ui/services/svg/draw-fills-on-svg.ts';
+import { drawNodesOnSvg } from '~ui/services/svg/draw-nodes-on-svg.ts';
 import { type ContrastConclusion } from '~ui/types';
 import { calculateApcaScore } from '~utils/apca/calculate-apca-score.ts';
 import { getActualFill } from '~utils/figma/get-actual-fill.ts';
@@ -122,7 +122,7 @@ const drawNodesOnContext = async (
   svg.setAttribute('width', `${BACKGROUND_BOX.width}`);
   svg.setAttribute('height', `${BACKGROUND_BOX.height}`);
 
-  drawFillsOnSvg(svg, pair, FOREGROUND_BOX, BACKGROUND_BOX, colorSpace);
+  drawNodesOnSvg(svg, pair, FOREGROUND_BOX, BACKGROUND_BOX, colorSpace);
 
   await renderSvgOnCanvas(ctx, svg);
 };

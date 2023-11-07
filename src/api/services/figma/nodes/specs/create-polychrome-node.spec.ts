@@ -15,6 +15,7 @@ describe('createPolychromNode', () => {
     const result = createPolychromNode(node);
 
     expect(result).toEqual({
+      blendMode: 'PASS_THROUGH',
       children: [],
       fills: [],
       id: '123',

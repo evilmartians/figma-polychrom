@@ -7,7 +7,6 @@ export const flattenPolychromNodesTree = (
   let flatNodes: PolychromNode[] = [nodesTree];
 
   nodesTree.children.forEach((node) => {
-    // Update the nesting level based on the parent
     const updatedNode = { ...node, nestingLevel: parentNestingLevel + 1 };
 
     flatNodes.push(updatedNode);

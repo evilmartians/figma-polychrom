@@ -1,5 +1,5 @@
 import { getIntersectingNodes } from '~api/services/figma/intersections/get-intersecting-nodes.ts';
-// import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
+import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
 import { type PolychromNode } from '~types/figma.ts';
@@ -17,7 +17,11 @@ enum PairState {
 const isValidSelection = (
   pair: PairState | PolychromNode
 ): pair is PolychromNode => {
-  return notEmpty(pair) && pair !== PairState.InvalidBackground;
+  return (
+    notEmpty(pair) &&
+    pair !== PairState.InvalidBackground &&
+    pair !== PairState.InvalidBlendMode
+  );
 };
 
 export const buildGeneralSelectionPayload = (
@@ -28,9 +32,9 @@ export const buildGeneralSelectionPayload = (
     .map((selectedNode) => {
       const intersectingNodesTree = getIntersectingNodes(selectedNode);
 
-      // if (!hasOnlyValidBlendModes([selectedPolychromNode, ...intersectingNodesTree])) {
-      //   return PairState.InvalidBlendMode;
-      // }
+      if (!hasOnlyValidBlendModes(intersectingNodesTree)) {
+        return PairState.InvalidBlendMode;
+      }
 
       if (isValidForBackground(intersectingNodesTree)) {
         return intersectingNodesTree;
@@ -53,12 +57,12 @@ export const buildGeneralSelectionPayload = (
     };
   }
 
-  // if (selectedNodePairs.some((pair) => pair === PairState.InvalidBlendMode)) {
-  //   return {
-  //     colorSpace: figma.root.documentColorProfile,
-  //     text: SelectionMessageTypes.unprocessedBlendModes,
-  //   };
-  // }
+  if (selectedNodePairs.some((pair) => pair === PairState.InvalidBlendMode)) {
+    return {
+      colorSpace: figma.root.documentColorProfile,
+      text: SelectionMessageTypes.unprocessedBlendModes,
+    };
+  }
 
   return {
     colorSpace: figma.root.documentColorProfile,
