@@ -1,10 +1,9 @@
-import { type ColorSpace } from '~types/common.ts';
-import { type FigmaPaint } from '~types/figma.ts';
+import { type FigmaColorSpace, type FigmaPaint } from '~types/figma.ts';
 import { formatHex } from 'culori/fn';
 
 export const determineFillStyle = (
   fill: FigmaPaint,
-  colorSpace: ColorSpace
+  colorSpace: FigmaColorSpace
 ): string | undefined => {
   if (fill.type === 'SOLID') {
     const { b, g, r } = fill.color;

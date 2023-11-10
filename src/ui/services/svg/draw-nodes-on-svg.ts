@@ -1,5 +1,5 @@
-import { type ColorSpace } from '~types/common.ts';
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
+import { type FigmaColorSpace } from '~types/figma.ts';
 import { mapFigmaBlendToCanvas } from '~ui/services/blend-modes/map-figma-blend-to-canvas.ts';
 import {
   type CanvasRect,
@@ -13,7 +13,7 @@ export const drawNodesOnSvg = (
   pair: PolychromNode,
   foregroundBox: CanvasRect,
   backgroundBox: CanvasRect,
-  colorSpace: ColorSpace
+  colorSpace: FigmaColorSpace
 ): void => {
   const drawNode = (node: PolychromNode, parentGroup: SVGGElement): void => {
     const svgGroup = document.createElementNS(

@@ -1,3 +1,4 @@
+import { type FigmaPaint } from '~types/figma.ts';
 import { type Oklch } from 'culori/fn';
 
 export interface UIColor {
@@ -5,4 +6,16 @@ export interface UIColor {
   oklch: Oklch;
 }
 
-export type ColorSpace = 'DISPLAY_P3' | 'LEGACY' | 'SRGB';
+export interface PolychromNode {
+  blendMode: BlendMode;
+  children: PolychromNode[];
+  fills: FigmaPaint[];
+  id: string;
+  isSelected?: boolean;
+  name: string;
+  nestingLevel: number;
+  opacity?: number;
+  parents: readonly SceneNode[];
+  visible?: boolean;
+  zIndex?: number;
+}

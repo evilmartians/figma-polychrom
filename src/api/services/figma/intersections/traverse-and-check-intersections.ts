@@ -1,5 +1,5 @@
 import { createPolychromNode } from '~api/services/figma/nodes/create-polychrom-node.ts';
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
 
 import { areNodesIntersecting } from './are-nodes-intersecting.ts';
 import { getSiblingsThatAreBelowByZIndex } from './get-siblings-that-are-below-by-z-index.ts';

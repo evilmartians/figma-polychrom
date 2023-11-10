@@ -1,4 +1,5 @@
-import { type FigmaPaint, type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
+import { type FigmaPaint } from '~types/figma.ts';
 import { flattenPolychromNodesTree } from '~utils/figma/flatten-polychrom-nodes-tree.ts';
 import { isVisibleSolidFill } from '~utils/figma/is-visible-solid-fill.ts';
 import { isEmpty } from '~utils/not-empty.ts';

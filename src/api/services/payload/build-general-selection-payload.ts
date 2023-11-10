@@ -2,7 +2,7 @@ import { getIntersectingNodes } from '~api/services/figma/intersections/get-inte
 import { hasOnlyValidBlendModes } from '~api/services/figma/nodes/has-only-valid-blend-modes.ts';
 import { isValidForBackground } from '~api/services/figma/nodes/is-valid-for-background.ts';
 import { isValidForSelection } from '~api/services/figma/nodes/is-valid-for-selection.ts';
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
 import {
   type SelectionChangeEvent,
   SelectionMessageTypes,

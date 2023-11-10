@@ -1,4 +1,5 @@
-import { type FigmaPaint, type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
+import { type FigmaPaint } from '~types/figma.ts';
 import { notEmpty } from '~utils/not-empty.ts';
 
 export const isBlendedFill = (

@@ -1,5 +1,5 @@
 export const renderSvgOnCanvas = async (
-  ctx: CanvasRenderingContext2D,
+  ctx: OffscreenCanvasRenderingContext2D,
   svg: SVGSVGElement
 ): Promise<void> => {
   await new Promise((resolve) => {

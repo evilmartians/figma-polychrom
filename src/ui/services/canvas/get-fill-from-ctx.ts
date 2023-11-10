@@ -1,13 +1,14 @@
-import { type ColorSpace } from '~types/common.ts';
+import { type FigmaColorSpace } from '~types/figma.ts';
 import { isSupportsOKLCH } from '~ui/constants.ts';
 import { CanvasColorSpace } from '~ui/services/blend/blend-colors.ts';
 
 export const getFillFromCtx = (
-  ctx: CanvasRenderingContext2D,
+  ctx: OffscreenCanvasRenderingContext2D,
   x: number,
   y: number,
-  colorSpace: ColorSpace
-): Uint8ClampedArray =>
-  ctx.getImageData(x, y, 1, 1, {
+  colorSpace: FigmaColorSpace
+): Uint8ClampedArray => {
+  return ctx.getImageData(x, y, 1, 1, {
     colorSpace: isSupportsOKLCH ? CanvasColorSpace[colorSpace] : 'srgb',
   }).data;
+};

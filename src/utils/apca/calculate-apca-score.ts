@@ -1,11 +1,11 @@
-import { type ColorSpace } from '~types/common.ts';
+import { type FigmaColorSpace } from '~types/figma.ts';
 import { convertDecimalRGBto255Scale } from '~utils/colors/formatters.ts';
 import { APCAcontrast, displayP3toY, sRGBtoY } from 'apca-w3';
 
 export const calculateApcaScore = (
   fg: RGB,
   bg: RGB,
-  colorSpace: ColorSpace
+  colorSpace: FigmaColorSpace
 ): number => {
   if (colorSpace === 'DISPLAY_P3') {
     const fgY = displayP3toY([fg.r, fg.g, fg.b]);

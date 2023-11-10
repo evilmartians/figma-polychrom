@@ -1,4 +1,4 @@
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
 import { flattenPolychromNodesTree } from '~utils/figma/flatten-polychrom-nodes-tree.ts';
 import { getActualFill } from '~utils/figma/get-actual-fill.ts';
 import { getActualNode } from '~utils/figma/get-actual-node.ts';

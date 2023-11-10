@@ -1,5 +1,4 @@
-import { type ColorSpace } from '~types/common.ts';
-import { type FigmaPaint } from '~types/figma.ts';
+import { type FigmaColorSpace, type FigmaPaint } from '~types/figma.ts';
 import { mapFigmaBlendToCanvas } from '~ui/services/blend-modes/map-figma-blend-to-canvas.ts';
 import { determineFillStyle } from '~ui/services/blend/determine-fill-style.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
@@ -12,7 +11,7 @@ export interface CanvasRect {
 export const drawFillAsRect = (
   fill: FigmaPaint,
   rectBox: CanvasRect,
-  colorSpace: ColorSpace
+  colorSpace: FigmaColorSpace
 ): null | SVGGElement => {
   const svgRect = document.createElementNS(
     'http://www.w3.org/2000/svg',

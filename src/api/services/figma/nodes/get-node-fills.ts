@@ -1,4 +1,4 @@
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
 
 export const getNodeFills = (
   node: PageNode | PolychromNode | SceneNode

@@ -1,4 +1,4 @@
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
 
 // the first node always be the selected node by the user
 // because of the combination of the level and the z-index.

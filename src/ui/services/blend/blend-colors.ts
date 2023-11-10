@@ -1,5 +1,5 @@
-import { type ColorSpace } from '~types/common.ts';
-import { type PolychromNode } from '~types/figma.ts';
+import { type PolychromNode } from '~types/common.ts';
+import { type FigmaColorSpace } from '~types/figma.ts';
 import { isSupportsOKLCH } from '~ui/constants.ts';
 import { formatColorData } from '~ui/services/blend/format-color-data.ts';
 import { getColorData } from '~ui/services/blend/get-color-data.ts';
@@ -29,20 +29,21 @@ const FOREGROUND_BOX = {
   width: 10,
 };
 
-export const CanvasColorSpace: Record<ColorSpace, 'display-p3' | 'srgb'> = {
-  DISPLAY_P3: 'display-p3',
-  LEGACY: 'srgb',
-  SRGB: 'srgb',
-};
+export const CanvasColorSpace: Record<FigmaColorSpace, 'display-p3' | 'srgb'> =
+  {
+    DISPLAY_P3: 'display-p3',
+    LEGACY: 'srgb',
+    SRGB: 'srgb',
+  };
 
 export type ContrastConclusionList = ContrastConclusion[];
 
 export const blendColors = async (
   pairs: PolychromNode[],
-  colorSpace: ColorSpace
+  figmaColorSpace: FigmaColorSpace
 ): Promise<ContrastConclusionList> => {
   const processedPairs = await Promise.all(
-    pairs.map(async (pair) => await blendSelectionPair(pair, colorSpace))
+    pairs.map(async (pair) => await blendSelectionPair(pair, figmaColorSpace))
   );
 
   return processedPairs.filter(notEmpty);
@@ -50,27 +51,28 @@ export const blendColors = async (
 
 const blendSelectionPair = async (
   pair: PolychromNode,
-  colorSpace: ColorSpace
+  figmaColorSpace: FigmaColorSpace
 ): Promise<ContrastConclusion | null> => {
-  const forcedColorSpace = isSupportsOKLCH ? 'DISPLAY_P3' : 'SRGB';
-
-  const canvas = document.createElement('canvas');
+  const canvas = new OffscreenCanvas(
+    BACKGROUND_BOX.width,
+    BACKGROUND_BOX.height
+  );
 
   const ctx = canvas.getContext('2d', {
-    colorSpace: 'srgb',
+    colorSpace: isSupportsOKLCH ? CanvasColorSpace[figmaColorSpace] : 'srgb',
     willReadFrequently: true,
   });
 
   if (isEmpty(ctx)) return null;
 
-  await drawNodesOnContext(ctx, pair, forcedColorSpace);
+  await drawNodesOnContext(ctx, pair, figmaColorSpace);
 
   const bgColorData = getColorData(
     getFillFromCtx(
       ctx,
       BACKGROUND_BOX.eyeDropperX,
       BACKGROUND_BOX.eyeDropperY,
-      colorSpace
+      figmaColorSpace
     )
   );
 
@@ -79,7 +81,7 @@ const blendSelectionPair = async (
       ctx,
       FOREGROUND_BOX.eyeDropperX,
       FOREGROUND_BOX.eyeDropperY,
-      colorSpace
+      figmaColorSpace
     )
   );
 
@@ -95,14 +97,12 @@ const blendSelectionPair = async (
   const apcaScore = calculateApcaScore(
     fgColorData,
     bgColorData,
-    forcedColorSpace
+    figmaColorSpace
   );
 
   const nodeId = notEmpty(selectedNode.id)
     ? formatPolychromNodeId(selectedNode.id)
     : nanoid();
-
-  ctx.canvas.remove();
 
   return {
     apca: apcaScore,
@@ -113,9 +113,9 @@ const blendSelectionPair = async (
 };
 
 const drawNodesOnContext = async (
-  ctx: CanvasRenderingContext2D,
+  ctx: OffscreenCanvasRenderingContext2D,
   pair: PolychromNode,
-  colorSpace: ColorSpace
+  colorSpace: FigmaColorSpace
 ): Promise<void> => {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
