@@ -1,4 +1,5 @@
 import { type FigmaColorSpace, type FigmaPaint } from '~types/figma.ts';
+import { isSupportsOKLCH } from '~ui/constants.ts';
 import { formatHex } from 'culori/fn';
 
 export const determineFillStyle = (
@@ -8,7 +9,7 @@ export const determineFillStyle = (
   if (fill.type === 'SOLID') {
     const { b, g, r } = fill.color;
 
-    if (colorSpace === 'DISPLAY_P3') {
+    if (colorSpace === 'DISPLAY_P3' && isSupportsOKLCH) {
       return `color(display-p3 ${r} ${g} ${b})`;
     }
 
