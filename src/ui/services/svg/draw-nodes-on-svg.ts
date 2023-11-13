@@ -47,16 +47,6 @@ export const drawNodesOnSvg = (
 
       if (isEmpty(svgRect)) return;
 
-      // Emulate pass-through blend mode behavior within an SVG structure.
-      // If a node's blend mode is 'PASS_THROUGH', the rectangle is added to the parent group
-      // to interact with outside elements. Otherwise, it's isolated within its own group,
-      // restricting its blending effects to that group.
-      // if (node.blendMode === 'PASS_THROUGH') {
-      //   parentGroup.appendChild(svgRect);
-      // } else {
-      //   svgGroup.appendChild(svgRect);
-      // }
-
       svgGroup.appendChild(svgRect);
     });
 
