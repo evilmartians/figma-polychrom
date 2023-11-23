@@ -1,6 +1,6 @@
 {
   "name": "polychrom-apca-contrast-checker-figma-plugin",
-  "private": true,
+  "private": false,
   "version": "6.0.0",
   "scripts": {
     "dev:ui": "vite build --watch -c vite.config.ui.ts",
