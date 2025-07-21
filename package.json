@@ -14,7 +14,8 @@
     "test:types": "tsc --skipLibCheck --noEmit",
     "test:unit:ui": "vitest --watch=false --coverage -c vite.config.ui.ts",
     "test:unit:api": "vitest --watch=false --coverage -c vite.config.api.ts",
-    "test": "pnpm run /^test:/"
+    "test": "pnpm run /^test:/",
+    "lint:size": "size-limit"
   },
   "dependencies": {
     "@figma/plugin-typings": "^1.79.0",
@@ -51,6 +52,7 @@
     "vitest": "^0.34.1"
   },
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^20.4.1",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
@@ -70,7 +72,13 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.2",
+    "size-limit": "^11.2.0",
     "terser": "^5.19.0"
   },
+  "size-limit": [
+    {
+      "path": "dist/api.js"
+    }
+  ],
   "license": "MIT"
 }
