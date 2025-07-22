@@ -57,6 +57,23 @@ Build the plugin:
 pnpm build
 ```
 
+## Testing the Plugin in Figma
+
+### Setting up the Plugin for Testing
+
+1. **Build the plugin** using `pnpm build` or `pnpm dev` to ensure the latest changes are included.
+2. **Open Figma Desktop** (the plugin development requires the desktop version, not the web version)
+3. **Import the plugin**:
+   - Go to **Menu → Plugins → Development → Import plugin from manifest...**
+   - Navigate to your project directory and select the `manifest.json` file
+   - The plugin will appear in your **Development** section under Plugins
+
+### Running the Plugin
+
+1. **Launch the plugin**:
+   - Go to **Menu → Plugins → Development → Polychrom**
+   - Or use the shortcut **Cmd/Ctrl + /** and search for "Polychrom"
+
 ## Contributing
 
 - Fork the repository.
