@@ -3,7 +3,7 @@ import { isSupportsOKLCH } from '~ui/constants.ts';
 import { type Theme } from '~ui/services/theme/generate-ui-colors.ts';
 import { formatForOklchCSS } from '~utils/colors/formatters.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
-import { formatHex8 } from 'culori';
+import { formatHex8 } from 'culori/fn';
 import { type ReactElement } from 'react';
 
 interface Props {

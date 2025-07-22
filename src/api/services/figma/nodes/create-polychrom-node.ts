@@ -1,10 +1,9 @@
 import { collectNodeParents } from '~api/services/figma/nodes/collect-node-parents.ts';
 import { getNodeFills } from '~api/services/figma/nodes/get-node-fills.ts';
 import { type PolychromNode } from '~types/common.ts';
-import { converter } from 'culori';
-import { formatHex } from 'culori/fn';
+import { formatHex, modeOklch, useMode } from 'culori/fn';
 
-const convertToOklch = converter('oklch');
+const convertToOklch = useMode(modeOklch)
 
 export const createPolychromNode = (
   node: PageNode | SceneNode,
