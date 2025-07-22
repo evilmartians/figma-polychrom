@@ -61,7 +61,7 @@ pnpm build
 
 ### Setting up the Plugin for Testing
 
-1. **Build the plugin** using the command above to generate the necessary files
+1. **Build the plugin** using `pnpm build` or `pnpm dev` to ensure the latest changes are included.
 2. **Open Figma Desktop** (the plugin development requires the desktop version, not the web version)
 3. **Import the plugin**:
    - Go to **Menu → Plugins → Development → Import plugin from manifest...**
