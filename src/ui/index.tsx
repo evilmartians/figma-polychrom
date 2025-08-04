@@ -1,16 +1,15 @@
-import { createRoot } from 'react-dom/client';
+import { render } from 'solid-js/web';
 
 import { notEmpty } from '../utils/not-empty.ts';
 import { App } from './components/App';
 import './style.css';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('root');
 
   if (notEmpty(container)) {
-    const root = createRoot(container);
-    root.render(<App />);
+    render(() => <App />, container);
   } else {
-    console.error('Failed to find container element for React root');
+    console.error('Failed to find container element for Solid root');
   }
 });

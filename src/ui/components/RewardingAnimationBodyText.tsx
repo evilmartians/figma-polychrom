@@ -1,11 +1,11 @@
-import { type ReactElement } from 'react';
+import { type JSX } from 'solid-js';
 
-export const RewardingAnimationBodyText = (): ReactElement => {
+export const RewardingAnimationBodyText = (): JSX.Element => {
   return (
-    <div className="animation animation-75">
-      <div className="object glowing"></div>
-      <div className="object star-1"></div>
-      <div className="object star-2"></div>
+    <div class="animation animation-75">
+      <div class="object glowing" />
+      <div class="object star-1" />
+      <div class="object star-2" />
     </div>
   );
 };

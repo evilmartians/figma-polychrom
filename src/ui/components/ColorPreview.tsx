@@ -1,6 +1,6 @@
-import { BasicColorPreviewIcon } from '~ui/components/BasicColorPreviewIcon.tsx';
-import { LayeredColorPreviewIcon } from '~ui/components/LayeredColorPreviewIcon.tsx';
-import { type ReactElement } from 'react';
+import { BasicColorPreviewIcon } from '~ui/components/dynamicIcons/BasicColorPreviewIcon.tsx';
+import { LayeredColorPreviewIcon } from '~ui/components/dynamicIcons/LayeredColorPreviewIcon.tsx';
+import { type JSX, Show } from 'solid-js';
 
 interface Props {
   borderColor: string;
@@ -8,26 +8,21 @@ interface Props {
   isBlended: boolean;
 }
 
-export const ColorPreview = ({
-  borderColor,
-  indicatorColor,
-  isBlended,
-}: Props): ReactElement => {
-  if (isBlended) {
-    return (
-      <div className="flex">
-        <LayeredColorPreviewIcon
-          borderColor={borderColor}
-          indicatorColor={indicatorColor}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <BasicColorPreviewIcon
-      borderColor={borderColor}
-      indicatorColor={indicatorColor}
-    />
-  );
-};
+export const ColorPreview = (props: Props): JSX.Element => (
+  <Show
+    fallback={
+      <BasicColorPreviewIcon
+        borderColor={props.borderColor}
+        indicatorColor={props.indicatorColor}
+      />
+    }
+    when={props.isBlended}
+  >
+    <div class="flex">
+      <LayeredColorPreviewIcon
+        borderColor={props.borderColor}
+        indicatorColor={props.indicatorColor}
+      />
+    </div>
+  </Show>
+);

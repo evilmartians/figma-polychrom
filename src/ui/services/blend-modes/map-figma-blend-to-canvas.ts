@@ -1,10 +1,10 @@
 import { notEmpty } from '~utils/not-empty.ts';
-import { type CSSProperties } from 'react';
+import { type JSX } from 'solid-js';
 
 export const mapFigmaBlendToCanvas = (
   figmaBlend?: BlendMode
-): CSSProperties['mixBlendMode'] => {
-  const mapping: Record<BlendMode, CSSProperties['mixBlendMode']> = {
+): JSX.CSSProperties['mix-blend-mode'] => {
+  const mapping: Record<BlendMode, JSX.CSSProperties['mix-blend-mode']> = {
     COLOR: 'color',
     COLOR_BURN: 'color-burn',
     COLOR_DODGE: 'color-dodge',

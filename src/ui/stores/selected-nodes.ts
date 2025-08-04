@@ -31,6 +31,12 @@ export const $isMultiSelection = computed($userSelection, (selection) => {
     : false;
 });
 
+export const $isSingleSelection = computed($userSelection, (selection) => {
+  return 'selectedNodePairs' in selection
+    ? selection.selectedNodePairs.length === 1
+    : false;
+});
+
 export const $isInvalidBackground = computed($userSelection, (selection) => {
   return (
     'text' in selection &&
@@ -50,7 +56,10 @@ export const $isUnprocessedBlendModes = computed(
 
 export const $isEmptySelection = computed(
   $contrastConclusion,
-  (selection) => selection?.length === 0
+  (selection) => {
+    const arr = Array.isArray(selection) ? selection : Array.from(selection ?? []);
+    return arr.length === 0;
+  }
 );
 
 onMount($userSelection, () => {
@@ -82,14 +91,14 @@ onSet($userSelection, ({ newValue }) => {
         newValue.selectedNodePairs,
         newValue.colorSpace
       );
-
-      if (notEmpty(res)) $contrastConclusion.set(res);
+      if (notEmpty(res)) $contrastConclusion.set([...res]);
+      else $contrastConclusion.set([]);
+    } else {
+      $contrastConclusion.set([]); // <-- сбрасываем, если нет выделения
     }
   };
-
   void start();
 });
-
 export const $rewardAnimationLaunch = map<{
   bodyText: boolean | null;
   contentText: boolean | null;

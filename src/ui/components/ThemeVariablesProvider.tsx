@@ -4,10 +4,10 @@ import { type Theme } from '~ui/services/theme/generate-ui-colors.ts';
 import { formatForOklchCSS } from '~utils/colors/formatters.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { formatHex8 } from 'culori/fn';
-import { type ReactElement } from 'react';
+import { createMemo, type JSX } from 'solid-js';
 
 interface Props {
-  children: ReactElement;
+  children: JSX.Element;
   theme: Theme;
 }
 
@@ -42,40 +42,27 @@ export const formatColorForTheme = (
   return notEmpty(alpha) ? formatHex8({ ...color.oklch, alpha }) : color.hex;
 };
 
-export const ThemeVariablesProvider = ({
-  children,
-  theme,
-}: Props): ReactElement => {
-  const styles = {
-    [ThemeVariablesKeys.bg]: formatColorForTheme(theme.bg),
-    [ThemeVariablesKeys.bgBorder]: formatColorForTheme(theme.bgBorder),
-    [ThemeVariablesKeys.borderOriginal]: formatColorForTheme(
-      theme.borderOriginal
-    ),
-    [ThemeVariablesKeys.fg]: formatColorForTheme(theme.fg),
-    [ThemeVariablesKeys.fg24]: formatColorForTheme(theme.fg, 0.24),
-    [ThemeVariablesKeys.fg70]: formatColorForTheme(theme.fg, 0.7),
-    [ThemeVariablesKeys.fgBorder]: formatColorForTheme(theme.fgBorder),
-    [ThemeVariablesKeys.secondary]: formatColorForTheme(theme.secondary),
-    [ThemeVariablesKeys.secondary12]: formatColorForTheme(
-      theme.secondary,
-      0.12
-    ),
-    [ThemeVariablesKeys.secondary16]: formatColorForTheme(
-      theme.secondary,
-      0.16
-    ),
-    [ThemeVariablesKeys.secondary24]: formatColorForTheme(
-      theme.secondary,
-      0.24
-    ),
-  };
+export const ThemeVariablesProvider = (props: Props): JSX.Element => {
+  const styles = createMemo(() => {
+    const { bg, bgBorder, borderOriginal, fg, fgBorder, secondary } = props.theme;
+    return {
+      [ThemeVariablesKeys.bg]: formatColorForTheme(bg),
+      [ThemeVariablesKeys.bgBorder]: formatColorForTheme(bgBorder),
+      [ThemeVariablesKeys.borderOriginal]: formatColorForTheme(borderOriginal),
+      [ThemeVariablesKeys.fg]: formatColorForTheme(fg),
+      [ThemeVariablesKeys.fg24]: formatColorForTheme(fg, 0.24),
+      [ThemeVariablesKeys.fg70]: formatColorForTheme(fg, 0.7),
+      [ThemeVariablesKeys.fgBorder]: formatColorForTheme(fgBorder),
+      [ThemeVariablesKeys.secondary]: formatColorForTheme(secondary),
+      [ThemeVariablesKeys.secondary12]: formatColorForTheme(secondary, 0.12),
+      [ThemeVariablesKeys.secondary16]: formatColorForTheme(secondary, 0.16),
+      [ThemeVariablesKeys.secondary24]: formatColorForTheme(secondary, 0.24),
+    };
+  });
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    <div className="w-full" style={styles}>
-      {children}
+    <div class="w-full" style={styles()}>
+      {props.children}
     </div>
   );
 };

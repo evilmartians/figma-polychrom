@@ -1,8 +1,14 @@
 import { type Oklch } from 'culori/fn';
 
+interface UIColor {
+  hex: string;
+  isBlended: boolean;
+  oklch: Oklch;
+}
+
 export interface ContrastConclusion {
   apca: number;
-  bg: { hex: string; isBlended: boolean; oklch: Oklch };
-  fg: { hex: string; isBlended: boolean; oklch: Oklch };
+  bg: UIColor;
+  fg: UIColor;
   id: string;
 }
