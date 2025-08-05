@@ -1,7 +1,6 @@
 import layersImage from '~ui/assets/layers@2x.webp';
-import { type ReactElement } from 'react';
 
-export const InvalidBackgroundSelectionMessage = (): ReactElement => {
+export const InvalidBackgroundSelectionMessage = (): Elem => {
   return (
     <p
       style={{

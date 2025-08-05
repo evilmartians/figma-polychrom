@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended',
+    'plugin:eslint-config-preact',
     'prettier',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
@@ -28,11 +28,11 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['react', 'prettier', 'jsx-a11y', 'boundaries'],
+  plugins: ['preact', 'prettier', 'jsx-a11y', 'boundaries'],
   rules: {
     'import/no-default-export': 'error',
     'func-style': ['error', 'expression'],
-    'react/react-in-jsx-scope': 'off',
+    'preact/preact-in-jsx-scope': 'off',
     'boundaries/element-types': [
       2,
       {
@@ -67,7 +67,7 @@ module.exports = {
         ['~test-utils', './src/test-utils'],
       ],
     },
-    react: {
+    preact: {
       version: 'detect',
     },
     'boundaries/elements': [
