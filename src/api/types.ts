@@ -1,3 +1,3 @@
 export enum ClientStorageKeys {
-	savedColorSpaceDisplayMode = 'colorSpaceDisplayMode'
+  savedColorSpaceDisplayMode = 'colorSpaceDisplayMode',
 }

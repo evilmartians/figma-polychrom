@@ -4,21 +4,21 @@ import { getActualNode } from '~utils/figma/get-actual-node.ts';
 import { sortByDepthAndOrder } from '~utils/figma/sort-by-depth-and-order.ts';
 
 export const findFgAndBgNodes = (
-	polychromNodesTree: PolychromNode
+  polychromNodesTree: PolychromNode
 ): {
-	closestBgNode?: PolychromNode;
-	selectedNode?: PolychromNode;
+  closestBgNode?: PolychromNode;
+  selectedNode?: PolychromNode;
 } => {
-	const flattedNodes = flattenPolychromNodesTree(polychromNodesTree);
-	const sortedFlattenNodes = sortByDepthAndOrder(flattedNodes);
+  const flattedNodes = flattenPolychromNodesTree(polychromNodesTree);
+  const sortedFlattenNodes = sortByDepthAndOrder(flattedNodes);
 
-	const selectedNode = sortedFlattenNodes.find((node) => node.isSelected);
-	const [, ...flattenWithoutSelected] = sortedFlattenNodes;
+  const selectedNode = sortedFlattenNodes.find((node) => node.isSelected);
+  const [, ...flattenWithoutSelected] = sortedFlattenNodes;
 
-	const closestBgNode = getActualNode(flattenWithoutSelected);
+  const closestBgNode = getActualNode(flattenWithoutSelected);
 
-	return {
-		closestBgNode,
-		selectedNode
-	};
+  return {
+    closestBgNode,
+    selectedNode,
+  };
 };

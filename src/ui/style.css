@@ -5,69 +5,69 @@
 @tailwind utilities;
 
 @layer base {
-	:root {
-		--black: rgba(0, 0, 0, 1);
-		--white: rgba(255, 255, 255, 1);
-		--elevation-1: rgba(176, 176, 176, 0.3);
-		--universal-25: rgba(174, 174, 174, 0.58);
-		--secondary-35: rgba(111, 111, 111, 0.35);
-		--secondary-75: rgba(111, 111, 111, 1);
-	}
+  :root {
+    --black: rgba(0, 0, 0, 1);
+    --white: rgba(255, 255, 255, 1);
+    --elevation-1: rgba(176, 176, 176, 0.3);
+    --universal-25: rgba(174, 174, 174, 0.58);
+    --secondary-35: rgba(111, 111, 111, 0.35);
+    --secondary-75: rgba(111, 111, 111, 1);
+  }
 
-	:root[class~='dark'] {
-		--black: rgba(0, 0, 0, 1);
-		--white: rgba(255, 255, 255, 1);
-		--elevation-1: rgba(176, 176, 176, 0.3);
-		--universal-25: rgba(174, 174, 174, 0.58);
-		--secondary-35: rgba(210, 210, 210, 0.56);
-		--secondary-75: rgba(210, 210, 210, 1);
-	}
+  :root[class~='dark'] {
+    --black: rgba(0, 0, 0, 1);
+    --white: rgba(255, 255, 255, 1);
+    --elevation-1: rgba(176, 176, 176, 0.3);
+    --universal-25: rgba(174, 174, 174, 0.58);
+    --secondary-35: rgba(210, 210, 210, 0.56);
+    --secondary-75: rgba(210, 210, 210, 1);
+  }
 
-	html,
-	body,
-	#root {
-		height: 100%;
-		text-rendering: geometricPrecision;
-		-webkit-font-smoothing: antialiased;
-	}
+  html,
+  body,
+  #root {
+    height: 100%;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+  }
 
-	@font-face {
-		font-family: Segmented;
-		font-display: swap;
-		src: url('./assets/fonts/Segmented.woff2') format('woff2');
-		font-weight: 100 900;
-		font-stretch: 50 100;
-	}
+  @font-face {
+    font-family: Segmented;
+    font-display: swap;
+    src: url('./assets/fonts/Segmented.woff2') format('woff2');
+    font-weight: 100 900;
+    font-stretch: 50 100;
+  }
 
-	@font-face {
-		font-family: 'Martian Mono';
-		font-display: swap;
-		src: url('./assets/fonts/MartianMono-sWdRg.woff2') format('woff2');
-		font-weight: 400;
-	}
+  @font-face {
+    font-family: 'Martian Mono';
+    font-display: swap;
+    src: url('./assets/fonts/MartianMono-sWdRg.woff2') format('woff2');
+    font-weight: 400;
+  }
 
-	@font-face {
-		font-family: 'Martian Mono';
-		font-display: swap;
-		src: url('./assets/fonts/MartianMono-sWdMd.woff2') format('woff2');
-		font-weight: 500;
-	}
+  @font-face {
+    font-family: 'Martian Mono';
+    font-display: swap;
+    src: url('./assets/fonts/MartianMono-sWdMd.woff2') format('woff2');
+    font-weight: 500;
+  }
 
-	@font-face {
-		font-family: 'Martian Mono';
-		font-display: swap;
-		src: url('./assets/fonts/MartianMono-sWdBd.woff2') format('woff2');
-		font-weight: 700;
-	}
+  @font-face {
+    font-family: 'Martian Mono';
+    font-display: swap;
+    src: url('./assets/fonts/MartianMono-sWdBd.woff2') format('woff2');
+    font-weight: 700;
+  }
 }
 
 @layer utilities {
-	.interactive:not(:disabled) {
-		@apply outline-2 outline-offset-[1px];
-		@apply focus:outline;
-	}
+  .interactive:not(:disabled) {
+    @apply outline-offset-[1px] outline-2;
+    @apply focus:outline focus:outline-focus;
+  }
 
-	.interactive:not(:focus-visible):focus {
-		@apply outline-none;
-	}
+  .interactive:not(:focus-visible):focus {
+    @apply outline-none;
+  }
 }

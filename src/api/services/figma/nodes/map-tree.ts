@@ -1,12 +1,14 @@
 import { type PolychromNode } from '~types/common.ts';
 
 export const mapPolychromNodeTree = (
-	node: PolychromNode,
-	transform: (node: PolychromNode) => PolychromNode
+  node: PolychromNode,
+  transform: (node: PolychromNode) => PolychromNode
 ): PolychromNode => {
-	const newNode = transform(node);
+  const newNode = transform(node);
 
-	newNode.children = node.children.map((child) => mapPolychromNodeTree(child, transform));
+  newNode.children = node.children.map((child) =>
+    mapPolychromNodeTree(child, transform)
+  );
 
-	return newNode;
+  return newNode;
 };

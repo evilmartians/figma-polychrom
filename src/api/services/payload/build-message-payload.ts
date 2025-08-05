@@ -3,17 +3,17 @@ import { buildPairSelectionPayload } from '~api/services/payload/build-pair-sele
 import { type SelectionChangeEvent } from '~types/messages.ts';
 
 export const buildMessagePayload = (
-	currentSelection: readonly SceneNode[]
+  currentSelection: readonly SceneNode[]
 ): SelectionChangeEvent => {
-	if (currentSelection.length === 0)
-		return {
-			colorSpace: figma.root.documentColorProfile,
-			selectedNodePairs: []
-		};
+  if (currentSelection.length === 0)
+    return {
+      colorSpace: figma.root.documentColorProfile,
+      selectedNodePairs: [],
+    };
 
-	if (currentSelection.length === 2) {
-		return buildPairSelectionPayload(currentSelection);
-	}
+  if (currentSelection.length === 2) {
+    return buildPairSelectionPayload(currentSelection);
+  }
 
-	return buildGeneralSelectionPayload(currentSelection);
+  return buildGeneralSelectionPayload(currentSelection);
 };
