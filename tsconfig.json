@@ -1,36 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "ES2015",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+	"extends": "@tsconfig/svelte/tsconfig.json",
+	"compilerOptions": {
+		"target": "ES2015",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"noEmit": true,
+		"allowJs": true,
+		"checkJs": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
 
-    "noUncheckedIndexedAccess": true,
+		"noUncheckedIndexedAccess": true,
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
-    "baseUrl": ".",
-    "paths": {
-      "~api/*": ["src/api/*"],
-      "~test-utils/*": ["src/test-utils/*"],
-      "~types/*": ["src/types/*"],
-      "~utils/*": ["src/utils/*"],
-      "~ui/*": ["src/ui/*"]
-    }
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
+		"baseUrl": ".",
+		"paths": {
+			"~api/*": ["src/api/*"],
+			"~test-utils/*": ["src/test-utils/*"],
+			"~types/*": ["src/types/*"],
+			"~utils/*": ["src/utils/*"],
+			"~ui/*": ["src/ui/*"]
+		}
+	},
+	"include": ["src"],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }
