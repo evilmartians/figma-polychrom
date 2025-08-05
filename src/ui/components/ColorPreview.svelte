@@ -1,20 +1,20 @@
 <script lang="ts">
-	import BasicColorPreviewIcon from '~ui/components/BasicColorPreviewIcon.svelte';
-	import LayeredColorPreviewIcon from '~ui/components/LayeredColorPreviewIcon.svelte';
+  import BasicColorPreviewIcon from '~ui/components/BasicColorPreviewIcon.svelte';
+  import LayeredColorPreviewIcon from '~ui/components/LayeredColorPreviewIcon.svelte';
 
-	interface Props {
-		borderColor: string;
-		indicatorColor: string;
-		isBlended: boolean;
-	}
+  interface Props {
+    borderColor: string;
+    indicatorColor: string;
+    isBlended: boolean;
+  }
 
-	const { borderColor, indicatorColor, isBlended }: Props = $props();
+  const { borderColor, indicatorColor, isBlended }: Props = $props();
 </script>
 
 {#if isBlended}
-	<div class="flex">
-		<LayeredColorPreviewIcon {borderColor} {indicatorColor} />
-	</div>
+  <div class="flex">
+    <LayeredColorPreviewIcon {borderColor} {indicatorColor} />
+  </div>
 {:else}
-	<BasicColorPreviewIcon {borderColor} {indicatorColor} />
+  <BasicColorPreviewIcon {borderColor} {indicatorColor} />
 {/if}

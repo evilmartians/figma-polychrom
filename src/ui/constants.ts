@@ -1,1 +1,3 @@
-export const isSupportsOKLCH = CSS.supports('background-color: oklch(0%, 0, 0)');
+export const isSupportsOKLCH = CSS.supports(
+  'background-color: oklch(0%, 0, 0)'
+);
