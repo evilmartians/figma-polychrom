@@ -20,7 +20,7 @@
   ]}
   style="background-color: {bgColor}; border-color: var({ThemeVariablesKeys.borderOriginal}); color: {color};"
 >
-  <span style="opacity: {opacity}">
+  <span style:opacity={opacity}>
     {exampleText}
   </span>
 </p>

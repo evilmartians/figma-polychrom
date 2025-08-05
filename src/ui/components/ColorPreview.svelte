@@ -2,13 +2,11 @@
   import BasicColorPreviewIcon from '~ui/components/BasicColorPreviewIcon.svelte';
   import LayeredColorPreviewIcon from '~ui/components/LayeredColorPreviewIcon.svelte';
 
-  interface Props {
+  const { borderColor, indicatorColor, isBlended }: {
     borderColor: string;
     indicatorColor: string;
     isBlended: boolean;
-  }
-
-  const { borderColor, indicatorColor, isBlended }: Props = $props();
+  } = $props();
 </script>
 
 {#if isBlended}

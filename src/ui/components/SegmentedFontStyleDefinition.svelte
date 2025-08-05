@@ -6,12 +6,14 @@
   import { isEmpty, notEmpty } from '~utils/not-empty.ts';
   import { formatHex8 } from 'culori/fn';
 
-  const { currentStyleNumber, id, primaryColor, secondaryColor } = $props<{
+  interface Props {
     currentStyleNumber: number;
     id: string;
     primaryColor: UIColor;
     secondaryColor: UIColor;
-  }>();
+  }
+
+  const { currentStyleNumber, id, primaryColor, secondaryColor }: Props = $props();
 
   export const formatColorForTheme = (
     color: null | UIColor,
