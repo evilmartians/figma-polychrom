@@ -23,7 +23,9 @@ const conclusionScores = Object.values(conclusions).reverse().slice(1);
 export const ProgressBar = (props: Props): JSX.Element => {
   const rewardAnimationLaunch = useStore($rewardAnimationLaunch);
 
-  const maxScale = createMemo(() => props.apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE);
+  const maxScale = createMemo(() =>
+    props.apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE
+  );
   const barWidth = createMemo(() => maxScale() * SCALE);
   const filledSegmentWidth = createMemo(() => Math.abs(props.apca) * SCALE);
 
@@ -64,7 +66,7 @@ export const ProgressBar = (props: Props): JSX.Element => {
                 if (isEmpty(value)) return null;
 
                 const position = value * SCALE - SERIF_OFFSET;
-                console.table({position, value} );
+
                 return (
                   <div
                     style={{
@@ -74,13 +76,25 @@ export const ProgressBar = (props: Props): JSX.Element => {
                     }}
                     class={`${isContextText ? 'h-1' : 'h-0.5'} absolute top-1/2 w-px -translate-y-1/2`}
                   >
-                    <Show when={Boolean(isContextText && rewardAnimationLaunch().contentText)}>
+                    <Show
+                      when={Boolean(
+                        isContextText && rewardAnimationLaunch().contentText
+                      )}
+                    >
                       <RewardingAnimationContentText />
                     </Show>
-                    <Show when={Boolean(isBodyText && rewardAnimationLaunch().bodyText)}>
+                    <Show
+                      when={Boolean(
+                        isBodyText && rewardAnimationLaunch().bodyText
+                      )}
+                    >
                       <RewardingAnimationBodyText />
                     </Show>
-                    <Show when={Boolean(isFluentText && rewardAnimationLaunch().fluentText)}>
+                    <Show
+                      when={Boolean(
+                        isFluentText && rewardAnimationLaunch().fluentText
+                      )}
+                    >
                       <RewardingAnimationFluentText />
                     </Show>
                   </div>

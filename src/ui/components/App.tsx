@@ -4,7 +4,11 @@ import { AppContent } from '~ui/components/AppContent.tsx';
 import { HelpLink } from '~ui/components/HelpLink.tsx';
 import { LurkersLink } from '~ui/components/LurkersLink.tsx';
 import { SettingsButton } from '~ui/components/SettingsButton.tsx';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~ui/components/Tooltip.tsx';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '~ui/components/Tooltip.tsx';
 import { type JSX, onMount } from 'solid-js';
 
 import { $isP3 } from '../stores/selected-nodes';
@@ -19,7 +23,7 @@ export const App = (): JSX.Element => {
           type: MessageTypes.UiReady,
         },
       },
-      '*',
+      '*'
     );
   });
 
@@ -40,13 +44,14 @@ export const App = (): JSX.Element => {
                   }}
                   class="flex items-center"
                 >
-                  <p
-                    class="mr-3 rounded border-0.5 border-secondary-75 p-1 text-xxxs font-medium leading-[8px] text-secondary-75">
+                  <p class="mr-3 rounded border-0.5 border-secondary-75 p-1 text-xxxs font-medium leading-[8px] text-secondary-75">
                     P3
                   </p>
                 </div>
               </TooltipTrigger>
-              <TooltipContent><span>File color profile</span></TooltipContent>
+              <TooltipContent>
+                <span>File color profile</span>
+              </TooltipContent>
             </Tooltip>
           )}
 

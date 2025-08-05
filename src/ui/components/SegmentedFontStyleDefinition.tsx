@@ -17,8 +17,12 @@ export const SegmentedFontStyleDefinition = (props: Props): JSX.Element => {
     })
   );
 
-  const primaryFormatted = createMemo(() => formatColorForTheme(props.primaryColor));
-  const secondaryFormatted = createMemo(() => formatColorForTheme(props.secondaryColor, 0.12));
+  const primaryFormatted = createMemo(() =>
+    formatColorForTheme(props.primaryColor)
+  );
+  const secondaryFormatted = createMemo(() =>
+    formatColorForTheme(props.secondaryColor, 0.12)
+  );
 
   return (
     <style>

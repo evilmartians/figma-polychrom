@@ -1,7 +1,11 @@
 import { useStore } from '@nanostores/solid';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~ui/components/Tooltip.tsx';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '~ui/components/Tooltip.tsx';
 import {
   getFormatterForCSS,
   getFormatterForDisplaying,
@@ -26,12 +30,20 @@ export const ColorIndicator = (props: ColorIndicatorProps): JSX.Element => {
 
   const [isOpen, setIsOpen] = createSignal(false);
   const [isCopied, setIsCopied] = createSignal(false);
-  const [eventType, setEventType] = createSignal<'click' | 'pointerenter' | 'pointerleave'>('pointerenter');
+  const [eventType, setEventType] = createSignal<
+    'click' | 'pointerenter' | 'pointerleave'
+  >('pointerenter');
 
-  const formatColorForDisplay = createMemo(() => getFormatterForDisplaying(colorSpaceDisplayMode()));
-  const displayValue = createMemo(() => formatColorForDisplay()(props.fill.oklch));
+  const formatColorForDisplay = createMemo(() =>
+    getFormatterForDisplaying(colorSpaceDisplayMode())
+  );
+  const displayValue = createMemo(() =>
+    formatColorForDisplay()(props.fill.oklch)
+  );
 
-  const formatColorForCSS = createMemo(() => getFormatterForCSS(colorSpaceDisplayMode()));
+  const formatColorForCSS = createMemo(() =>
+    getFormatterForCSS(colorSpaceDisplayMode())
+  );
   const cssValue = createMemo(() => formatColorForCSS()(props.fill.oklch));
 
   const handleCopy = (): void => {
@@ -54,16 +66,18 @@ export const ColorIndicator = (props: ColorIndicatorProps): JSX.Element => {
     }
   };
 
-  const handleChangeEventType = (eventType: 'click' | 'pointerenter' | 'pointerleave') => (): void => {
-    setEventType(eventType);
-  };
+  const handleChangeEventType =
+    (eventType: 'click' | 'pointerenter' | 'pointerleave') => (): void => {
+      setEventType(eventType);
+    };
 
   return (
     <Tooltip id={props.id} onOpenChange={handleCustomOpen} open={isOpen()}>
       <TooltipTrigger
         onClick={handleChangeEventType('click')}
         onPointerEnter={handleChangeEventType('pointerenter')}
-        onPointerLeave={handleChangeEventType('pointerleave')}>
+        onPointerLeave={handleChangeEventType('pointerleave')}
+      >
         <button
           style={{
             '--indicators-active': `var(${ThemeVariablesKeys.secondary24})`,
@@ -82,7 +96,9 @@ export const ColorIndicator = (props: ColorIndicatorProps): JSX.Element => {
                 isBlended={props.isBlended}
               />
             </div>
-            <span style={{ color: `var(${props.textColor})` }}>{displayValue()}</span>
+            <span style={{ color: `var(${props.textColor})` }}>
+              {displayValue()}
+            </span>
           </div>
         </button>
       </TooltipTrigger>

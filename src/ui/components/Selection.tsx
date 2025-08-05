@@ -25,7 +25,7 @@ const SEGMENTED_FONT_STYLES = {
 
 export const Selection = (props: Props): JSX.Element => {
   const [currentStyleNumber, setCurrentStyleNumber] = createSignal(
-    SEGMENTED_FONT_STYLES.INITIAL,
+    SEGMENTED_FONT_STYLES.INITIAL
   );
 
   const handleCurrentStyleNumberChange = (): void => {
@@ -52,7 +52,7 @@ export const Selection = (props: Props): JSX.Element => {
       fallback={<CantCalculateMessage />}
       when={() => !isEmpty(props.userSelection.apca) && !isEmpty(uiColors())}
     >
-        <ThemeVariablesProvider theme={uiColors()!.theme}>
+      <ThemeVariablesProvider theme={uiColors()!.theme}>
         <div
           classList={{
             'p-5': props.size === 'large',

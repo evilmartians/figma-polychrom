@@ -44,7 +44,8 @@ export const formatColorForTheme = (
 
 export const ThemeVariablesProvider = (props: Props): JSX.Element => {
   const styles = createMemo(() => {
-    const { bg, bgBorder, borderOriginal, fg, fgBorder, secondary } = props.theme;
+    const { bg, bgBorder, borderOriginal, fg, fgBorder, secondary } =
+      props.theme;
     return {
       [ThemeVariablesKeys.bg]: formatColorForTheme(bg),
       [ThemeVariablesKeys.bgBorder]: formatColorForTheme(bgBorder),

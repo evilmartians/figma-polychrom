@@ -3,7 +3,7 @@ import { getNodeFills } from '~api/services/figma/nodes/get-node-fills.ts';
 import { type PolychromNode } from '~types/common.ts';
 import { formatHex, modeOklch, useMode } from 'culori/fn';
 
-const convertToOklch = useMode(modeOklch)
+const convertToOklch = useMode(modeOklch);
 
 export const createPolychromNode = (
   node: PageNode | SceneNode,

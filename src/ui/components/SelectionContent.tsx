@@ -27,11 +27,10 @@ export const SelectionContent = (props: Props): JSX.Element => {
 
   return (
     <div class="relative grid size-full">
-      <div class={`${props.size === 'small' ? 'mb-1' : 'mb-5'} flex items-center justify-between`}>
-        <p
-          class="text-xxs"
-          style={{ color: `var(${ThemeVariablesKeys.fg})` }}
-        >
+      <div
+        class={`${props.size === 'small' ? 'mb-1' : 'mb-5'} flex items-center justify-between`}
+      >
+        <p class="text-xxs" style={{ color: `var(${ThemeVariablesKeys.fg})` }}>
           {getConclusionByScore(Math.abs(props.apca))}
         </p>
 
@@ -44,7 +43,11 @@ export const SelectionContent = (props: Props): JSX.Element => {
         class={`${props.size === 'large' ? 'mb-1' : ''} flex w-full items-center justify-between`}
       >
         <div class="shrink-0 grow">
-          <ContrastSample bgColor={bgColor()} color={fgColor()} size={props.size} />
+          <ContrastSample
+            bgColor={bgColor()}
+            color={fgColor()}
+            size={props.size}
+          />
         </div>
 
         <div
@@ -62,9 +65,16 @@ export const SelectionContent = (props: Props): JSX.Element => {
       <div>
         <Show when={props.isLast === true || props.size === 'large'}>
           <div
-            class={(props.isLast === true) && props.size === 'small' ? 'mb-0 mt-1' : 'mb-5'}
+            class={
+              props.isLast === true && props.size === 'small'
+                ? 'mb-0 mt-1'
+                : 'mb-5'
+            }
           >
-            <ProgressBar apca={props.apca} height={props.size === 'small' ? 6 : 8} />
+            <ProgressBar
+              apca={props.apca}
+              height={props.size === 'small' ? 6 : 8}
+            />
           </div>
         </Show>
 
@@ -73,7 +83,7 @@ export const SelectionContent = (props: Props): JSX.Element => {
             <ColorIndicator
               borderColor={ThemeVariablesKeys.fgBorder}
               fill={props.fg}
-              id='fg'
+              id="fg"
               indicatorColor={fgColor()}
               isBlended={props.fg.isBlended}
               textColor={ThemeVariablesKeys.fg}
@@ -82,7 +92,7 @@ export const SelectionContent = (props: Props): JSX.Element => {
             <ColorIndicator
               borderColor={ThemeVariablesKeys.bgBorder}
               fill={props.bg}
-              id='bg'
+              id="bg"
               indicatorColor={bgColor()}
               isBlended={props.bg.isBlended}
               textColor={ThemeVariablesKeys.secondary}

@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import solid from 'vite-plugin-solid';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import solidSvg from 'vite-plugin-solid-svg'
+import solidSvg from 'vite-plugin-solid-svg';
 
 export default defineConfig({
   resolve: {

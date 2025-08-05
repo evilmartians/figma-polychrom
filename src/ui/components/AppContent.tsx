@@ -1,16 +1,15 @@
 import { useStore } from '@nanostores/solid';
 import { EmptySelectionMessage } from '~ui/components/infoMessages/EmptySelectionMessage';
 import { InvalidBackgroundSelectionMessage } from '~ui/components/infoMessages/InvalidBackgroundSelectionMessage';
-import {
-  UnprocessedBlendModesSelectionMessage,
-} from '~ui/components/infoMessages/UnprocessedBlendModesSelectionMessage';
+import { UnprocessedBlendModesSelectionMessage } from '~ui/components/infoMessages/UnprocessedBlendModesSelectionMessage';
 import { Selection } from '~ui/components/Selection';
 import { SelectionsList } from '~ui/components/SelectionsList';
 import {
   $contrastConclusion,
   $isEmptySelection,
   $isInvalidBackground,
-  $isMultiSelection, $isSingleSelection,
+  $isMultiSelection,
+  $isSingleSelection,
   $isUnprocessedBlendModes,
 } from '~ui/stores/selected-nodes';
 import { isEmpty } from '~utils/not-empty.ts';

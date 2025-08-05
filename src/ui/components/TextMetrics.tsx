@@ -17,30 +17,33 @@ export const TextMetrics = (props: Props): JSX.Element => {
   });
 
   return (
-    <Switch fallback={
-      <div
-        class="flex items-center"
-        style={{ color: `var(${ThemeVariablesKeys.fg})` }}
-      >
-      <div class="mr-3 flex items-center">
-        <p
-          class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
-          style={{ "border-color": `var(${ThemeVariablesKeys.fg})` }}
+    <Switch
+      fallback={
+        <div
+          class="flex items-center"
+          style={{ color: `var(${ThemeVariablesKeys.fg})` }}
         >
-          Rg
-        </p>
-        <p class="text-xxs leading-none">{fontSizes().regular}px</p>
-      </div>
-      <div class="flex items-center">
-        <p
-          class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
-          style={{ "border-color": `var(${ThemeVariablesKeys.fg})` }}
-        >
-          Bd
-        </p>
-        <p class="text-xxs leading-none">{fontSizes().bold}px</p>
-      </div>
-    </div>}>
+          <div class="mr-3 flex items-center">
+            <p
+              class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
+              style={{ 'border-color': `var(${ThemeVariablesKeys.fg})` }}
+            >
+              Rg
+            </p>
+            <p class="text-xxs leading-none">{fontSizes().regular}px</p>
+          </div>
+          <div class="flex items-center">
+            <p
+              class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
+              style={{ 'border-color': `var(${ThemeVariablesKeys.fg})` }}
+            >
+              Bd
+            </p>
+            <p class="text-xxs leading-none">{fontSizes().bold}px</p>
+          </div>
+        </div>
+      }
+    >
       <Match when={Math.abs(props.apca) < conclusions['Not Readable']}>
         <StopIcon />
       </Match>

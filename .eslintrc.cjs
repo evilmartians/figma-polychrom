@@ -27,7 +27,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
-    jsxPragma: "Solid"
+    jsxPragma: 'Solid',
   },
   plugins: ['solid', 'prettier', 'jsx-a11y', 'boundaries'],
   rules: {
@@ -68,9 +68,6 @@ module.exports = {
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
       ],
-    },
-    solid: {
-      version: 'detect',
     },
     'boundaries/elements': [
       {

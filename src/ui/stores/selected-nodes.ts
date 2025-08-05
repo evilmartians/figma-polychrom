@@ -54,13 +54,12 @@ export const $isUnprocessedBlendModes = computed(
   }
 );
 
-export const $isEmptySelection = computed(
-  $contrastConclusion,
-  (selection) => {
-    const arr = Array.isArray(selection) ? selection : Array.from(selection ?? []);
-    return arr.length === 0;
-  }
-);
+export const $isEmptySelection = computed($contrastConclusion, (selection) => {
+  const arr = Array.isArray(selection)
+    ? selection
+    : Array.from(selection ?? []);
+  return arr.length === 0;
+});
 
 onMount($userSelection, () => {
   const addMessageListener = (

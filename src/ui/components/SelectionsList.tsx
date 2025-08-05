@@ -24,5 +24,5 @@ export const SelectionsList = (props: Props): JSX.Element => {
         )}
       </For>
     </ul>
-  )
+  );
 };

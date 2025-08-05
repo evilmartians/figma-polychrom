@@ -5,7 +5,12 @@ import type {
 } from '@kobalte/core/tooltip';
 
 import { Tooltip as TooltipPrimitive } from '@kobalte/core/tooltip';
-import { type JSX, mergeProps, splitProps, type ValidComponent } from 'solid-js';
+import {
+  type JSX,
+  mergeProps,
+  splitProps,
+  type ValidComponent,
+} from 'solid-js';
 
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 
@@ -22,9 +27,9 @@ export const Tooltip = (props: TooltipRootProps): JSX.Element => {
       // eslint-disable-next-line solid/reactivity
       open: props.open,
       openDelay: 0.5,
-      placement: 'top'
+      placement: 'top',
     },
-    props,
+    props
   );
 
   return <TooltipPrimitive {...merge} />;
@@ -32,11 +37,11 @@ export const Tooltip = (props: TooltipRootProps): JSX.Element => {
 
 type tooltipContentProps<T extends ValidComponent = 'div'> =
   TooltipContentProps<T> & {
-  class?: string;
-};
+    class?: string;
+  };
 
 export const TooltipContent = <T extends ValidComponent = 'div'>(
-  props: PolymorphicProps<T, tooltipContentProps<T>>,
+  props: PolymorphicProps<T, tooltipContentProps<T>>
 ): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, rest] = splitProps(props as tooltipContentProps, ['class']);
@@ -44,7 +49,7 @@ export const TooltipContent = <T extends ValidComponent = 'div'>(
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
-        class='rounded-full bg-black p-2 px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md transition-opacity dark:bg-white dark:text-black'
+        class="rounded-full bg-black p-2 px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md transition-opacity dark:bg-white dark:text-black"
         {...rest}
       />
     </TooltipPrimitive.Portal>

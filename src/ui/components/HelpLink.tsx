@@ -1,5 +1,9 @@
 import HelpIcon from '~ui/assets/icons/help-icon.svg';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~ui/components/Tooltip.tsx';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '~ui/components/Tooltip.tsx';
 import { type JSX } from 'solid-js';
 
 import { APCADocumentationURL } from '../../constants.ts';
@@ -17,7 +21,9 @@ export const HelpLink = (): JSX.Element => {
           <HelpIcon />
         </a>
       </TooltipTrigger>
-      <TooltipContent><span class="whitespace-nowrap">APCA in a Nutshell</span></TooltipContent>
+      <TooltipContent>
+        <span class="whitespace-nowrap">APCA in a Nutshell</span>
+      </TooltipContent>
     </Tooltip>
   );
 };
