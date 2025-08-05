@@ -3,7 +3,6 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   resolve: {
@@ -14,7 +13,7 @@ export default defineConfig({
       '~utils': resolve(__dirname, 'src', 'utils'),
     },
   },
-  plugins: [svelte(), svgr(), viteSingleFile()],
+  plugins: [svelte(), viteSingleFile()],
   root: './src/ui',
   build: {
     emptyOutDir: false,
