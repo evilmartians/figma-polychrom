@@ -4,8 +4,7 @@ import {
 } from '~ui/components/ThemeVariablesProvider.tsx';
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import { type ContrastConclusion } from '~ui/types';
-import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { createMemo, type JSX, Show } from 'solid-js';
 
 import { ColorIndicator } from './ColorIndicator.tsx';
 import { ContrastSample } from './ContrastSample.tsx';
@@ -18,98 +17,89 @@ interface Props extends ContrastConclusion {
   size: 'large' | 'small';
 }
 
-export const SelectionContent = ({
-  apca,
-  bg,
-  fg,
-  id,
-  isLast,
-  onApcaDoubleClick,
-  size,
-}: Props): ReactElement => {
-  const bgColor = formatColorForTheme(bg);
-  const fgColor = formatColorForTheme(fg);
+export const SelectionContent = (props: Props): JSX.Element => {
+  const bgColor = createMemo(() => formatColorForTheme(props.bg));
+  const fgColor = createMemo(() => formatColorForTheme(props.fg));
+
+  const handleDoubleClick = (): void => {
+    props.onApcaDoubleClick();
+  };
 
   return (
-    <div className="relative grid h-full w-full">
+    <div class="relative grid size-full">
       <div
-        className={clsx(
-          size === 'small' ? 'mb-1' : 'mb-5',
-          'flex items-center justify-between'
-        )}
+        class={`${props.size === 'small' ? 'mb-1' : 'mb-5'} flex items-center justify-between`}
       >
-        <p
-          style={{
-            color: `var(${ThemeVariablesKeys.fg})`,
-          }}
-          className="text-xxs"
-        >
-          {getConclusionByScore(Math.abs(apca))}
+        <p class="text-xxs" style={{ color: `var(${ThemeVariablesKeys.fg})` }}>
+          {getConclusionByScore(Math.abs(props.apca))}
         </p>
 
-        <div className="flex h-[18px] items-center">
-          <TextMetrics apca={apca} />
+        <div class="flex h-[18px] items-center">
+          <TextMetrics apca={props.apca} />
         </div>
       </div>
 
       <div
-        className={clsx(
-          size === 'large' && 'mb-1',
-          'flex w-full items-center justify-between'
-        )}
+        class={`${props.size === 'large' ? 'mb-1' : ''} flex w-full items-center justify-between`}
       >
-        <div className="shrink-0 grow">
-          <ContrastSample bgColor={bgColor} color={fgColor} size={size} />
+        <div class="shrink-0 grow">
+          <ContrastSample
+            bgColor={bgColor()}
+            color={fgColor()}
+            size={props.size}
+          />
         </div>
 
         <div
-          className={clsx(
-            size === 'small' ? 'mr-9 text-5xl' : 'mr-13 text-7xl',
-            `segmented-${id} w-full text-center leading-none text-shadow`
-          )}
           style={{
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             '--text-shadow-color': `var(${ThemeVariablesKeys.fg24})`,
           }}
+          class={`${props.size === 'small' ? 'mr-9 text-5xl' : 'mr-13 text-7xl'} segmented-${props.id} w-full text-center leading-none text-shadow`}
         >
-          <h1 className="inline text-shadow" onDoubleClick={onApcaDoubleClick}>
-            {Math.abs(apca)}
+          <h1 class="inline text-shadow" onDblClick={handleDoubleClick}>
+            {Math.abs(props.apca)}
           </h1>
         </div>
       </div>
 
-      <>
-        {(isLast === true || size === 'large') && (
+      <div>
+        <Show when={props.isLast === true || props.size === 'large'}>
           <div
-            className={
-              isLast === true && size === 'small' ? 'mb-0 mt-1' : 'mb-5'
+            class={
+              props.isLast === true && props.size === 'small'
+                ? 'mb-0 mt-1'
+                : 'mb-5'
             }
           >
-            <ProgressBar apca={apca} height={size === 'small' ? 6 : 8} />
+            <ProgressBar
+              apca={props.apca}
+              height={props.size === 'small' ? 6 : 8}
+            />
           </div>
-        )}
+        </Show>
 
-        {size === 'large' && (
-          <div className="flex items-center justify-between text-xxs">
+        <Show when={props.size === 'large'}>
+          <div class="flex items-center justify-between text-xxs">
             <ColorIndicator
               borderColor={ThemeVariablesKeys.fgBorder}
-              fill={fg}
-              indicatorColor={fgColor}
-              isBlended={fg.isBlended}
+              fill={props.fg}
+              id="fg"
+              indicatorColor={fgColor()}
+              isBlended={props.fg.isBlended}
               textColor={ThemeVariablesKeys.fg}
             />
 
             <ColorIndicator
               borderColor={ThemeVariablesKeys.bgBorder}
-              fill={bg}
-              indicatorColor={bgColor}
-              isBlended={bg.isBlended}
+              fill={props.bg}
+              id="bg"
+              indicatorColor={bgColor()}
+              isBlended={props.bg.isBlended}
               textColor={ThemeVariablesKeys.secondary}
             />
           </div>
-        )}
-      </>
+        </Show>
+      </div>
     </div>
   );
 };

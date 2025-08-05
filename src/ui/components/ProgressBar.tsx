@@ -1,4 +1,4 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/solid';
 import { RewardingAnimationBodyText } from '~ui/components/RewardingAnimationBodyText.tsx';
 import { RewardingAnimationContentText } from '~ui/components/RewardingAnimationContentText.tsx';
 import { RewardingAnimationFluentText } from '~ui/components/RewardingAnimationFluentText.tsx';
@@ -6,8 +6,7 @@ import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { $rewardAnimationLaunch } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
-import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { createMemo, For, type JSX, Show } from 'solid-js';
 
 interface Props {
   apca: number;
@@ -19,94 +18,97 @@ const APCA_NEGATIVE_MAX_SCALE = 108;
 const APCA_POSITIVE_MAX_SCALE = 106;
 const SERIF_OFFSET = 2;
 
-export const ProgressBar = ({ apca, height }: Props): ReactElement => {
+const conclusionScores = Object.values(conclusions).reverse().slice(1);
+
+export const ProgressBar = (props: Props): JSX.Element => {
   const rewardAnimationLaunch = useStore($rewardAnimationLaunch);
-  const maxScale = apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE;
-  const barWidth = maxScale * SCALE;
-  const filledSegmentWidth = Math.abs(apca) * SCALE;
-  const [, ...conclusionScores] = Object.values(conclusions).reverse();
+
+  const maxScale = createMemo(() =>
+    props.apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE
+  );
+  const barWidth = createMemo(() => maxScale() * SCALE);
+  const filledSegmentWidth = createMemo(() => Math.abs(props.apca) * SCALE);
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex items-center">
+    <div class="flex items-center justify-center">
+      <div class="flex items-center">
         <span
-          style={{
-            color: `var(${ThemeVariablesKeys.secondary})`,
-          }}
-          className="mr-2 text-xxs"
+          class="mr-2 text-xxs"
+          style={{ color: `var(${ThemeVariablesKeys.secondary})` }}
         >
           0
         </span>
 
         <div
           style={{
-            backgroundColor: `var(${ThemeVariablesKeys.secondary12})`,
-            height: `${height}px`,
-            width: barWidth,
+            'background-color': `var(${ThemeVariablesKeys.secondary12})`,
+            height: `${props.height}px`,
+            width: `${barWidth()}px`,
           }}
-          className="relative rounded-full"
+          class="relative rounded-full"
         >
           <div
             style={{
-              backgroundImage: `linear-gradient(to right, var(${ThemeVariablesKeys.fg70}) 70%, var(${ThemeVariablesKeys.fg}) 85%)`,
-              height: `${height}px`,
-              width: filledSegmentWidth,
+              'background-image': `linear-gradient(to right, var(${ThemeVariablesKeys.fg70}) 70%, var(${ThemeVariablesKeys.fg}) 85%)`,
+              height: `${props.height}px`,
+              width: `${filledSegmentWidth()}px`,
             }}
-            className="rounded-full"
+            class="rounded-full"
           />
 
           <div>
-            {Array.from({ length: conclusionScores.length }).map((_, i) => {
-              const value = conclusionScores[i];
-              const isContextText = value === conclusions['Content Text'];
-              const isBodyText = value === conclusions['Body Text'];
-              const isFluentText = value === conclusions['Fluent Text'];
+            <For each={conclusionScores}>
+              {(value) => {
+                const isContextText = value === conclusions['Content Text'];
+                const isBodyText = value === conclusions['Body Text'];
+                const isFluentText = value === conclusions['Fluent Text'];
 
-              if (isEmpty(value)) return null;
+                if (isEmpty(value)) return null;
 
-              const position = value * SCALE - SERIF_OFFSET;
+                const position = value * SCALE - SERIF_OFFSET;
 
-              return (
-                <div
-                  className={clsx(
-                    'absolute top-1/2 w-px -translate-y-1/2',
-                    isContextText ? 'h-1' : 'h-0.5'
-                  )}
-                  style={{
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
-                    '--color-sparkles': `var(${ThemeVariablesKeys.fg})`,
-                    backgroundColor: `var(${ThemeVariablesKeys.bg})`,
-                    left: position,
-                  }}
-                  key={i}
-                >
-                  {isContextText &&
-                    rewardAnimationLaunch.contentText === true && (
+                return (
+                  <div
+                    style={{
+                      '--color-sparkles': `var(${ThemeVariablesKeys.fg})`,
+                      'background-color': `var(${ThemeVariablesKeys.bg})`,
+                      left: `${position}px`,
+                    }}
+                    class={`${isContextText ? 'h-1' : 'h-0.5'} absolute top-1/2 w-px -translate-y-1/2`}
+                  >
+                    <Show
+                      when={Boolean(
+                        isContextText && rewardAnimationLaunch().contentText
+                      )}
+                    >
                       <RewardingAnimationContentText />
-                    )}
-
-                  {isBodyText && rewardAnimationLaunch.bodyText === true && (
-                    <RewardingAnimationBodyText />
-                  )}
-
-                  {isFluentText &&
-                    rewardAnimationLaunch.fluentText === true && (
+                    </Show>
+                    <Show
+                      when={Boolean(
+                        isBodyText && rewardAnimationLaunch().bodyText
+                      )}
+                    >
+                      <RewardingAnimationBodyText />
+                    </Show>
+                    <Show
+                      when={Boolean(
+                        isFluentText && rewardAnimationLaunch().fluentText
+                      )}
+                    >
                       <RewardingAnimationFluentText />
-                    )}
-                </div>
-              );
-            })}
+                    </Show>
+                  </div>
+                );
+              }}
+            </For>
           </div>
         </div>
 
         <span
-          style={{
-            color: `var(${ThemeVariablesKeys.secondary})`,
-          }}
-          className="ml-2 text-xxs"
+          class="ml-2 text-xxs"
+          style={{ color: `var(${ThemeVariablesKeys.secondary})` }}
         >
-          {maxScale}
+          {maxScale()}
         </span>
       </div>
     </div>

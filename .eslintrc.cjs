@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended',
+    'plugin:solid/typescript',
     'prettier',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
@@ -27,12 +27,14 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
+    jsxPragma: 'Solid',
   },
-  plugins: ['react', 'prettier', 'jsx-a11y', 'boundaries'],
+  plugins: ['solid', 'prettier', 'jsx-a11y', 'boundaries'],
   rules: {
     'import/no-default-export': 'error',
     'func-style': ['error', 'expression'],
-    'react/react-in-jsx-scope': 'off',
+    'solid/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'boundaries/element-types': [
       2,
       {
@@ -66,9 +68,6 @@ module.exports = {
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
       ],
-    },
-    react: {
-      version: 'detect',
     },
     'boundaries/elements': [
       {

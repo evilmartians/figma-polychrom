@@ -1,5 +1,5 @@
-import { useStore } from '@nanostores/react';
-import { SettingsIcon } from '~ui/components/SettingsIcon.tsx';
+import { useStore } from '@nanostores/solid';
+import SettingsIcon from '~ui/assets/icons/settings-icon.svg';
 import {
   Tooltip,
   TooltipContent,
@@ -10,40 +10,48 @@ import {
   changeColorSpaceDisplayMode,
   colorSpaceDisplayModesList,
 } from '~ui/stores/color-space-display-mode.ts';
-import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { createSignal, For, type JSX } from 'solid-js';
 
-export const SettingsButton = (): ReactElement => {
+export const SettingsButton = (): JSX.Element => {
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
 
+  const [isOpen, setIsOpen] = createSignal(false);
+
   return (
-    <Tooltip>
-      <TooltipTrigger>
+    <Tooltip open={isOpen()}>
+      <TooltipTrigger
+        onClick={changeColorSpaceDisplayMode}
+        onPointerEnter={() => setIsOpen(true)}
+        onPointerLeave={() => setIsOpen(false)}
+      >
         <button
-          className="interactive flex h-6 w-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
-          onClick={changeColorSpaceDisplayMode}
+          class="interactive flex size-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
           type="button"
         >
           <SettingsIcon />
         </button>
       </TooltipTrigger>
-
       <TooltipContent>
-        <p className="flex gap-x-2">
-          {colorSpaceDisplayModesList.map((mode) => {
-            const isActive = mode === colorSpaceDisplayMode;
-
+        <p class="flex gap-x-2">
+          {(() => {
+            const currentColor = colorSpaceDisplayMode();
             return (
-              <span
-                className={clsx(
-                  !isActive ? 'opacity-70 dark:opacity-50' : 'font-bold'
-                )}
-                key={mode}
-              >
-                {mode}
-              </span>
+              <For each={colorSpaceDisplayModesList}>
+                {(mode) => {
+                  const isActive = mode === currentColor;
+                  return (
+                    <span
+                      class={
+                        !isActive ? 'opacity-70 dark:opacity-50' : 'font-bold'
+                      }
+                    >
+                      {mode}
+                    </span>
+                  );
+                }}
+              </For>
             );
-          })}
+          })()}
         </p>
       </TooltipContent>
     </Tooltip>

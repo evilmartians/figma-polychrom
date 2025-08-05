@@ -1,27 +1,31 @@
-import { LurkersIcon } from '~ui/components/LurkersIcon.tsx';
+import LurkersIcon from '~ui/assets/icons/lurkers-icon.svg';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '~ui/components/Tooltip.tsx';
-import { type ReactElement } from 'react';
+import { type JSX } from 'solid-js';
 
 import { evilMartiansSiteURL } from '../../constants.ts';
 
-export const LurkersLink = (): ReactElement => {
+export const LurkersLink = (): JSX.Element => {
   return (
     <Tooltip>
       <TooltipTrigger>
         <a
-          className="interactive"
+          class="interactive"
           href={evilMartiansSiteURL}
           rel="noreferrer"
           target="_blank"
         >
-          <LurkersIcon />
+          <div class="relative overflow-hidden">
+            <LurkersIcon />
+          </div>
         </a>
       </TooltipTrigger>
-      <TooltipContent>Evil Martians</TooltipContent>
+      <TooltipContent>
+        <span class="whitespace-nowrap">Evil Martians</span>
+      </TooltipContent>
     </Tooltip>
   );
 };

@@ -1,21 +1,15 @@
+import { CantCalculateMessage } from '~ui/components/infoMessages/CantCalculateMessage.tsx';
 import {
   ThemeVariablesKeys,
   ThemeVariablesProvider,
 } from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
-import clsx from 'clsx';
-import { type ReactElement, useState } from 'react';
+import { createMemo, createSignal, type JSX, Show } from 'solid-js';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
 import { SelectionContent } from './SelectionContent.tsx';
-
-const CantCalculateMessage = (): ReactElement => (
-  <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-secondary-75">
-    Can&apos;t calc
-  </p>
-);
 
 interface Props {
   id: string;
@@ -29,18 +23,13 @@ const SEGMENTED_FONT_STYLES = {
   MAX: 2,
 };
 
-export const Selection = ({
-  id,
-  isLast,
-  size,
-  userSelection: { apca, bg, fg },
-}: Props): ReactElement => {
-  const [currentStyleNumber, setCurrentStyleNumber] = useState(
+export const Selection = (props: Props): JSX.Element => {
+  const [currentStyleNumber, setCurrentStyleNumber] = createSignal(
     SEGMENTED_FONT_STYLES.INITIAL
   );
 
   const handleCurrentStyleNumberChange = (): void => {
-    const newStyleNumber = currentStyleNumber + 1;
+    const newStyleNumber = currentStyleNumber() + 1;
     if (newStyleNumber > SEGMENTED_FONT_STYLES.MAX) {
       setCurrentStyleNumber(SEGMENTED_FONT_STYLES.INITIAL);
     } else {
@@ -48,49 +37,50 @@ export const Selection = ({
     }
   };
 
-  if (isEmpty(apca)) {
-    return <CantCalculateMessage />;
-  }
+  const uiColors = createMemo(() => {
+    const { apca, bg, fg } = props.userSelection;
+    if (isEmpty(fg) || isEmpty(bg) || isEmpty(apca)) return undefined;
 
-  const uiColors = generateUIColors(
-    { hex: fg.hex, oklch: fg.oklch },
-    { hex: bg.hex, oklch: bg.oklch }
-  );
-
-  if (isEmpty(uiColors)) {
-    return <CantCalculateMessage />;
-  }
+    return generateUIColors(
+      { hex: fg.hex, oklch: fg.oklch },
+      { hex: bg.hex, oklch: bg.oklch }
+    );
+  });
 
   return (
-    <ThemeVariablesProvider theme={uiColors.theme}>
-      <div
-        className={clsx(
-          'w-full rounded-2.5xl',
-          size === 'small' && isLast === false && 'px-5 pb-8 pt-2',
-          size === 'small' && isLast === true && 'px-5 py-3',
-          size === 'large' && 'p-5'
-        )}
-        style={{
-          backgroundColor: `var(${ThemeVariablesKeys.bg})`,
-        }}
-      >
-        <SegmentedFontStyleDefinition
-          currentStyleNumber={currentStyleNumber}
-          id={id}
-          primaryColor={uiColors.theme.fg}
-          secondaryColor={uiColors.theme.secondary}
-        />
+    <Show
+      fallback={<CantCalculateMessage />}
+      when={() => !isEmpty(props.userSelection.apca) && !isEmpty(uiColors())}
+    >
+      <ThemeVariablesProvider theme={uiColors()!.theme}>
+        <div
+          classList={{
+            'p-5': props.size === 'large',
+            'px-5 pb-8 pt-2': props.size === 'small' && props.isLast === false,
+            'px-5 py-3': props.size === 'small' && props.isLast === true,
+            'rounded-2.5xl': true,
+            'w-full': true,
+          }}
+          style={{ 'background-color': `var(${ThemeVariablesKeys.bg})` }}
+        >
+          <SegmentedFontStyleDefinition
+            currentStyleNumber={currentStyleNumber()}
+            id={props.id}
+            primaryColor={uiColors()!.theme.fg}
+            secondaryColor={uiColors()!.theme.secondary}
+          />
 
-        <SelectionContent
-          apca={apca}
-          bg={bg}
-          fg={fg}
-          id={id}
-          isLast={isLast}
-          onApcaDoubleClick={handleCurrentStyleNumberChange}
-          size={size}
-        />
-      </div>
-    </ThemeVariablesProvider>
+          <SelectionContent
+            apca={props.userSelection.apca}
+            bg={props.userSelection.bg}
+            fg={props.userSelection.fg}
+            id={props.id}
+            isLast={props.isLast}
+            onApcaDoubleClick={handleCurrentStyleNumberChange}
+            size={props.size}
+          />
+        </div>
+      </ThemeVariablesProvider>
+    </Show>
   );
 };
