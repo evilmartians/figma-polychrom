@@ -21,12 +21,12 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist'),
     target: 'es2015',
   },
-  // test: {
-  //   name: 'ui',
-  //   environment: 'jsdom',
-  //   coverage: {
-  //     provider: 'v8',
-  //     reportsDirectory: resolve(__dirname, 'coverage', 'ui'),
-  //   },
-  // },
+  test: {
+    name: 'ui',
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: resolve(__dirname, 'coverage', 'ui'),
+    },
+  },
 });

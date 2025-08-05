@@ -25,12 +25,12 @@ export default defineConfig({
       },
     },
   },
-  // test: {
-  //   name: 'api',
-  //   exclude: ['node_modules', 'src/ui/**/*.spec.tsx'],
-  //   coverage: {
-  //     provider: 'v8',
-  //     reportsDirectory: resolve(__dirname, 'coverage', 'api'),
-  //   },
-  // },
+  test: {
+    name: 'api',
+    exclude: ['node_modules', 'src/ui/**/*.spec.tsx'],
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: resolve(__dirname, 'coverage', 'api'),
+    },
+  },
 });
