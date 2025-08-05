@@ -1,5 +1,5 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 export const PictureIcon = (): ReactElement => {
   return (

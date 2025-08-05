@@ -1,4 +1,4 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/preact';
 import { RewardingAnimationBodyText } from '~ui/components/RewardingAnimationBodyText.tsx';
 import { RewardingAnimationContentText } from '~ui/components/RewardingAnimationContentText.tsx';
 import { RewardingAnimationFluentText } from '~ui/components/RewardingAnimationFluentText.tsx';
@@ -7,7 +7,7 @@ import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { $rewardAnimationLaunch } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 interface Props {
   apca: number;
@@ -74,7 +74,6 @@ export const ProgressBar = ({ apca, height }: Props): ReactElement => {
                   )}
                   style={{
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
                     '--color-sparkles': `var(${ThemeVariablesKeys.fg})`,
                     backgroundColor: `var(${ThemeVariablesKeys.bg})`,
                     left: position,

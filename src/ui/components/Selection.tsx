@@ -5,7 +5,8 @@ import {
 import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type ReactElement, useState } from 'react';
+import { type ReactElement } from 'preact/compat';
+import { signal } from '@preact/signals-core';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
@@ -35,16 +36,14 @@ export const Selection = ({
   size,
   userSelection: { apca, bg, fg },
 }: Props): ReactElement => {
-  const [currentStyleNumber, setCurrentStyleNumber] = useState(
-    SEGMENTED_FONT_STYLES.INITIAL
-  );
+  const currentStyleNumber = signal(SEGMENTED_FONT_STYLES.INITIAL);
 
   const handleCurrentStyleNumberChange = (): void => {
-    const newStyleNumber = currentStyleNumber + 1;
+    const newStyleNumber = currentStyleNumber.value + 1;
     if (newStyleNumber > SEGMENTED_FONT_STYLES.MAX) {
-      setCurrentStyleNumber(SEGMENTED_FONT_STYLES.INITIAL);
+      currentStyleNumber.value = SEGMENTED_FONT_STYLES.INITIAL;
     } else {
-      setCurrentStyleNumber(newStyleNumber);
+      currentStyleNumber.value = newStyleNumber;
     }
   };
 
@@ -75,7 +74,7 @@ export const Selection = ({
         }}
       >
         <SegmentedFontStyleDefinition
-          currentStyleNumber={currentStyleNumber}
+          currentStyleNumber={currentStyleNumber.value}
           id={id}
           primaryColor={uiColors.theme.fg}
           secondaryColor={uiColors.theme.secondary}

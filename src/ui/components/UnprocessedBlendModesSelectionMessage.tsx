@@ -1,5 +1,5 @@
 import layersImage from '~ui/assets/layers@2x.webp';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 export const UnprocessedBlendModesSelectionMessage = (): ReactElement => {
   return (

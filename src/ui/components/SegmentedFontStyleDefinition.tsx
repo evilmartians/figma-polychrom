@@ -1,6 +1,6 @@
 import { type UIColor } from '~types/common.ts';
 import { formatColorForTheme } from '~ui/components/ThemeVariablesProvider.tsx';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 interface Props {
   currentStyleNumber: number;

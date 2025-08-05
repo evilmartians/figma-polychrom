@@ -1,7 +1,7 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { fontLookupAPCA } from 'apca-w3';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 import { PictureIcon } from './PictureIcon.tsx';
 import { StopIcon } from './StopIcon.tsx';

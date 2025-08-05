@@ -1,4 +1,4 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/preact';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import {
@@ -6,7 +6,7 @@ import {
   getFormatterForDisplaying,
 } from '~utils/colors/formatters.ts';
 import { type Oklch } from 'culori/fn';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 import useClipboard from 'react-use-clipboard';
 
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
@@ -47,7 +47,6 @@ export const ColorIndicator = ({
         <button
           style={{
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             '--indicators-active': `var(${ThemeVariablesKeys.secondary24})`,
             '--indicators-hover': `var(${ThemeVariablesKeys.secondary16})`,
             color: indicatorColor,

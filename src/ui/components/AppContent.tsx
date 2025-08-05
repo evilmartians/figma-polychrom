@@ -1,4 +1,4 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/preact';
 import { EmptySelectionMessage } from '~ui/components/EmptySelectionMessage.tsx';
 import { InvalidBackgroundSelectionMessage } from '~ui/components/InvalidBackgroundSelectionMessage.tsx';
 import { Selection } from '~ui/components/Selection.tsx';
@@ -12,7 +12,7 @@ import {
   $isUnprocessedBlendModes,
 } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 export const AppContent = (): ReactElement => {
   const isInvalidBackground = useStore($isInvalidBackground);

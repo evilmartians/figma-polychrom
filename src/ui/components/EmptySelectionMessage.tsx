@@ -1,5 +1,5 @@
 import ufoImage from '~ui/assets/ufo@2x.webp';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 export const EmptySelectionMessage = (): ReactElement => {
   return (

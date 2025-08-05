@@ -1,4 +1,4 @@
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 export const LurkersIcon = (): ReactElement => {
   return (

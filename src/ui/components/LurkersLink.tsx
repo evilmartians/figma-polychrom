@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '~ui/components/Tooltip.tsx';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 import { evilMartiansSiteURL } from '../../constants.ts';
 

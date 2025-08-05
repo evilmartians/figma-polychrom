@@ -1,6 +1,6 @@
 import { BasicColorPreviewIcon } from '~ui/components/BasicColorPreviewIcon.tsx';
 import { LayeredColorPreviewIcon } from '~ui/components/LayeredColorPreviewIcon.tsx';
-import { type ReactElement } from 'react';
+import { type ReactElement } from 'preact/compat';
 
 interface Props {
   borderColor: string;
