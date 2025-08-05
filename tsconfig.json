@@ -35,5 +35,6 @@
     }
   },
   "include": ["src"],
+  "exclude": ["src/ui/coverage/**"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
