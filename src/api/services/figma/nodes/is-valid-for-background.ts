@@ -8,21 +8,21 @@ import { isEmpty } from '~utils/not-empty.ts';
 // TODO: Improve if there are any non solid visible fills with opacity.
 
 export const isValidForBackground = (nodesTree: PolychromNode): boolean => {
-  const flattenNodesList = flattenPolychromNodesTree(nodesTree);
+	const flattenNodesList = flattenPolychromNodesTree(nodesTree);
 
-  const sortedFlattenNodesList = sortByDepthAndOrder(flattenNodesList);
+	const sortedFlattenNodesList = sortByDepthAndOrder(flattenNodesList);
 
-  const sortedFlattenNodesWithoutSelected = sortedFlattenNodesList.filter(
-    (node) => node.isSelected === false
-  );
+	const sortedFlattenNodesWithoutSelected = sortedFlattenNodesList.filter(
+		(node) => node.isSelected === false
+	);
 
-  const actualNode = getActualNode(sortedFlattenNodesWithoutSelected);
+	const actualNode = getActualNode(sortedFlattenNodesWithoutSelected);
 
-  if (isEmpty(actualNode)) return false;
+	if (isEmpty(actualNode)) return false;
 
-  const actualFill = getActualFill(actualNode?.fills);
+	const actualFill = getActualFill(actualNode?.fills);
 
-  if (isEmpty(actualFill)) return false;
+	if (isEmpty(actualFill)) return false;
 
-  return actualFill.type === 'SOLID';
+	return actualFill.type === 'SOLID';
 };

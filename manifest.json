@@ -1,11 +1,11 @@
 {
-  "name": "Polychrom",
-  "id": "1281280685402026529",
-  "api": "1.0.0",
-  "main": "dist/api.js",
-  "ui": "dist/index.html",
-  "editorType": ["figma"],
-  "networkAccess": {
-    "allowedDomains": ["none"]
-  }
+	"name": "Polychrom",
+	"id": "1281280685402026529",
+	"api": "1.0.0",
+	"main": "dist/api.js",
+	"ui": "dist/index.html",
+	"editorType": ["figma"],
+	"networkAccess": {
+		"allowedDomains": ["none"]
+	}
 }

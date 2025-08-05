@@ -8,16 +8,14 @@ import { isEmpty } from '~utils/not-empty.ts';
 const unprocessedBlendModes = ['LINEAR_BURN'];
 
 const hasValidBlendMode = (fill: FigmaPaint): boolean => {
-  if (isEmpty(fill.blendMode)) return true;
+	if (isEmpty(fill.blendMode)) return true;
 
-  return !unprocessedBlendModes.includes(fill.blendMode);
+	return !unprocessedBlendModes.includes(fill.blendMode);
 };
 
 export const hasOnlyValidBlendModes = (nodes: PolychromNode): boolean =>
-  flattenPolychromNodesTree(nodes).every(
-    (node) =>
-      node.fills
-        .filter((fill) => isVisibleSolidFill(fill))
-        .every(hasValidBlendMode) &&
-      !unprocessedBlendModes.includes(node.blendMode)
-  );
+	flattenPolychromNodesTree(nodes).every(
+		(node) =>
+			node.fills.filter((fill) => isVisibleSolidFill(fill)).every(hasValidBlendMode) &&
+			!unprocessedBlendModes.includes(node.blendMode)
+	);

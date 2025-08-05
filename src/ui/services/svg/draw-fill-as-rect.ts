@@ -4,40 +4,37 @@ import { determineFillStyle } from '~ui/services/blend/determine-fill-style.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 
 export interface CanvasRect {
-  height: number;
-  width: number;
+	height: number;
+	width: number;
 }
 
 export const drawFillAsRect = (
-  fill: FigmaPaint,
-  rectBox: CanvasRect,
-  colorSpace: FigmaColorSpace
+	fill: FigmaPaint,
+	rectBox: CanvasRect,
+	colorSpace: FigmaColorSpace
 ): null | SVGGElement => {
-  const svgRect = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'rect'
-  );
+	const svgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-  svgRect.setAttribute('width', String(rectBox.width));
-  svgRect.setAttribute('height', String(rectBox.height));
+	svgRect.setAttribute('width', String(rectBox.width));
+	svgRect.setAttribute('height', String(rectBox.height));
 
-  if (notEmpty(fill.blendMode)) {
-    const mappedBlendMode = mapFigmaBlendToCanvas(fill.blendMode);
+	if (notEmpty(fill.blendMode)) {
+		const mappedBlendMode = mapFigmaBlendToCanvas(fill.blendMode);
 
-    if (notEmpty(mappedBlendMode)) {
-      svgRect.setAttribute('style', `mix-blend-mode: ${mappedBlendMode};`);
-    }
-  }
+		if (notEmpty(mappedBlendMode)) {
+			svgRect.setAttribute('style', `mix-blend-mode: ${mappedBlendMode};`);
+		}
+	}
 
-  const fillStyle = determineFillStyle(fill, colorSpace);
+	const fillStyle = determineFillStyle(fill, colorSpace);
 
-  if (isEmpty(fillStyle)) return null;
+	if (isEmpty(fillStyle)) return null;
 
-  svgRect.setAttribute('fill', fillStyle);
+	svgRect.setAttribute('fill', fillStyle);
 
-  if (fill.opacity !== 1) {
-    svgRect.setAttribute('opacity', `${fill.opacity?.toFixed(2) ?? 1}`);
-  }
+	if (fill.opacity !== 1) {
+		svgRect.setAttribute('opacity', `${fill.opacity?.toFixed(2) ?? 1}`);
+	}
 
-  return svgRect;
+	return svgRect;
 };

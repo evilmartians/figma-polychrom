@@ -16,119 +16,99 @@ import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { nanoid } from 'nanoid';
 
 const BACKGROUND_BOX = {
-  eyeDropperX: 10,
-  eyeDropperY: 10,
-  height: 20,
-  width: 20,
+	eyeDropperX: 10,
+	eyeDropperY: 10,
+	height: 20,
+	width: 20
 };
 
 const FOREGROUND_BOX = {
-  eyeDropperX: 0,
-  eyeDropperY: 0,
-  height: 10,
-  width: 10,
+	eyeDropperX: 0,
+	eyeDropperY: 0,
+	height: 10,
+	width: 10
 };
 
-export const CanvasColorSpace: Record<FigmaColorSpace, 'display-p3' | 'srgb'> =
-  {
-    DISPLAY_P3: 'display-p3',
-    LEGACY: 'srgb',
-    SRGB: 'srgb',
-  };
+export const CanvasColorSpace: Record<FigmaColorSpace, 'display-p3' | 'srgb'> = {
+	DISPLAY_P3: 'display-p3',
+	LEGACY: 'srgb',
+	SRGB: 'srgb'
+};
 
 export type ContrastConclusionList = ContrastConclusion[];
 
 export const blendColors = async (
-  pairs: PolychromNode[],
-  figmaColorSpace: FigmaColorSpace
+	pairs: PolychromNode[],
+	figmaColorSpace: FigmaColorSpace
 ): Promise<ContrastConclusionList> => {
-  const processedPairs = await Promise.all(
-    pairs.map(async (pair) => await blendSelectionPair(pair, figmaColorSpace))
-  );
+	const processedPairs = await Promise.all(
+		pairs.map(async (pair) => await blendSelectionPair(pair, figmaColorSpace))
+	);
 
-  return processedPairs.filter(notEmpty);
+	return processedPairs.filter(notEmpty);
 };
 
 const blendSelectionPair = async (
-  pair: PolychromNode,
-  figmaColorSpace: FigmaColorSpace
+	pair: PolychromNode,
+	figmaColorSpace: FigmaColorSpace
 ): Promise<ContrastConclusion | null> => {
-  const canvas = new OffscreenCanvas(
-    BACKGROUND_BOX.width,
-    BACKGROUND_BOX.height
-  );
+	const canvas = new OffscreenCanvas(BACKGROUND_BOX.width, BACKGROUND_BOX.height);
 
-  const ctx = canvas.getContext('2d', {
-    colorSpace: isSupportsOKLCH ? CanvasColorSpace[figmaColorSpace] : 'srgb',
-    willReadFrequently: true,
-  });
+	const ctx = canvas.getContext('2d', {
+		colorSpace: isSupportsOKLCH ? CanvasColorSpace[figmaColorSpace] : 'srgb',
+		willReadFrequently: true
+	});
 
-  if (isEmpty(ctx)) return null;
+	if (isEmpty(ctx)) return null;
 
-  await drawNodesOnContext(ctx, pair, figmaColorSpace);
+	await drawNodesOnContext(ctx, pair, figmaColorSpace);
 
-  const bgColorData = getColorData(
-    getFillFromCtx(
-      ctx,
-      BACKGROUND_BOX.eyeDropperX,
-      BACKGROUND_BOX.eyeDropperY,
-      figmaColorSpace
-    )
-  );
+	const bgColorData = getColorData(
+		getFillFromCtx(ctx, BACKGROUND_BOX.eyeDropperX, BACKGROUND_BOX.eyeDropperY, figmaColorSpace)
+	);
 
-  const fgColorData = getColorData(
-    getFillFromCtx(
-      ctx,
-      FOREGROUND_BOX.eyeDropperX,
-      FOREGROUND_BOX.eyeDropperY,
-      figmaColorSpace
-    )
-  );
+	const fgColorData = getColorData(
+		getFillFromCtx(ctx, FOREGROUND_BOX.eyeDropperX, FOREGROUND_BOX.eyeDropperY, figmaColorSpace)
+	);
 
-  if (isEmpty(bgColorData) || isEmpty(fgColorData)) return null;
+	if (isEmpty(bgColorData) || isEmpty(fgColorData)) return null;
 
-  const { closestBgNode, selectedNode } = findFgAndBgNodes(pair);
+	const { closestBgNode, selectedNode } = findFgAndBgNodes(pair);
 
-  if (isEmpty(selectedNode) || isEmpty(closestBgNode)) return null;
+	if (isEmpty(selectedNode) || isEmpty(closestBgNode)) return null;
 
-  const isFgBlended = checkIfFillBlended(selectedNode);
-  const isBgBlended = checkIfFillBlended(closestBgNode);
+	const isFgBlended = checkIfFillBlended(selectedNode);
+	const isBgBlended = checkIfFillBlended(closestBgNode);
 
-  const apcaScore = calculateApcaScore(
-    fgColorData,
-    bgColorData,
-    figmaColorSpace
-  );
+	const apcaScore = calculateApcaScore(fgColorData, bgColorData, figmaColorSpace);
 
-  const nodeId = notEmpty(selectedNode.id)
-    ? formatPolychromNodeId(selectedNode.id)
-    : nanoid();
+	const nodeId = notEmpty(selectedNode.id) ? formatPolychromNodeId(selectedNode.id) : nanoid();
 
-  return {
-    apca: apcaScore,
-    bg: formatColorData(bgColorData, isBgBlended),
-    fg: formatColorData(fgColorData, isFgBlended),
-    id: nodeId,
-  };
+	return {
+		apca: apcaScore,
+		bg: formatColorData(bgColorData, isBgBlended),
+		fg: formatColorData(fgColorData, isFgBlended),
+		id: nodeId
+	};
 };
 
 const drawNodesOnContext = async (
-  ctx: OffscreenCanvasRenderingContext2D,
-  pair: PolychromNode,
-  colorSpace: FigmaColorSpace
+	ctx: OffscreenCanvasRenderingContext2D,
+	pair: PolychromNode,
+	colorSpace: FigmaColorSpace
 ): Promise<void> => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-  svg.setAttribute('width', `${BACKGROUND_BOX.width}`);
-  svg.setAttribute('height', `${BACKGROUND_BOX.height}`);
+	svg.setAttribute('width', `${BACKGROUND_BOX.width}`);
+	svg.setAttribute('height', `${BACKGROUND_BOX.height}`);
 
-  drawNodesOnSvg(svg, pair, FOREGROUND_BOX, BACKGROUND_BOX, colorSpace);
+	drawNodesOnSvg(svg, pair, FOREGROUND_BOX, BACKGROUND_BOX, colorSpace);
 
-  await renderSvgOnCanvas(ctx, svg);
+	await renderSvgOnCanvas(ctx, svg);
 };
 
 const checkIfFillBlended = (node: PolychromNode): boolean => {
-  const actualFill = getActualFill(node.fills);
+	const actualFill = getActualFill(node.fills);
 
-  return isBlendedFill(node, actualFill);
+	return isBlendedFill(node, actualFill);
 };
