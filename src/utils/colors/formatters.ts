@@ -30,10 +30,7 @@ export const convert255ScaleRGBtoDecimal = (color: {
 };
 
 export const formatForOklchDisplay = (oklch: Oklch): string => {
-  return `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(
-    oklch.h ?? 0,
-    1
-  )}`;
+  return `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(oklch.h ?? 0, 1)}`;
 };
 
 export const formatForRgbDisplay = (oklch: Oklch): string => {
@@ -68,10 +65,7 @@ export const formatForOklchCSS = (color: Oklch, opacity?: number): string => {
     postfix = ` / ${toPercent(opacity)}`;
   }
 
-  return `oklch(${toPercent(l)} ${clearValue(c, 3)} ${clearValue(
-    h ?? 0,
-    1
-  )}${postfix})`;
+  return `oklch(${toPercent(l)} ${clearValue(c, 3)} ${clearValue(h ?? 0, 1)}${postfix})`;
 };
 
 export const formatForRGBCSS = (color: Oklch, opacity?: number): string => {

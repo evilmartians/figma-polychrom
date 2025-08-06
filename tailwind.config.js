@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class', '.figma-dark'],
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,svg}'],
+  content: ['./index.html', './src/**/*.{js,ts,svg,svelte}'],
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(

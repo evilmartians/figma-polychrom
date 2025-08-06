@@ -1,6 +1,6 @@
 import { formatHex, modeOklch, type Oklch, useMode } from 'culori/fn';
 
-const convertToOklch = useMode(modeOklch)
+const convertToOklch = useMode(modeOklch);
 
 export const formatColorData = (
   color: RGB,

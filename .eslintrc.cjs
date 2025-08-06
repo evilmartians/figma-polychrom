@@ -5,8 +5,8 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended',
     'prettier',
+    'plugin:svelte/recommended',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
     'plugin:jsx-a11y/recommended',
@@ -24,15 +24,16 @@ module.exports = {
     },
   ],
   parserOptions: {
+    parser: '@typescript-eslint/parser',
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
+    extraFileExtensions: ['.svelte'],
   },
-  plugins: ['react', 'prettier', 'jsx-a11y', 'boundaries'],
+  plugins: ['prettier', 'jsx-a11y', 'boundaries'],
   rules: {
     'import/no-default-export': 'error',
     'func-style': ['error', 'expression'],
-    'react/react-in-jsx-scope': 'off',
     'boundaries/element-types': [
       2,
       {
@@ -66,9 +67,6 @@ module.exports = {
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
       ],
-    },
-    react: {
-      version: 'detect',
     },
     'boundaries/elements': [
       {

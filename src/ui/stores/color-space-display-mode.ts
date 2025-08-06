@@ -10,12 +10,12 @@ import { ColorSpaceDisplayModes } from '../../constants.ts';
 
 export const colorSpaceDisplayModesList = Object.values(ColorSpaceDisplayModes);
 
-export const $colorSpaceDisplayMode = atom<ColorSpaceDisplayModes>(
+export const colorSpaceDisplayMode = atom<ColorSpaceDisplayModes>(
   ColorSpaceDisplayModes.OKLCH
 );
 
 export const changeColorSpaceDisplayMode = (): void => {
-  const previous = $colorSpaceDisplayMode.get();
+  const previous = colorSpaceDisplayMode.get();
 
   const previousIndex = colorSpaceDisplayModesList.findIndex(
     (mode) => mode === previous
@@ -28,10 +28,10 @@ export const changeColorSpaceDisplayMode = (): void => {
 
   const nextValue = colorSpaceDisplayModesList[nextIndex];
 
-  if (nextValue) $colorSpaceDisplayMode.set(nextValue);
+  if (nextValue) colorSpaceDisplayMode.set(nextValue);
 };
 
-onSet($colorSpaceDisplayMode, (mode) => {
+onSet(colorSpaceDisplayMode, (mode) => {
   parent.postMessage(
     {
       pluginMessage: {
@@ -45,7 +45,7 @@ onSet($colorSpaceDisplayMode, (mode) => {
   );
 });
 
-onMount($colorSpaceDisplayMode, () => {
+onMount(colorSpaceDisplayMode, () => {
   const addMessageListener = (
     event: MessageEvent<Message<ColorSpaceDisplayModeChangeMessage>>
   ): void => {
@@ -53,7 +53,7 @@ onMount($colorSpaceDisplayMode, () => {
       event.data?.pluginMessage.type ===
       MessageTypes.ColorSpaceDisplayModeChange
     ) {
-      $colorSpaceDisplayMode.set(
+      colorSpaceDisplayMode.set(
         event.data.pluginMessage.payload.colorSpaceDisplayMode
       );
     }

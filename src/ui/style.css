@@ -63,8 +63,8 @@
 
 @layer utilities {
   .interactive:not(:disabled) {
-    @apply outline-offset-[1px] outline-2;
-    @apply focus:outline focus:outline-focus;
+    @apply outline-2 outline-offset-[1px];
+    @apply focus:outline;
   }
 
   .interactive:not(:focus-visible):focus {
