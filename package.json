@@ -18,7 +18,6 @@
     "lint:size": "size-limit"
   },
   "dependencies": {
-    "@figma/plugin-typings": "^1.79.0",
     "@floating-ui/dom": "^1.7.3",
     "@floating-ui/react": "^0.25.2",
     "@nanostores/preact": "^1.0.0",
@@ -50,6 +49,7 @@
     "vitest": "^0.34.1"
   },
   "devDependencies": {
+    "@figma/plugin-typings": "^1.116.0",
     "@preact/preset-vite": "^2.10.2",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^20.4.1",
