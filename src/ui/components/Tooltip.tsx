@@ -1,11 +1,18 @@
+import type { VNode } from 'preact';
+
 import { type Placement } from '@floating-ui/dom';
 import { useFloatingTooltip } from '~hooks/useFloatingTooltip.ts';
-import { type ComponentChildren, type VNode } from 'preact';
-import { useEffect, useRef, useState } from 'preact/compat';
+import {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'preact/compat';
 
 interface TooltipProps {
-  children: ComponentChildren;
-  content: ComponentChildren;
+  children: VNode;
+  content: string | VNode;
   placement?: Placement;
 }
 
@@ -16,15 +23,23 @@ export const Tooltip = ({
 }: TooltipProps): VNode => {
   const triggerRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+
   const openTimeout = useRef<null | number>(null);
   const closeTimeout = useRef<null | number>(null);
-
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (visible && triggerRef.current != null && tooltipRef.current != null) {
-      useFloatingTooltip(triggerRef.current, tooltipRef.current, placement);
-    }
+    const initTooltip = async (): Promise<void> => {
+      if (visible && triggerRef.current != null && tooltipRef.current != null) {
+        await useFloatingTooltip(
+          triggerRef.current,
+          tooltipRef.current,
+          placement
+        );
+      }
+    };
+
+    void initTooltip().catch();
   }, [visible]);
 
   const onMouseEnter = (): void => {
@@ -41,21 +56,23 @@ export const Tooltip = ({
     }, 0);
   };
 
+  const childWithRef = isValidElement(children)
+    ? cloneElement(children, { ref: triggerRef })
+    : children;
+
   return (
     <div
-      className={`relative`}
+      className="relative"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {children}
+      {childWithRef}
+
       {visible && (
         <div
-          style={{
-            left: 0,
-            top: 0,
-          }}
-          className="absolute z-50 w-max rounded-full bg-black p-2 px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md transition-opacity dark:bg-white dark:text-black"
+          className="absolute z-50 w-max rounded-full bg-black px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md transition-opacity dark:bg-white dark:text-black"
           ref={tooltipRef}
+          style={{ left: 0, position: 'absolute', top: 0 }}
         >
           {content}
         </div>

@@ -6,14 +6,12 @@ import {
   shift,
 } from '@floating-ui/dom';
 
-export const useFloatingTooltip = (
+export const useFloatingTooltip = async (
   trigger: HTMLElement,
   tooltip: HTMLElement,
   placement: Placement = 'top'
-): void => {
-  tooltip.style.position = 'absolute';
-
-  void computePosition(trigger, tooltip, {
+): Promise<void> => {
+  const { x, y } = await computePosition(trigger, tooltip, {
     middleware: [
       offset(5),
       flip({
@@ -24,10 +22,10 @@ export const useFloatingTooltip = (
       shift({ padding: 5 }),
     ],
     placement,
-  }).then(({ x, y }) => {
-    Object.assign(tooltip.style, {
-      left: `${x}px`,
-      top: `${y}px`,
-    });
+  });
+
+  Object.assign(tooltip.style, {
+    left: `${x}px`,
+    top: `${y}px`,
   });
 };
