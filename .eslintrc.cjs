@@ -3,8 +3,10 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  parser: '@typescript-eslint/parser',
   extends: [
     'standard-with-typescript',
+    'plugin:preact/recommended',
     'prettier',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
@@ -29,6 +31,8 @@ module.exports = {
   },
   plugins: ['preact', 'prettier', 'jsx-a11y', 'boundaries'],
   rules: {
+    'no-undef': 'off',
+    'react/jsx-no-bind': 'off',
     'import/no-default-export': 'error',
     'func-style': ['error', 'expression'],
     'preact/preact-in-jsx-scope': 'off',

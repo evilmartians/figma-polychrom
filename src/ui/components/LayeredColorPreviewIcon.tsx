@@ -8,9 +8,8 @@ interface Props {
 export const LayeredColorPreviewIcon = ({
   borderColor,
   indicatorColor,
-}: Props): ReactElement => {
-  return (
-    <div className="flex h-4 w-4 items-center justify-center overflow-visible">
+}: Props): ReactElement => (
+    <div className="flex size-4 items-center justify-center overflow-visible">
       <svg
         className="shrink-0 grow"
         height="20"
@@ -38,4 +37,3 @@ export const LayeredColorPreviewIcon = ({
       </svg>
     </div>
   );
-};

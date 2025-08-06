@@ -1,8 +1,7 @@
 import layersImage from '~ui/assets/layers@2x.webp';
-import { ReactElement } from 'preact/compat';
+import { type ReactElement } from 'preact/compat';
 
-export const InvalidBackgroundSelectionMessage = (): ReactElement => {
-  return (
+export const InvalidBackgroundSelectionMessage = (): ReactElement => (
     <p
       style={{
         backgroundImage: `url(${layersImage})`,
@@ -12,4 +11,3 @@ export const InvalidBackgroundSelectionMessage = (): ReactElement => {
       The background layer should be a solid fill
     </p>
   );
-};

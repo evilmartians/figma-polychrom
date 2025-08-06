@@ -16,11 +16,10 @@ export const ContrastSample = ({
   color,
   opacity,
   size,
-}: Props): ReactElement => {
-  return (
+}: Props): ReactElement => (
     <p
       className={clsx(
-        size === 'small' ? 'h-9 w-9 text-xxs' : 'h-13 w-13 text-base',
+        size === 'small' ? 'size-9 text-xxs' : 'h-13 w-13 text-base',
         'flex items-center justify-center rounded-lg border-0.5 text-base'
       )}
       style={{
@@ -38,4 +37,3 @@ export const ContrastSample = ({
       </span>
     </p>
   );
-};

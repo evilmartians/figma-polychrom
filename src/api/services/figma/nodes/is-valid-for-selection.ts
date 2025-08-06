@@ -13,15 +13,15 @@ export const isValidForSelection = (node: SceneNode): boolean => {
   if ('fills' in node) {
     if (typeof node.fills === 'symbol') {
       return false;
-    } else {
+    } 
       const actualFill = getActualFill(node.fills);
 
       if (notEmpty(actualFill)) {
         return actualFill.type === 'SOLID';
-      } else {
+      } 
         return false;
-      }
-    }
+      
+    
   }
 
   return false;

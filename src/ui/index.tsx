@@ -4,7 +4,7 @@ import { notEmpty } from '../utils/not-empty.ts';
 import { App } from './components/App';
 import './style.css';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('root');
 
   if (notEmpty(container)) {

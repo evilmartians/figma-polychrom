@@ -4,8 +4,7 @@ import { type ReactElement } from 'preact/compat';
 
 import { evilMartiansSiteURL } from '../../constants.ts';
 
-export const LurkersLink = (): ReactElement => {
-  return (
+export const LurkersLink = (): ReactElement => (
     <Tooltip content="Evil Martians">
       <a
         className="interactive"
@@ -17,4 +16,3 @@ export const LurkersLink = (): ReactElement => {
       </a>
     </Tooltip>
   );
-};

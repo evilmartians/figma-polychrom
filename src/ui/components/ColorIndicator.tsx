@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/preact';
 import { ColorPreview } from '~ui/components/ColorPreview.tsx';
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
+import { Tooltip } from '~ui/components/Tooltip.tsx';
 import {
   getFormatterForCSS,
   getFormatterForDisplaying,
@@ -10,7 +11,6 @@ import { type ReactElement } from 'preact/compat';
 import useClipboard from 'react-use-clipboard';
 
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
-import { Tooltip } from '~ui/components/Tooltip.tsx';
 
 interface ColorIndicatorProps {
   borderColor: string;

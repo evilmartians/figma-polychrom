@@ -1,7 +1,6 @@
 import { type ReactElement } from 'preact/compat';
 
-export const SettingsIcon = (): ReactElement => {
-  return (
+export const SettingsIcon = (): ReactElement => (
     <svg fill="none" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
       <path
         clipRule="evenodd"
@@ -11,4 +10,3 @@ export const SettingsIcon = (): ReactElement => {
       />
     </svg>
   );
-};

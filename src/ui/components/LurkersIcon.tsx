@@ -1,7 +1,6 @@
 import { type ReactElement } from 'preact/compat';
 
-export const LurkersIcon = (): ReactElement => {
-  return (
+export const LurkersIcon = (): ReactElement => (
     <div className="relative overflow-hidden">
       <svg
         className="translate-y-0.5 text-elevation-1 hover:translate-y-0 active:text-universal-25"
@@ -32,4 +31,3 @@ export const LurkersIcon = (): ReactElement => {
       </svg>
     </div>
   );
-};

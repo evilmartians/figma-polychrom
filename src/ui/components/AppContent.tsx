@@ -39,7 +39,7 @@ export const AppContent = (): ReactElement => {
 
   if (isMultiSelection) {
     return <SelectionsList contrastConclusion={contrastConclusion} />;
-  } else {
+  } 
     const pair = contrastConclusion[0];
 
     if (isEmpty(pair)) {
@@ -47,5 +47,5 @@ export const AppContent = (): ReactElement => {
     }
 
     return <Selection id={pair.id} isLast size="large" userSelection={pair} />;
-  }
+  
 };

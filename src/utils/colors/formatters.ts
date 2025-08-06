@@ -29,12 +29,10 @@ export const convert255ScaleRGBtoDecimal = (color: {
   return { alpha: (alpha ?? 255) / 255, b: b / 255, g: g / 255, r: r / 255 };
 };
 
-export const formatForOklchDisplay = (oklch: Oklch): string => {
-  return `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(
+export const formatForOklchDisplay = (oklch: Oklch): string => `${toPercent(oklch.l)} ${clearValue(oklch.c)} ${clearValue(
     oklch.h ?? 0,
     1
   )}`;
-};
 
 export const formatForRgbDisplay = (oklch: Oklch): string => {
   const { b, g, r } = convertToRgb(oklch);
@@ -90,12 +88,10 @@ export const formatForRGBCSS = (color: Oklch, opacity?: number): string => {
   return `rgb(${r255} ${g255} ${b255}${postfix})`;
 };
 
-export const formatForHexCSS = (color: Oklch): string => {
-  return formatHex({
+export const formatForHexCSS = (color: Oklch): string => formatHex({
     ...color,
     mode: 'oklch',
   });
-};
 
 export const getFormatterForCSS = (
   colorSpaceDisplayMode: ColorSpaceDisplayModes

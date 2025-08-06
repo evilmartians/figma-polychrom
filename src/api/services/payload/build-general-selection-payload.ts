@@ -16,13 +16,11 @@ enum PairState {
 
 const isValidSelection = (
   pair: PairState | PolychromNode
-): pair is PolychromNode => {
-  return (
+): pair is PolychromNode => (
     notEmpty(pair) &&
     pair !== PairState.InvalidBackground &&
     pair !== PairState.InvalidBlendMode
   );
-};
 
 export const buildGeneralSelectionPayload = (
   selection: readonly SceneNode[]
@@ -38,9 +36,9 @@ export const buildGeneralSelectionPayload = (
 
       if (isValidForBackground(intersectingNodesTree)) {
         return intersectingNodesTree;
-      } else {
+      } 
         return PairState.InvalidBackground;
-      }
+      
     });
 
   const isSingleInvalidBackground =

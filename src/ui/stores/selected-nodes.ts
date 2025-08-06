@@ -19,33 +19,25 @@ export const $userSelection = atom<SelectionChangeEvent>({
 
 export const $contrastConclusion = atom<ContrastConclusionList>([]);
 
-export const $isP3 = computed($userSelection, (selection) => {
-  return 'colorSpace' in selection
+export const $isP3 = computed($userSelection, (selection) => 'colorSpace' in selection
     ? selection.colorSpace === 'DISPLAY_P3'
-    : false;
-});
+    : false);
 
-export const $isMultiSelection = computed($userSelection, (selection) => {
-  return 'selectedNodePairs' in selection
+export const $isMultiSelection = computed($userSelection, (selection) => 'selectedNodePairs' in selection
     ? selection.selectedNodePairs.length > 1
-    : false;
-});
+    : false);
 
-export const $isInvalidBackground = computed($userSelection, (selection) => {
-  return (
+export const $isInvalidBackground = computed($userSelection, (selection) => (
     'text' in selection &&
     selection.text === SelectionMessageTypes.invalidBackground
-  );
-});
+  ));
 
 export const $isUnprocessedBlendModes = computed(
   $userSelection,
-  (selection) => {
-    return (
+  (selection) => (
       'text' in selection &&
       selection.text === SelectionMessageTypes.unprocessedBlendModes
-    );
-  }
+    )
 );
 
 export const $isEmptySelection = computed(

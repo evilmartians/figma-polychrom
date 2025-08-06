@@ -13,7 +13,7 @@ export const calculateApcaScore = (
     const contrast = APCAcontrast(fgY, bgY);
 
     return Math.round(Number(contrast));
-  } else {
+  } 
     const fgDecimal = convertDecimalRGBto255Scale(fg);
     const bgDecimal = convertDecimalRGBto255Scale(bg);
 
@@ -25,5 +25,5 @@ export const calculateApcaScore = (
         )
       )
     );
-  }
+  
 };

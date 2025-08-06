@@ -8,8 +8,7 @@ interface Props {
 export const BasicColorPreviewIcon = ({
   borderColor,
   indicatorColor,
-}: Props): ReactElement => {
-  return (
+}: Props): ReactElement => (
     <svg fill="none" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M0 4c0-2.20914 1.79086-4 4-4h8c2.2091 0 4 1.79086 4 4v8c0 2.2091-1.7909 4-4 4H4c-2.20914 0-4-1.7909-4-4V4Z"
@@ -23,4 +22,3 @@ export const BasicColorPreviewIcon = ({
       />
     </svg>
   );
-};

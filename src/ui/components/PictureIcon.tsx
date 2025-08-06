@@ -1,8 +1,7 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ReactElement } from 'preact/compat';
 
-export const PictureIcon = (): ReactElement => {
-  return (
+export const PictureIcon = (): ReactElement => (
     <svg fill="none" height="17" width="14" xmlns="http://www.w3.org/2000/svg">
       <path
         clipRule="evenodd"
@@ -12,4 +11,3 @@ export const PictureIcon = (): ReactElement => {
       />
     </svg>
   );
-};

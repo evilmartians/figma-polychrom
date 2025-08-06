@@ -1,8 +1,7 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ReactElement } from 'preact/compat';
 
-export const StopIcon = (): ReactElement => {
-  return (
+export const StopIcon = (): ReactElement => (
     <svg fill="none" height="17" width="16" xmlns="http://www.w3.org/2000/svg">
       <style>{''}</style>
       <path
@@ -13,4 +12,3 @@ export const StopIcon = (): ReactElement => {
       />
     </svg>
   );
-};

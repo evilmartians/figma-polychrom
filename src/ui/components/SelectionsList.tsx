@@ -7,8 +7,7 @@ interface Props {
   contrastConclusion: ContrastConclusionList;
 }
 
-export const SelectionsList = ({ contrastConclusion }: Props): ReactElement => {
-  return (
+export const SelectionsList = ({ contrastConclusion }: Props): ReactElement => (
     <ul className="mb-3 w-full">
       {contrastConclusion?.map((pair, index) => (
         <li
@@ -28,4 +27,3 @@ export const SelectionsList = ({ contrastConclusion }: Props): ReactElement => {
       ))}
     </ul>
   );
-};

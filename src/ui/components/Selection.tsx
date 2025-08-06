@@ -1,3 +1,4 @@
+import { signal } from '@preact/signals-core';
 import {
   ThemeVariablesKeys,
   ThemeVariablesProvider,
@@ -6,7 +7,6 @@ import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
 import { type ReactElement } from 'preact/compat';
-import { signal } from '@preact/signals-core';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';

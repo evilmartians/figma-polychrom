@@ -1,8 +1,7 @@
 import layersImage from '~ui/assets/layers@2x.webp';
 import { type ReactElement } from 'preact/compat';
 
-export const UnprocessedBlendModesSelectionMessage = (): ReactElement => {
-  return (
+export const UnprocessedBlendModesSelectionMessage = (): ReactElement => (
     <p
       style={{
         backgroundImage: `url(${layersImage})`,
@@ -12,4 +11,3 @@ export const UnprocessedBlendModesSelectionMessage = (): ReactElement => {
       The blending mode Plus Darker is not supported
     </p>
   );
-};

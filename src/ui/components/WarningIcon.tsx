@@ -1,8 +1,7 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { type ReactElement } from 'preact/compat';
 
-export const WarningIcon = (): ReactElement => {
-  return (
+export const WarningIcon = (): ReactElement => (
     <svg fill="none" height="17" width="16" xmlns="http://www.w3.org/2000/svg">
       <path
         clipRule="evenodd"
@@ -12,4 +11,3 @@ export const WarningIcon = (): ReactElement => {
       />
     </svg>
   );
-};

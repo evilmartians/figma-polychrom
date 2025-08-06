@@ -31,7 +31,7 @@ export const SelectionContent = ({
   const fgColor = formatColorForTheme(fg);
 
   return (
-    <div className="relative grid h-full w-full">
+    <div className="relative grid size-full">
       <div
         className={clsx(
           size === 'small' ? 'mb-1' : 'mb-5',
