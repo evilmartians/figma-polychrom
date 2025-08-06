@@ -41,7 +41,7 @@
 <div class="flex items-center justify-center">
   <div class="flex items-center">
     <span
-      style="color: var({ThemeVariablesKeys.secondary})"
+      style:color="var({ThemeVariablesKeys.secondary})"
       class="mr-2 text-xxs"
     >
       0
@@ -89,7 +89,7 @@
       </div>
     </div>
     <span
-      style="color: var({ThemeVariablesKeys.secondary})"
+      style:color="var({ThemeVariablesKeys.secondary})"
       class="ml-2 text-xxs"
     >
       {maxScale}

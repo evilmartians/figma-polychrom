@@ -43,7 +43,7 @@
 
 {#if showTooltip}
   <div
-    style="position:absolute"
+    style:position="absolute"
     use:floatingContent
     class="rounded-full bg-black p-2 px-3 py-1.5 font-martianMono text-xxs font-medium text-white shadow-md dark:bg-white dark:text-black"
   >

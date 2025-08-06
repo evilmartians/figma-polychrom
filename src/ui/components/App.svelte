@@ -33,7 +33,7 @@
       {#if $isP3}
         <Tooltip>
           {#snippet trigger()}
-            <div style="mix-blend-mode: difference;" class="flex items-center">
+            <div style:mix-blend-mode="difference" class="flex items-center">
               <p
                 class="mr-3 rounded border-0.5 border-secondary-75 p-1 text-xxxs font-medium leading-[8px] text-secondary-75"
               >

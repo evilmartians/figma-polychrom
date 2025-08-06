@@ -60,7 +60,7 @@
           <div class="mr-2">
             <ColorPreview {borderColor} {indicatorColor} {isBlended} />
           </div>
-          <span style="color: var({textColor})">{displayValue}</span>
+          <span style:color="var({textColor})">{displayValue}</span>
         </div>
       </button>
   {/snippet}

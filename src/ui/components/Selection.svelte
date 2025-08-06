@@ -56,7 +56,7 @@
         size === 'small' && isLast === true && 'px-5 py-3',
         size === 'large' && 'p-5',
       ]}
-      style="background-color: var({ThemeVariablesKeys.bg})"
+      style:background-color="var({ThemeVariablesKeys.bg})"
       id={`selection-${id}`}
     >
       <SegmentedFontStyleDefinition

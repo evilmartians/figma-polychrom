@@ -21,10 +21,10 @@
 {:else if Math.abs(apca) < conclusions['Large Text']}
   <PictureIcon />
 {:else}
-  <div style="color: var({ThemeVariablesKeys.fg})" class="flex items-center">
+  <div style:color="var({ThemeVariablesKeys.fg})" class="flex items-center">
     <div class="mr-3 flex items-center">
       <p
-        style="borderColor: var({ThemeVariablesKeys.fg})"
+        style:border-color=" var({ThemeVariablesKeys.fg})"
         class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
       >
         Rg
@@ -33,7 +33,7 @@
     </div>
     <div class="flex items-center">
       <p
-        style="borderColor: var({ThemeVariablesKeys.fg})"
+        style:border-color="var({ThemeVariablesKeys.fg})"
         class="mr-2 rounded border-0.5 p-1 text-xxxs font-medium leading-[8px]"
       >
         Bd

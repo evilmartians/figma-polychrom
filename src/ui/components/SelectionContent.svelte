@@ -27,7 +27,7 @@
       'flex items-center justify-between',
     ]}
   >
-    <p style="color: var({ThemeVariablesKeys.fg})" class="text-xxs">
+    <p style:color="var({ThemeVariablesKeys.fg})" class="text-xxs">
       {getConclusionByScore(Math.abs(apca))}
     </p>
 
