@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:eslint-config-preact',
     'prettier',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
@@ -91,6 +90,10 @@ module.exports = {
       {
         type: 'test-utils',
         pattern: 'src/test-utils/*',
+      },
+      {
+        type: 'hooks',
+        pattern: 'src/hooks/*',
       },
     ],
   },

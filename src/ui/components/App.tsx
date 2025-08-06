@@ -1,3 +1,4 @@
+import { useStore } from '@nanostores/preact';
 import { effect } from '@preact/signals';
 import { MessageTypes } from '~types/messages.ts';
 import { AppContent } from '~ui/components/AppContent.tsx';
@@ -5,10 +6,10 @@ import { HelpLink } from '~ui/components/HelpLink.tsx';
 import { LurkersLink } from '~ui/components/LurkersLink.tsx';
 import { SettingsButton } from '~ui/components/SettingsButton.tsx';
 import { Tooltip } from '~ui/components/Tooltip.tsx';
-import { useStore } from '@nanostores/preact';
 import { $isP3 } from '~ui/stores/selected-nodes.ts';
+import { type VNode } from 'preact';
 
-export const App = () => {
+export const App = (): VNode => {
   const isP3 = useStore($isP3);
 
   effect(() => {

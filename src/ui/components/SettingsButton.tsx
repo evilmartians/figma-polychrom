@@ -1,14 +1,15 @@
 import { useStore } from '@nanostores/preact';
 import { SettingsIcon } from '~ui/components/SettingsIcon.tsx';
+import { Tooltip } from '~ui/components/Tooltip.tsx';
 import {
   $colorSpaceDisplayMode,
   changeColorSpaceDisplayMode,
   colorSpaceDisplayModesList,
 } from '~ui/stores/color-space-display-mode.ts';
 import clsx from 'clsx';
-import { Tooltip } from '~ui/components/Tooltip.tsx';
+import { type VNode } from 'preact';
 
-export const SettingsButton = () => {
+export const SettingsButton = (): VNode => {
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
 
   return (
@@ -32,9 +33,9 @@ export const SettingsButton = () => {
       }
     >
       <button
+        className="interactive flex size-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
         onClick={changeColorSpaceDisplayMode}
         type="button"
-        className="interactive flex h-6 w-6 items-center justify-center rounded-full border-0.5 border-secondary-35 text-secondary-75 hover:border-transparent hover:bg-elevation-1 active:border-transparent active:bg-universal-25"
       >
         <SettingsIcon />
       </button>
