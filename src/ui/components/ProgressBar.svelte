@@ -66,7 +66,6 @@
         {#each conclusionArray as { isBodyText, isContextText, isFluentText, position }}
           <div
             style="
-            --color-sparkles: var({ThemeVariablesKeys.fg});
             background-color: var({ThemeVariablesKeys.bg});
             left: {position}px;"
             class="absolute top-1/2 w-px -translate-y-1/2 {isContextText

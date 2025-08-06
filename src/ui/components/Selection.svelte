@@ -74,6 +74,7 @@
         {isLast}
         onApcaDoubleClick={handleCurrentStyleNumberChange}
         {size}
+        --text-shadow-color={`var(${ThemeVariablesKeys.fg24})`}
       />
     </div>
   </ThemeVariablesProvider>

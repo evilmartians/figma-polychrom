@@ -46,9 +46,7 @@
 <Tooltip>
   {#snippet trigger()}
       <button
-        style="--indicators-active: var({ThemeVariablesKeys.secondary24});
-            --indicators-hover: var({ThemeVariablesKeys.secondary16});
-            color: {indicatorColor};"
+        style:color="{indicatorColor}"
         class="interactive"
         type="button"
         use:copy

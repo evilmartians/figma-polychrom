@@ -51,9 +51,6 @@
         size === 'small' ? 'mr-9 text-5xl' : 'mr-13 text-7xl',
         `segmented-${id} w-full text-center leading-none text-shadow`,
       ]}
-      style="
-        --text-shadow-color: var({ThemeVariablesKeys.fg24});
-      "
     >
       <h1 class="inline text-shadow" ondblclick={onApcaDoubleClick}>
         {Math.abs(apca)}
@@ -63,7 +60,7 @@
 
   {#if isLast === true || size === 'large'}
     <div class={isLast === true && size === 'small' ? 'mb-0 mt-1' : 'mb-5'}>
-      <ProgressBar {apca} height={size === 'small' ? 6 : 8} />
+      <ProgressBar {apca} height={size === 'small' ? 6 : 8} --color-sparkles={`var(${ThemeVariablesKeys.fg});`}  />
     </div>
   {/if}
 
@@ -75,6 +72,8 @@
         indicatorColor={fgColor}
         isBlended={fg.isBlended}
         textColor={ThemeVariablesKeys.fg}
+        --indicators-active={ThemeVariablesKeys.secondary24}
+        --indicators-hover={ThemeVariablesKeys.secondary16}
       />
 
       <ColorIndicator
@@ -83,6 +82,8 @@
         indicatorColor={bgColor}
         isBlended={bg.isBlended}
         textColor={ThemeVariablesKeys.secondary}
+        --indicators-active={ThemeVariablesKeys.secondary24}
+        --indicators-hover={ThemeVariablesKeys.secondary16}
       />
     </div>
   {/if}
