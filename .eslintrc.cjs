@@ -71,9 +71,6 @@ module.exports = {
         ['~test-utils', './src/test-utils'],
       ],
     },
-    preact: {
-      version: 'detect',
-    },
     'boundaries/elements': [
       {
         type: 'api',
