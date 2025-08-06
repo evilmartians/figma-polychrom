@@ -6,13 +6,13 @@ import {
 import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
 import { SelectionContent } from './SelectionContent.tsx';
 
-const CantCalculateMessage = (): ReactElement => (
+const CantCalculateMessage = (): JSX.Element => (
   <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-secondary-75">
     Can&apos;t calc
   </p>
@@ -35,7 +35,7 @@ export const Selection = ({
   isLast,
   size,
   userSelection: { apca, bg, fg },
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   const currentStyleNumber = signal(SEGMENTED_FONT_STYLES.INITIAL);
 
   const handleCurrentStyleNumberChange = (): void => {

@@ -1,7 +1,7 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { fontLookupAPCA } from 'apca-w3';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
 import { PictureIcon } from './PictureIcon.tsx';
 import { StopIcon } from './StopIcon.tsx';
@@ -11,7 +11,7 @@ interface Props {
   apca: number;
 }
 
-export const TextMetrics = ({ apca }: Props): ReactElement => {
+export const TextMetrics = ({ apca }: Props): JSX.Element => {
   const [, , , , regular, , , bold] = fontLookupAPCA(apca);
 
   if (Math.abs(apca) < conclusions['Not Readable']) {

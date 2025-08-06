@@ -5,7 +5,7 @@ import {
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import { type ContrastConclusion } from '~ui/types';
 import clsx from 'clsx';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
 import { ColorIndicator } from './ColorIndicator.tsx';
 import { ContrastSample } from './ContrastSample.tsx';
@@ -26,7 +26,7 @@ export const SelectionContent = ({
   isLast,
   onApcaDoubleClick,
   size,
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   const bgColor = formatColorForTheme(bg);
   const fgColor = formatColorForTheme(fg);
 

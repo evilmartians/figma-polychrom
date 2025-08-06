@@ -1,7 +1,7 @@
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
-export const RewardingAnimationContentText = (): ReactElement => (
-    <div className="animation animation-60">
-      <div className="object glowing" />
-    </div>
-  );
+export const RewardingAnimationContentText = (): JSX.Element => (
+  <div className="animation animation-60">
+    <div className="object glowing" />
+  </div>
+);

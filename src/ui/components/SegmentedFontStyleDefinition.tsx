@@ -1,6 +1,6 @@
 import { type UIColor } from '~types/common.ts';
 import { formatColorForTheme } from '~ui/components/ThemeVariablesProvider.tsx';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
 interface Props {
   currentStyleNumber: number;
@@ -14,7 +14,7 @@ export const SegmentedFontStyleDefinition = ({
   id,
   primaryColor,
   secondaryColor,
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   const formattedCurrentStyleNumber = currentStyleNumber.toLocaleString(
     'en-US',
     {

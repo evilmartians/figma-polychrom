@@ -1,14 +1,7 @@
-import type { VNode } from 'preact';
-
 import { type Placement } from '@floating-ui/dom';
 import { useFloatingTooltip } from '~hooks/useFloatingTooltip.ts';
-import {
-  cloneElement,
-  isValidElement,
-  useEffect,
-  useRef,
-  useState,
-} from 'preact/compat';
+import { cloneElement, createRef, isValidElement, type VNode } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 
 interface TooltipProps {
   children: VNode;
@@ -21,11 +14,11 @@ export const Tooltip = ({
   content,
   placement = 'top',
 }: TooltipProps): VNode => {
-  const triggerRef = useRef<HTMLElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const triggerRef = createRef<HTMLElement>();
+  const tooltipRef = createRef<HTMLDivElement>();
 
-  const openTimeout = useRef<null | number>(null);
-  const closeTimeout = useRef<null | number>(null);
+  const openTimeout = createRef<null | number>();
+  const closeTimeout = createRef<null | number>();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -40,7 +33,7 @@ export const Tooltip = ({
     };
 
     void initTooltip().catch();
-  }, [visible]);
+  });
 
   const onMouseEnter = (): void => {
     if (closeTimeout.current != null) clearTimeout(closeTimeout.current);

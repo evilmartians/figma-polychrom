@@ -21,7 +21,6 @@
     "@floating-ui/dom": "^1.7.3",
     "@floating-ui/react": "^0.25.2",
     "@nanostores/preact": "^1.0.0",
-    "@preact/compat": "^18.3.1",
     "@preact/signals": "^2.2.1",
     "@preact/signals-core": "^1.11.0",
     "@types/apca-w3": "^0.1.0",
@@ -77,5 +76,6 @@
     {
       "path": "dist/api.js"
     }
-  ]
+  ],
+  "packageManager": "pnpm@9.13.2+sha1.969cc200a41db98449afee1bfa7578b3ce6ff330"
 }

@@ -7,7 +7,7 @@ import {
   getFormatterForDisplaying,
 } from '~utils/colors/formatters.ts';
 import { type Oklch } from 'culori/fn';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 import useClipboard from 'react-use-clipboard';
 
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
@@ -26,7 +26,7 @@ export const ColorIndicator = ({
   indicatorColor,
   isBlended,
   textColor,
-}: ColorIndicatorProps): ReactElement => {
+}: ColorIndicatorProps): JSX.Element => {
   const colorSpaceDisplayMode = useStore($colorSpaceDisplayMode);
 
   const formatColorForDisplay = getFormatterForDisplaying(

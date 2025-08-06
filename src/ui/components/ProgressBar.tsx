@@ -7,7 +7,7 @@ import { conclusions } from '~ui/services/apca/conclusion.ts';
 import { $rewardAnimationLaunch } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
 interface Props {
   apca: number;
@@ -19,7 +19,7 @@ const APCA_NEGATIVE_MAX_SCALE = 108;
 const APCA_POSITIVE_MAX_SCALE = 106;
 const SERIF_OFFSET = 2;
 
-export const ProgressBar = ({ apca, height }: Props): ReactElement => {
+export const ProgressBar = ({ apca, height }: Props): JSX.Element => {
   const rewardAnimationLaunch = useStore($rewardAnimationLaunch);
   const maxScale = apca > 0 ? APCA_POSITIVE_MAX_SCALE : APCA_NEGATIVE_MAX_SCALE;
   const barWidth = maxScale * SCALE;

@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@figma/plugin-typings':
-        specifier: ^1.79.0
-        version: 1.116.0
       '@floating-ui/dom':
         specifier: ^1.7.3
         version: 1.7.3
@@ -20,9 +17,6 @@ importers:
       '@nanostores/preact':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@0.9.5)(preact@10.27.0)
-      '@preact/compat':
-        specifier: ^18.3.1
-        version: 18.3.1(preact@10.27.0)
       '@preact/signals':
         specifier: ^2.2.1
         version: 2.2.1(preact@10.27.0)
@@ -99,6 +93,9 @@ importers:
         specifier: ^0.34.1
         version: 0.34.6(jsdom@22.1.0)(lightningcss@1.30.1)(terser@5.43.1)
     devDependencies:
+      '@figma/plugin-typings':
+        specifier: ^1.116.0
+        version: 1.116.0
       '@preact/preset-vite':
         specifier: ^2.10.2
         version: 2.10.2(@babel/core@7.28.0)(preact@10.27.0)(vite@4.5.14(@types/node@20.19.9)(lightningcss@1.30.1)(terser@5.43.1))
@@ -914,11 +911,6 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
-
-  '@preact/compat@18.3.1':
-    resolution: {integrity: sha512-Kog4PSRxtT4COtOXjsuQPV1vMXpUzREQfv+6Dmcy9/rMk0HOPK0HTE9fspFjAmY8R80T/T8gtgmZ68u5bOSngw==}
-    peerDependencies:
-      preact: '*'
 
   '@preact/preset-vite@2.10.2':
     resolution: {integrity: sha512-K9wHlJOtkE+cGqlyQ5v9kL3Ge0Ql4LlIZjkUTL+1zf3nNdF88F9UZN6VTV8jdzBX9Fl7WSzeNMSDG7qECPmSmg==}
@@ -4411,10 +4403,6 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
-
-  '@preact/compat@18.3.1(preact@10.27.0)':
-    dependencies:
-      preact: 10.27.0
 
   '@preact/preset-vite@2.10.2(@babel/core@7.28.0)(preact@10.27.0)(vite@4.5.14(@types/node@20.19.9)(lightningcss@1.30.1)(terser@5.43.1))':
     dependencies:

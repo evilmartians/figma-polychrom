@@ -12,9 +12,9 @@ import {
   $isUnprocessedBlendModes,
 } from '~ui/stores/selected-nodes.ts';
 import { isEmpty } from '~utils/not-empty.ts';
-import { type ReactElement } from 'preact/compat';
+import { type JSX } from 'preact';
 
-export const AppContent = (): ReactElement => {
+export const AppContent = (): JSX.Element => {
   const isInvalidBackground = useStore($isInvalidBackground);
   const isEmptySelection = useStore($isEmptySelection);
   const isMultiSelection = useStore($isMultiSelection);
@@ -39,13 +39,12 @@ export const AppContent = (): ReactElement => {
 
   if (isMultiSelection) {
     return <SelectionsList contrastConclusion={contrastConclusion} />;
-  } 
-    const pair = contrastConclusion[0];
+  }
+  const pair = contrastConclusion[0];
 
-    if (isEmpty(pair)) {
-      return <EmptySelectionMessage />;
-    }
+  if (isEmpty(pair)) {
+    return <EmptySelectionMessage />;
+  }
 
-    return <Selection id={pair.id} isLast size="large" userSelection={pair} />;
-  
+  return <Selection id={pair.id} isLast size="large" userSelection={pair} />;
 };
