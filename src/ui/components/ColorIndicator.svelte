@@ -1,7 +1,6 @@
 <script lang="ts">
   import ColorPreview from '~ui/components/ColorPreview.svelte';
   import { copy } from '~ui/services/use-copy-to-clipboard/useCopyToClipboard.ts';
-  import { ThemeVariablesKeys } from '~ui/types';
   import {
     getFormatterForCSS,
     getFormatterForDisplaying,
