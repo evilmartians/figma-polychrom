@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { copy } from '@svelte-put/copy';
   import ColorPreview from '~ui/components/ColorPreview.svelte';
+  import { copy } from '~ui/services/use-copy-to-clipboard/useCopyToClipboard.ts';
   import { ThemeVariablesKeys } from '~ui/types';
   import {
     getFormatterForCSS,
@@ -34,37 +34,35 @@
 
   const formatColorForCSS = getFormatterForCSS($colorSpaceDisplayMode);
   const cssValue = formatColorForCSS(fill.oklch);
-
   let copied = $state('');
-
-  const handleCopied = () => {
+  const onCopy = (): void => {
     copied = cssValue;
     setTimeout(() => {
       copied = '';
     }, 2000);
-  };
+  }
 </script>
 
 <Tooltip>
   {#snippet trigger()}
-    <button
-      style="--indicators-active: var({ThemeVariablesKeys.secondary24});
+      <button
+        style="--indicators-active: var({ThemeVariablesKeys.secondary24});
             --indicators-hover: var({ThemeVariablesKeys.secondary16});
             color: {indicatorColor};"
-      class="interactive"
-      type="button"
-      use:copy
-      oncopied={handleCopied}
-    >
-      <div
-        class="flex items-center rounded-[7px] p-1 hover:bg-indicatorsHover active:bg-indicatorsActive"
+        class="interactive"
+        type="button"
+        use:copy
+        oncopied={onCopy}
       >
-        <div class="mr-2">
-          <ColorPreview {borderColor} {indicatorColor} {isBlended} />
+        <div
+          class="flex items-center rounded-[7px] p-1 hover:bg-indicatorsHover active:bg-indicatorsActive"
+        >
+          <div class="mr-2">
+            <ColorPreview {borderColor} {indicatorColor} {isBlended} />
+          </div>
+          <span style="color: var({textColor})">{displayValue}</span>
         </div>
-        <span style="color: var({textColor})">{displayValue}</span>
-      </div>
-    </button>
+      </button>
   {/snippet}
 
   {#if copied}
