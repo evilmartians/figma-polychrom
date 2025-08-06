@@ -29,7 +29,8 @@
       "~test-utils/*": ["src/test-utils/*"],
       "~types/*": ["src/types/*"],
       "~utils/*": ["src/utils/*"],
-      "~ui/*": ["src/ui/*"]
+      "~ui/*": ["src/ui/*"],
+      "~hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"],

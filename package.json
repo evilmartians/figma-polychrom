@@ -19,10 +19,12 @@
   },
   "dependencies": {
     "@figma/plugin-typings": "^1.79.0",
+    "@floating-ui/dom": "^1.7.3",
     "@floating-ui/react": "^0.25.2",
     "@nanostores/preact": "^1.0.0",
     "@preact/compat": "^18.3.1",
     "@preact/signals": "^2.2.1",
+    "@preact/signals-core": "^1.11.0",
     "@types/apca-w3": "^0.1.0",
     "@types/culori": "^2.0.0",
     "@vitest/coverage-v8": "^0.34.1",
@@ -67,6 +69,7 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.2",
+    "react-use-clipboard": "^1.0.9",
     "size-limit": "^11.2.0",
     "terser": "^5.19.0"
   },

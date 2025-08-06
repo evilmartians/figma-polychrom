@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import preact from "@preact/preset-vite";
+import preact from '@preact/preset-vite';
 
 export default defineConfig({
   resolve: {
@@ -11,6 +11,7 @@ export default defineConfig({
       '~test-utils': resolve(__dirname, 'src', 'test-utils'),
       '~types': resolve(__dirname, 'src', 'types'),
       '~utils': resolve(__dirname, 'src', 'utils'),
+      '~hooks': resolve(__dirname, 'src', 'hooks'),
     },
   },
   plugins: [preact(), viteSingleFile()],

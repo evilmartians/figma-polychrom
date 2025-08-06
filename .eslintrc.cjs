@@ -62,6 +62,7 @@ module.exports = {
       alias: [
         ['~api', './src/api'],
         ['~ui', './src/ui'],
+        ['~hooks', './src/hooks'],
         ['~utils', './src/utils'],
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
