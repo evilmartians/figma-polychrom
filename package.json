@@ -30,6 +30,7 @@
     "autoprefixer": "^10.4.14",
     "bigint-conversion": "^2.4.2",
     "clsx": "^2.0.0",
+    "copy-to-clipboard": "^3.3.3",
     "culori": "^3.2.0",
     "eslint-plugin-boundaries": "^3.4.0",
     "nanoid": "^4.0.2",
@@ -67,7 +68,6 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.2",
-    "react-use-clipboard": "^1.0.9",
     "size-limit": "^11.2.0",
     "terser": "^5.19.0"
   },

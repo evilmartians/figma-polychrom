@@ -6,9 +6,9 @@ import {
   getFormatterForCSS,
   getFormatterForDisplaying,
 } from '~utils/colors/formatters.ts';
+import { useClipboard } from '~utils/use-clickboard.ts';
 import { type Oklch } from 'culori/fn';
 import { type JSX } from 'preact';
-import useClipboard from 'react-use-clipboard';
 
 import { $colorSpaceDisplayMode } from '../stores/color-space-display-mode.ts';
 
