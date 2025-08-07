@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.3",
-    "@floating-ui/react": "^0.25.2",
     "@nanostores/preact": "^1.0.0",
     "@preact/signals": "^2.2.1",
     "@types/apca-w3": "^0.1.0",
