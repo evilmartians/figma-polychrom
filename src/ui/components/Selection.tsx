@@ -1,3 +1,4 @@
+import { signal } from '@preact/signals';
 import {
   ThemeVariablesKeys,
   ThemeVariablesProvider,
@@ -5,13 +6,13 @@ import {
 import { type ContrastConclusion } from '~ui/types';
 import { isEmpty } from '~utils/not-empty.ts';
 import clsx from 'clsx';
-import { type ReactElement, useState } from 'react';
+import { type JSX } from 'preact';
 
 import { generateUIColors } from '../services/theme/generate-ui-colors.ts';
 import { SegmentedFontStyleDefinition } from './SegmentedFontStyleDefinition.tsx';
 import { SelectionContent } from './SelectionContent.tsx';
 
-const CantCalculateMessage = (): ReactElement => (
+const CantCalculateMessage = (): JSX.Element => (
   <p className="mx-auto mb-4 flex select-none items-end justify-center py-4 text-center font-martianMono text-xxs text-secondary-75">
     Can&apos;t calc
   </p>
@@ -34,17 +35,15 @@ export const Selection = ({
   isLast,
   size,
   userSelection: { apca, bg, fg },
-}: Props): ReactElement => {
-  const [currentStyleNumber, setCurrentStyleNumber] = useState(
-    SEGMENTED_FONT_STYLES.INITIAL
-  );
+}: Props): JSX.Element => {
+  const currentStyleNumber = signal(SEGMENTED_FONT_STYLES.INITIAL);
 
   const handleCurrentStyleNumberChange = (): void => {
-    const newStyleNumber = currentStyleNumber + 1;
+    const newStyleNumber = currentStyleNumber.value + 1;
     if (newStyleNumber > SEGMENTED_FONT_STYLES.MAX) {
-      setCurrentStyleNumber(SEGMENTED_FONT_STYLES.INITIAL);
+      currentStyleNumber.value = SEGMENTED_FONT_STYLES.INITIAL;
     } else {
-      setCurrentStyleNumber(newStyleNumber);
+      currentStyleNumber.value = newStyleNumber;
     }
   };
 
@@ -75,7 +74,7 @@ export const Selection = ({
         }}
       >
         <SegmentedFontStyleDefinition
-          currentStyleNumber={currentStyleNumber}
+          currentStyleNumber={currentStyleNumber.value}
           id={id}
           primaryColor={uiColors.theme.fg}
           secondaryColor={uiColors.theme.secondary}

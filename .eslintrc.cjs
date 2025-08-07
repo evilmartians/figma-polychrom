@@ -3,9 +3,10 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  parser: '@typescript-eslint/parser',
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended',
+    'plugin:preact/recommended',
     'prettier',
     'plugin:perfectionist/recommended-alphabetical',
     'plugin:tailwindcss/recommended',
@@ -28,11 +29,13 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['react', 'prettier', 'jsx-a11y', 'boundaries'],
+  plugins: ['preact', 'prettier', 'jsx-a11y', 'boundaries'],
   rules: {
+    'no-undef': 'off',
+    'react/jsx-no-bind': 'off',
     'import/no-default-export': 'error',
     'func-style': ['error', 'expression'],
-    'react/react-in-jsx-scope': 'off',
+    'preact/preact-in-jsx-scope': 'off',
     'boundaries/element-types': [
       2,
       {
@@ -66,9 +69,6 @@ module.exports = {
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
       ],
-    },
-    react: {
-      version: 'detect',
     },
     'boundaries/elements': [
       {

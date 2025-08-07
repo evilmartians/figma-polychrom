@@ -22,9 +22,9 @@ export const createPolychromNode = (
           hex: formatHex({ ...fill.color, mode: 'rgb' }),
           oklch: convertToOklch({ ...fill.color, mode: 'rgb' }, 'oklch'),
         };
-      } else {
+      } 
         return fill;
-      }
+      
     }),
     id: node.id,
     isSelected: node.id === selectedNodeId,
@@ -33,8 +33,6 @@ export const createPolychromNode = (
     opacity: 'opacity' in node ? node.opacity : 1,
     parents,
     visible: 'visible' in node ? node.visible : true,
-    zIndex: node.parent?.children.findIndex((child) => {
-      return child.id === node.id;
-    }),
+    zIndex: node.parent?.children.findIndex((child) => child.id === node.id),
   };
 };

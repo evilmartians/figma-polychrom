@@ -1,5 +1,5 @@
 import { notEmpty } from '~utils/not-empty.ts';
-import { type CSSProperties } from 'react';
+import { type CSSProperties } from 'preact/compat';
 
 export const mapFigmaBlendToCanvas = (
   figmaBlend?: BlendMode

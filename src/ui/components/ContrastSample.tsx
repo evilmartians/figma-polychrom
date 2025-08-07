@@ -1,6 +1,6 @@
 import { ThemeVariablesKeys } from '~ui/components/ThemeVariablesProvider.tsx';
 import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { type JSX } from 'preact';
 
 interface Props {
   bgColor: string;
@@ -16,26 +16,24 @@ export const ContrastSample = ({
   color,
   opacity,
   size,
-}: Props): ReactElement => {
-  return (
-    <p
-      className={clsx(
-        size === 'small' ? 'h-9 w-9 text-xxs' : 'h-13 w-13 text-base',
-        'flex items-center justify-center rounded-lg border-0.5 text-base'
-      )}
+}: Props): JSX.Element => (
+  <p
+    className={clsx(
+      size === 'small' ? 'size-9 text-xxs' : 'h-13 w-13 text-base',
+      'flex items-center justify-center rounded-lg border-0.5 text-base'
+    )}
+    style={{
+      backgroundColor: bgColor,
+      borderColor: `var(${ThemeVariablesKeys.borderOriginal})`,
+      color,
+    }}
+  >
+    <span
       style={{
-        backgroundColor: bgColor,
-        borderColor: `var(${ThemeVariablesKeys.borderOriginal})`,
-        color,
+        opacity,
       }}
     >
-      <span
-        style={{
-          opacity,
-        }}
-      >
-        {exampleText}
-      </span>
-    </p>
-  );
-};
+      {exampleText}
+    </span>
+  </p>
+);

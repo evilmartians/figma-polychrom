@@ -40,15 +40,13 @@ const fixHue = (oklchColor: null | Oklch): null | Oklch => {
   return oklchColor;
 };
 
-const apcachToCulori = (apcachColor: ApcachColor): Oklch => {
-  return {
+const apcachToCulori = (apcachColor: ApcachColor): Oklch => ({
     alpha: apcachColor.alpha,
     c: apcachColor.chroma,
     h: apcachColor.hue,
     l: apcachColor.lightness,
     mode: 'oklch',
-  };
-};
+  });
 
 const transformFgColor = (colorFg: UIColor, colorBg: UIColor): UIColor => {
   const { oklch: oklchFg } = colorFg;
@@ -195,9 +193,9 @@ const getSecondaryColor = (colorBg: UIColor): UIColor => {
   ) {
     if (apcachSecondaryA.chroma >= apcachSecondaryB.chroma) {
       return { hex: hexSecondaryA, oklch: apcachToCulori(apcachSecondaryA) };
-    } else {
+    } 
       return { hex: hexSecondaryB, oklch: apcachToCulori(apcachSecondaryB) };
-    }
+    
   }
 
   // Else prefer the option with greater contrast
@@ -209,9 +207,7 @@ const getSecondaryColor = (colorBg: UIColor): UIColor => {
 };
 
 const getThemeWithMaxLc = (themes: Theme[]): null | Theme => {
-  const Lcs = themes.map((theme) => {
-    return theme.Lc;
-  });
+  const Lcs = themes.map((theme) => theme.Lc);
 
   const max = Math.max(...Lcs);
 
@@ -272,9 +268,9 @@ export const generateUIColors = (
       oklchFg,
       theme,
     };
-  } else {
+  } 
     themes.push(theme);
-  }
+  
 
   // CASE 2: If the result contrast isn’t good enough, let’s change the BG
   theme = getThemeWithTransformedBg(colorFg, colorBg);
@@ -287,9 +283,9 @@ export const generateUIColors = (
       oklchFg,
       theme,
     };
-  } else {
+  } 
     themes.push(theme);
-  }
+  
 
   // If nothing worked, it’s time to change both and end there
   theme = getThemeWithBothColorsTransformed(colorFg, colorBg);
@@ -306,7 +302,7 @@ export const generateUIColors = (
       oklchFg,
       theme: themeWithMaxLc,
     };
-  } else {
+  } 
     return undefined;
-  }
+  
 };

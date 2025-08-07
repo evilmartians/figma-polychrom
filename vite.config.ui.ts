@@ -1,9 +1,8 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import svgr from 'vite-plugin-svgr';
+import preact from '@preact/preset-vite';
 
 export default defineConfig({
   resolve: {
@@ -14,7 +13,7 @@ export default defineConfig({
       '~utils': resolve(__dirname, 'src', 'utils'),
     },
   },
-  plugins: [react(), svgr(), viteSingleFile()],
+  plugins: [preact(), viteSingleFile()],
   root: './src/ui',
   build: {
     emptyOutDir: false,

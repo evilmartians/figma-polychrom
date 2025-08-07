@@ -1,6 +1,6 @@
 import { BasicColorPreviewIcon } from '~ui/components/BasicColorPreviewIcon.tsx';
 import { LayeredColorPreviewIcon } from '~ui/components/LayeredColorPreviewIcon.tsx';
-import { type ReactElement } from 'react';
+import { type JSX } from 'preact';
 
 interface Props {
   borderColor: string;
@@ -12,7 +12,7 @@ export const ColorPreview = ({
   borderColor,
   indicatorColor,
   isBlended,
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   if (isBlended) {
     return (
       <div className="flex">

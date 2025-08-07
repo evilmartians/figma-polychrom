@@ -53,9 +53,12 @@ onMount($colorSpaceDisplayMode, () => {
       event.data?.pluginMessage.type ===
       MessageTypes.ColorSpaceDisplayModeChange
     ) {
-      $colorSpaceDisplayMode.set(
-        event.data.pluginMessage.payload.colorSpaceDisplayMode
-      );
+      const newValue = event.data.pluginMessage.payload.colorSpaceDisplayMode;
+      const currentValue = $colorSpaceDisplayMode.get();
+
+      if (newValue !== currentValue) {
+        $colorSpaceDisplayMode.set(newValue);
+      }
     }
   };
 

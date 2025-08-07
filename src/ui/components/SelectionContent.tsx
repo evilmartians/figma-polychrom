@@ -5,7 +5,7 @@ import {
 import { getConclusionByScore } from '~ui/services/apca/conclusion.ts';
 import { type ContrastConclusion } from '~ui/types';
 import clsx from 'clsx';
-import { type ReactElement } from 'react';
+import { type JSX } from 'preact';
 
 import { ColorIndicator } from './ColorIndicator.tsx';
 import { ContrastSample } from './ContrastSample.tsx';
@@ -26,12 +26,12 @@ export const SelectionContent = ({
   isLast,
   onApcaDoubleClick,
   size,
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   const bgColor = formatColorForTheme(bg);
   const fgColor = formatColorForTheme(fg);
 
   return (
-    <div className="relative grid h-full w-full">
+    <div className="relative grid size-full">
       <div
         className={clsx(
           size === 'small' ? 'mb-1' : 'mb-5',
@@ -69,11 +69,10 @@ export const SelectionContent = ({
           )}
           style={{
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             '--text-shadow-color': `var(${ThemeVariablesKeys.fg24})`,
           }}
         >
-          <h1 className="inline text-shadow" onDoubleClick={onApcaDoubleClick}>
+          <h1 className="inline text-shadow" onDblClick={onApcaDoubleClick}>
             {Math.abs(apca)}
           </h1>
         </div>

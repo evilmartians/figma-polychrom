@@ -1,11 +1,9 @@
-import { type ReactElement } from 'react';
+import { type JSX } from 'preact';
 
-export const RewardingAnimationBodyText = (): ReactElement => {
-  return (
-    <div className="animation animation-75">
-      <div className="object glowing"></div>
-      <div className="object star-1"></div>
-      <div className="object star-2"></div>
-    </div>
-  );
-};
+export const RewardingAnimationBodyText = (): JSX.Element => (
+  <div className="animation animation-75">
+    <div className="object glowing" />
+    <div className="object star-1" />
+    <div className="object star-2" />
+  </div>
+);

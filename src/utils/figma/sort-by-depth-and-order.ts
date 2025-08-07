@@ -5,11 +5,9 @@ import { type PolychromNode } from '~types/common.ts';
 // In the Figma world the selected node is always on top of the other nodes
 export const sortByDepthAndOrder = (
   flatNodesList: PolychromNode[]
-): PolychromNode[] => {
-  return flatNodesList.sort((a, b) => {
+): PolychromNode[] => flatNodesList.sort((a, b) => {
     const levelDifference = b.nestingLevel - a.nestingLevel;
     const zIndexDifference = Math.abs(b.zIndex ?? 0) - Math.abs(a.zIndex ?? 0);
 
     return levelDifference !== 0 ? levelDifference : zIndexDifference;
   });
-};

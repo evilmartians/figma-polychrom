@@ -3,8 +3,7 @@ import { notEmpty } from '~utils/not-empty.ts';
 
 export const getActualNode = (
   nodes: PolychromNode[]
-): PolychromNode | undefined => {
-  return nodes.find(
+): PolychromNode | undefined => nodes.find(
     (node) =>
       node.visible === true &&
       notEmpty(node.opacity) &&
@@ -15,4 +14,3 @@ export const getActualNode = (
           fill.visible === true && notEmpty(fill.opacity) && fill.opacity > 0
       )
   );
-};

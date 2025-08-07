@@ -7,8 +7,6 @@ export const getFillFromCtx = (
   x: number,
   y: number,
   colorSpace: FigmaColorSpace
-): Uint8ClampedArray => {
-  return ctx.getImageData(x, y, 1, 1, {
+): Uint8ClampedArray => ctx.getImageData(x, y, 1, 1, {
     colorSpace: isSupportsOKLCH ? CanvasColorSpace[colorSpace] : 'srgb',
   }).data;
-};

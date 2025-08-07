@@ -1,22 +1,18 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/preact';
+import { effect } from '@preact/signals';
 import { MessageTypes } from '~types/messages.ts';
 import { AppContent } from '~ui/components/AppContent.tsx';
 import { HelpLink } from '~ui/components/HelpLink.tsx';
 import { LurkersLink } from '~ui/components/LurkersLink.tsx';
 import { SettingsButton } from '~ui/components/SettingsButton.tsx';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '~ui/components/Tooltip.tsx';
-import React, { useEffect } from 'react';
+import { Tooltip } from '~ui/components/Tooltip.tsx';
+import { $isP3 } from '~ui/stores/selected-nodes.ts';
+import { type VNode } from 'preact';
 
-import { $isP3 } from '../stores/selected-nodes';
-
-export const App: React.FC = () => {
+export const App = (): VNode => {
   const isP3 = useStore($isP3);
 
-  useEffect(() => {
+  effect(() => {
     parent.postMessage(
       {
         pluginMessage: {
@@ -25,7 +21,7 @@ export const App: React.FC = () => {
       },
       '*'
     );
-  }, []);
+  });
 
   return (
     <div className="relative flex min-h-full w-full select-none flex-col items-center p-1 pb-0 font-martianMono">
@@ -33,23 +29,19 @@ export const App: React.FC = () => {
 
       <div className="mb-2 mt-auto flex w-full items-end px-1">
         <HelpLink />
-
         <div className="ml-auto flex items-center">
           {isP3 && (
-            <Tooltip>
-              <TooltipTrigger>
-                <div
-                  style={{
-                    mixBlendMode: 'difference',
-                  }}
-                  className="flex items-center"
-                >
-                  <p className="mr-3 rounded border-0.5 border-secondary-75 p-1 text-xxxs font-medium leading-[8px] text-secondary-75">
-                    P3
-                  </p>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>File color profile</TooltipContent>
+            <Tooltip content={'File color profile'}>
+              <div
+                style={{
+                  mixBlendMode: 'difference',
+                }}
+                className="flex items-center"
+              >
+                <p className="mr-3 rounded border-0.5 border-secondary-75 p-1 text-xxxs font-medium leading-[8px] text-secondary-75">
+                  P3
+                </p>
+              </div>
             </Tooltip>
           )}
 

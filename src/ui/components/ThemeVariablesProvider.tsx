@@ -4,10 +4,10 @@ import { type Theme } from '~ui/services/theme/generate-ui-colors.ts';
 import { formatForOklchCSS } from '~utils/colors/formatters.ts';
 import { isEmpty, notEmpty } from '~utils/not-empty.ts';
 import { formatHex8 } from 'culori/fn';
-import { type ReactElement } from 'react';
+import { type JSX } from 'preact';
 
 interface Props {
-  children: ReactElement;
+  children: JSX.Element;
   theme: Theme;
 }
 
@@ -45,7 +45,7 @@ export const formatColorForTheme = (
 export const ThemeVariablesProvider = ({
   children,
   theme,
-}: Props): ReactElement => {
+}: Props): JSX.Element => {
   const styles = {
     [ThemeVariablesKeys.bg]: formatColorForTheme(theme.bg),
     [ThemeVariablesKeys.bgBorder]: formatColorForTheme(theme.bgBorder),
@@ -73,7 +73,6 @@ export const ThemeVariablesProvider = ({
 
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     <div className="w-full" style={styles}>
       {children}
     </div>
