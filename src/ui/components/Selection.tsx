@@ -1,4 +1,4 @@
-import { signal } from '@preact/signals-core';
+import { signal } from '@preact/signals';
 import {
   ThemeVariablesKeys,
   ThemeVariablesProvider,
