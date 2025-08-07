@@ -30,7 +30,6 @@
       "~types/*": ["src/types/*"],
       "~utils/*": ["src/utils/*"],
       "~ui/*": ["src/ui/*"],
-      "~hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"],

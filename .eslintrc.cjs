@@ -65,7 +65,6 @@ module.exports = {
       alias: [
         ['~api', './src/api'],
         ['~ui', './src/ui'],
-        ['~hooks', './src/hooks'],
         ['~utils', './src/utils'],
         ['~types', './src/types'],
         ['~test-utils', './src/test-utils'],
@@ -91,10 +90,6 @@ module.exports = {
       {
         type: 'test-utils',
         pattern: 'src/test-utils/*',
-      },
-      {
-        type: 'hooks',
-        pattern: 'src/hooks/*',
       },
     ],
   },
