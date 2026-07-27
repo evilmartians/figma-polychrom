@@ -1,4 +1,6 @@
-<a href="https://evilmartians.com/devtools?utm_source=figma-plugin-polychrom&utm_campaign=devtools-button&utm_medium=github"><img width="830" alt="Polychrom—APCA Contrast Checker" src="./images/github-header-polychrom.png" /></a>
+# Polychrom
+
+Polychrom is a Figma plugin that checks color contrast using the APCA method — the contrast algorithm proposed for WCAG 3. It shows the contrast level between a selection and its background, recommends accessible font sizes, and converts colors to OKLCH, RGB, and HEX.
 
 <img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="Evil Martians logo" width="22" height="16" /> <b>Polychrom</b> is built by <b><a href="https://evilmartians.com/">Evil Martians</a></b>, an American design and engineering consultancy for <b>developer tools, AI, and cybersecurity startups</b>.
 
