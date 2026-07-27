@@ -1,5 +1,7 @@
 <a href="https://evilmartians.com/devtools?utm_source=figma-plugin-polychrom&utm_campaign=devtools-button&utm_medium=github"><img width="830" alt="Polychrom—APCA Contrast Checker" src="./images/github-header-polychrom.png" /></a>
 
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="Evil Martians logo" width="22" height="16" /> <b>Polychrom</b> is built by <b><a href="https://evilmartians.com/">Evil Martians</a></b>, an American design and engineering consultancy for <b>developer tools, AI, and cybersecurity startups</b>.
+
 ## How It Works:
 
 - Select a layer or text with a visible solid fill, and Polychrom will display the contrast level between the selection and an automatically detected layer background.
